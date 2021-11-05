@@ -1,12 +1,15 @@
-#include "qtlifx.h"
-#include <QApplication>
+#include <QtCore/QtCore>
+#include "lightmanager.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    qtlifx w;
-    w.show();
+    QCoreApplication app(argc, argv);
+    LightManager manager;
 
+    QObject::connect(&manager, &LightManager::finished, &app, &QCoreApplication::quit);
+//    QTimer::singleShot(0, &manager, &LightManager::run);
+    manager.initialize();
+    
     return app.exec();
 }
 
