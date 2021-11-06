@@ -13,12 +13,13 @@ set (CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
 find_package (Qt5Network CONFIG REQUIRED)
+find_package (Qt5Gui CONFIG REQUIRED)
 
 # Tell CMake to create the helloworld executable
 add_executable (${PROJECT_NAME} ${SOURCES})
 
 # Use the Widgets module from Qt 5.
-target_link_libraries (${PROJECT_NAME} Qt5::Network)
+target_link_libraries (${PROJECT_NAME} Qt5::Network Qt5::Gui)
 
 # Install the executable
 install (TARGETS qtlifx DESTINATION bin)
