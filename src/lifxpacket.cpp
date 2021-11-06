@@ -70,8 +70,8 @@ void LifxPacket::createHeader(LifxBulb* bulb, bool blankTarget)
     
     char *packet = static_cast<char*>(malloc(m_headerSize));
     memcpy(packet, static_cast<void*>(&m_header), m_headerSize);
-    m_datagram.clear();
-    m_datagram = QByteArray::fromRawData(packet, m_headerSize);
+    m_hdr.clear();
+    m_hdr = QByteArray::fromRawData(packet, m_headerSize);
 }
 
 void LifxPacket::makeDiscoveryPacket()
@@ -93,6 +93,13 @@ void LifxPacket::makeDiscoveryPacket()
 
 QByteArray LifxPacket::datagram()
 {
+    uint16_t size = m_headerSize + m_payload.size();
+    m_hdr[0] = size << 0;
+    m_hdr[1] = size << 8;
+    m_datagram.clear();
+    m_datagram.append(m_hdr);
+    m_datagram.append(m_payload);
+    
     return m_datagram;
 }
 
@@ -203,4 +210,5 @@ void LifxPacket::setBulbColor(LifxBulb* bulb)
     
     createHeader(bulb, false);
     m_payload = QByteArray::fromRawData((char*)color, sizeof(lx_dev_color_t));
+    qDebug() << __PRETTY_FUNCTION__ << ":" << m_payload.toHex();
 }

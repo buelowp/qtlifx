@@ -39,6 +39,7 @@ public:
 public slots:
     void discoveryFailed();
     void newPacket(LifxPacket *packet);
+    void timeout();
 
 signals:
     void finished();
@@ -46,6 +47,8 @@ signals:
 private:
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
+    QMap<QString, LifxBulb*> m_bulbsByName;
+    QTimer *m_timer;
 };
 
 #endif // LIGHTMANAGER_H

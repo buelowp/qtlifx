@@ -20,9 +20,11 @@
 
 LightManager::LightManager(QObject *parent) : QObject(parent)
 {
+    m_timer = new QTimer();
     m_protocol = new LifxProtocol();
     connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LightManager::discoveryFailed);
     connect(m_protocol, &LifxProtocol::newPacket, this, &LightManager::newPacket);
+    connect(m_timer, &QTimer::timeout, this, &LightManager::timeout);
 }
 
 LightManager::~LightManager()
@@ -40,6 +42,26 @@ void LightManager::initialize()
     m_protocol->initialize();
     m_protocol->discover();
 }
+
+void LightManager::timeout()
+{
+    static bool next = false;
+    QColor c;
+    if (next)
+        c.setNamedColor(QString("green"));
+    else
+        c.setNamedColor(QString("blue"));
+    
+    LifxBulb *bulb = m_bulbsByName["Office West"];
+    if (bulb) {
+        bulb->setColor(c);
+        bulb->setKelvin(3500);
+        bulb->setDuration(500);
+        m_protocol->setBulbColor(bulb);
+    }
+    next = !next;
+}
+
 
 void LightManager::newPacket(LifxPacket* packet)
 {
@@ -63,6 +85,7 @@ void LightManager::newPacket(LifxPacket* packet)
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
                 bulb->setLabel(QString::fromUtf8(packet->payload()));
+                m_bulbsByName[bulb->label()] = bulb;
                 qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
                 m_protocol->getVersionForBulb(bulb);
             }
@@ -94,6 +117,7 @@ void LightManager::newPacket(LifxPacket* packet)
             else {
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
             }
+            m_timer->start(5000);
             break;            
 
         default:

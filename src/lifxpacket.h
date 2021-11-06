@@ -60,6 +60,7 @@ private:
     void createHeader(LifxBulb *bulb, bool blankTarget = true);
 
     QByteArray m_payload;
+    QByteArray m_hdr;
     QByteArray m_datagram;
     QHostAddress m_address;
     uint8_t m_tagged;

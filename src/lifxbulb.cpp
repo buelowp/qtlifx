@@ -117,6 +117,12 @@ void LifxBulb::setLabel(QString label)
     m_label = label;
 }
 
+void LifxBulb::setDuration(uint32_t duration)
+{
+    m_deviceColor->duration = duration;
+}
+
+
 bool LifxBulb::isOn() const
 {
     if (m_power)
@@ -147,18 +153,16 @@ void LifxBulb::setDevColor(lx_dev_lightstate_t* color)
     m_color.setHsvF(h, s, v);
 }
 
-void LifxBulb::setColor(QColor color)
+void LifxBulb::setColor(QColor &color)
 {
-    uint16_t h = m_color.hsvHueF() * 0xFFFF;
-    uint16_t s = m_color.hsvSaturationF() * 0xFFFF;
-    uint16_t v = m_color.valueF() * 0xFFFF;
+    uint16_t h = color.hsvHueF() * std::numeric_limits<uint16_t>::max();
+    uint16_t s = color.hsvSaturationF() * std::numeric_limits<uint16_t>::max();
+    uint16_t v = color.valueF() * std::numeric_limits<uint16_t>::max();
     
-    qDebug() << __PRETTY_FUNCTION__ << ": QColor color h =" << m_color.hsvHueF() << ", s =" << m_color.hsvSaturationF() << ", b =" << m_color.valueF();
-    qDebug() << __PRETTY_FUNCTION__ << ": device color h =" << h << ", s" << s << ", b" << v;
     m_color = color;
-    m_deviceColor->brightness = h;
+    m_deviceColor->brightness = v;
     m_deviceColor->saturation = s;
-    m_deviceColor->hue = v;
+    m_deviceColor->hue = h;
 }
 
 void LifxBulb::setKelvin(uint16_t kelvin)
@@ -166,7 +170,7 @@ void LifxBulb::setKelvin(uint16_t kelvin)
     m_deviceColor->kelvin = kelvin;
 }
 
-lx_dev_color_t* LifxBulb::toDeviceColor()
+lx_dev_color_t* LifxBulb::toDeviceColor() const
 {
     return m_deviceColor;
 }
@@ -174,14 +178,18 @@ lx_dev_color_t* LifxBulb::toDeviceColor()
 QDebug operator<<(QDebug debug, const LifxBulb &bulb)
 {
     float b = 0;
+    float p = 0;
     
     if (bulb.brightness() > 0)
         b = ((qreal)bulb.brightness() / (qreal)std::numeric_limits<uint16_t>::max()) * 100;
     
+    if (bulb.power() > 0)
+        p = ((float)bulb.power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
+
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "]" << " " << bulb.addressToString() << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
     if (bulb.isOn()) {
-        debug.nospace().noquote()  << " Power: " << bulb.power() << " Brightness: " << b << "%";
+        debug.nospace().noquote()  << " Power: " << p << "% Brightness: " << b << "%";
     }
     else {
         debug.nospace().noquote()  << " OFF";
@@ -192,14 +200,19 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
 QDebug operator<<(QDebug debug, const LifxBulb *bulb)
 {
     float b = 0;
+    float p = 0;
     
     if (bulb->brightness() > 0)
-        b = ((qreal)bulb->brightness() / (qreal)std::numeric_limits<uint16_t>::max()) * 100;
+        b = ((float)bulb->brightness() / (float)std::numeric_limits<uint16_t>::max()) * 100;
     
+    if (bulb->power() > 0)
+        p = ((float)bulb->power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
+        
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "]" << " " << bulb->addressToString() << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
     if (bulb->isOn()) {
-        debug.nospace().noquote()  << " Power: " << bulb->power() << " Brightness: " << b << "%";
+        debug.nospace().noquote() << " Power: " << p << "%" << " Kelvin " << bulb->kelvin();
+        debug.nospace().noquote() << " Color(" << bulb->toDeviceColor()->hue << "," <<  bulb->toDeviceColor()->saturation << "," << bulb->toDeviceColor()->brightness << ")";
     }
     else {
         debug.nospace().noquote()  << " OFF";

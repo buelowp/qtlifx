@@ -49,8 +49,9 @@ public:
     void setLabel(QString label);
     void setPower(uint16_t power);
     void setDevColor(lx_dev_lightstate_t *color);
-    void setColor(QColor color);
+    void setColor(QColor &color);
     void setKelvin(uint16_t kelvin);
+    void setDuration(uint32_t duration);
     
     QHostAddress& address() { return m_address; }
     uint8_t service() const { return m_service; }
@@ -67,7 +68,7 @@ public:
     
     QString macToString() const;
     QString addressToString() const;
-    lx_dev_color_t* toDeviceColor();
+    lx_dev_color_t* toDeviceColor() const;
 
 private:
     QHostAddress m_address;

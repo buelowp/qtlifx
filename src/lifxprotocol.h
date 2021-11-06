@@ -42,6 +42,8 @@ public:
     bool newPacketAvailable();
     LifxBulb *createNewBulb();
     
+    void setBulbColor(LifxBulb *bulb);
+    
     void getPowerForBulb(LifxBulb *bulb);
     void getLabelForBulb(LifxBulb *bulb);
     void getVersionForBulb(LifxBulb *bulb);
