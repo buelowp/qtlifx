@@ -210,5 +210,4 @@ void LifxPacket::setBulbColor(LifxBulb* bulb)
     
     createHeader(bulb, false);
     m_payload = QByteArray::fromRawData((char*)color, sizeof(lx_dev_color_t));
-    qDebug() << __PRETTY_FUNCTION__ << ":" << m_payload.toHex();
 }

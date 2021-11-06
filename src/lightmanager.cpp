@@ -55,7 +55,6 @@ void LightManager::timeout()
     LifxBulb *bulb = m_bulbsByName["Office West"];
     if (bulb) {
         bulb->setColor(c);
-        bulb->setKelvin(3500);
         bulb->setDuration(500);
         m_protocol->setBulbColor(bulb);
     }
