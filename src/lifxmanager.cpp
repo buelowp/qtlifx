@@ -16,53 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "lightmanager.h"
+#include "lifxmanager.h"
 
-LightManager::LightManager(QObject *parent) : QObject(parent)
+LifxManager::LifxManager(QObject *parent) : QObject(parent)
 {
     m_timer = new QTimer();
     m_protocol = new LifxProtocol();
-    connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LightManager::discoveryFailed);
-    connect(m_protocol, &LifxProtocol::newPacket, this, &LightManager::newPacket);
-    connect(m_timer, &QTimer::timeout, this, &LightManager::timeout);
+    connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LifxManager::discoveryFailed);
+    connect(m_protocol, &LifxProtocol::newPacket, this, &LifxManager::newPacket);
+    connect(m_timer, &QTimer::timeout, this, &LifxManager::timeout);
 }
 
-LightManager::~LightManager()
+LifxManager::~LifxManager()
 {
 }
 
-void LightManager::discoveryFailed()
+void LifxManager::discoveryFailed()
 {
     qDebug() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
     m_protocol->discover();
 }
 
-void LightManager::initialize()
+void LifxManager::initialize()
 {
     m_protocol->initialize();
     m_protocol->discover();
 }
 
-void LightManager::timeout()
-{
-    static bool next = false;
-    QColor c;
-    if (next)
-        c.setNamedColor(QString("green"));
-    else
-        c.setNamedColor(QString("blue"));
-    
-    LifxBulb *bulb = m_bulbsByName["Office West"];
-    if (bulb) {
-        bulb->setColor(c);
-        bulb->setDuration(500);
-        m_protocol->setBulbColor(bulb);
-    }
-    next = !next;
-}
-
-
-void LightManager::newPacket(LifxPacket* packet)
+void LifxManager::newPacket(LifxPacket* packet)
 {
     LifxBulb *bulb;
     uint64_t target = packet->targetAsLong();
@@ -86,6 +67,7 @@ void LightManager::newPacket(LifxPacket* packet)
                 bulb->setLabel(QString::fromUtf8(packet->payload()));
                 m_bulbsByName[bulb->label()] = bulb;
                 qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
+                emit newBulb(bulb->label(), target);
                 m_protocol->getVersionForBulb(bulb);
             }
             else {
@@ -111,12 +93,12 @@ void LightManager::newPacket(LifxPacket* packet)
                 lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(sizeof(lx_dev_lightstate_t));
                 memcpy(color, packet->payload().data(), sizeof(lx_dev_lightstate_t)); 
                 bulb->setDevColor(color);
+                emit bulbStateChange(bulb->label(), target);
                 qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
             }
             else {
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
             }
-            m_timer->start(5000);
             break;            
 
         default:
@@ -127,4 +109,19 @@ void LightManager::newPacket(LifxPacket* packet)
     delete packet;
 }
 
+LifxBulb * LifxManager::getBulbByMac(uint64_t target)
+{
+    if (m_bulbs.contains(target))
+        return m_bulbs[target];
+    
+    return nullptr;
+}
+
+LifxBulb * LifxManager::getBulbByName(QString& name)
+{
+    if (m_bulbsByName.contains(name))
+        return m_bulbsByName[name];
+    
+    return nullptr;
+}
 

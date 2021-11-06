@@ -87,7 +87,7 @@ bool LifxBulb::operator==(const LifxBulb &bulb)
 
 bool LifxBulb::operator==(const uint8_t* array)
 {
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 6; i++) {
         if (m_target[i] != array[i])
             return false;
     }

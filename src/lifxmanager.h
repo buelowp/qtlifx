@@ -26,15 +26,17 @@
 #include "lifxbulb.h"
 #include "lifxpacket.h"
 
-class LightManager : public QObject
+class LifxManager : public QObject
 {
     Q_OBJECT
 
 public:
-    LightManager(QObject *parent = nullptr);
-    ~LightManager();
+    LifxManager(QObject *parent = nullptr);
+    ~LifxManager();
     
     void initialize();
+    LifxBulb* getBulbByName(QString &name);
+    LifxBulb* getBulbByMac(uint64_t);
     
 public slots:
     void discoveryFailed();
@@ -43,6 +45,8 @@ public slots:
 
 signals:
     void finished();
+    void newBulb(QString, uint64_t);
+    void bulbStateChange(QString, uint64_t);
 
 private:
     LifxProtocol *m_protocol;
