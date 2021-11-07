@@ -20,11 +20,9 @@
 
 LifxManager::LifxManager(QObject *parent) : QObject(parent)
 {
-    m_timer = new QTimer();
     m_protocol = new LifxProtocol();
     connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LifxManager::discoveryFailed);
     connect(m_protocol, &LifxProtocol::newPacket, this, &LifxManager::newPacket);
-    connect(m_timer, &QTimer::timeout, this, &LifxManager::timeout);
 }
 
 LifxManager::~LifxManager()
@@ -67,7 +65,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setLabel(QString::fromUtf8(packet->payload()));
                 m_bulbsByName[bulb->label()] = bulb;
                 qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
-                emit newBulb(bulb->label(), target);
+                emit newBulbAvailable(bulb->label(), target);
                 m_protocol->getVersionForBulb(bulb);
             }
             else {
@@ -93,7 +91,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(sizeof(lx_dev_lightstate_t));
                 memcpy(color, packet->payload().data(), sizeof(lx_dev_lightstate_t)); 
                 bulb->setDevColor(color);
-                emit bulbStateChange(bulb->label(), target);
+                emit bulbStateChanged(bulb->label(), target);
                 qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
             }
             else {
@@ -123,5 +121,23 @@ LifxBulb * LifxManager::getBulbByName(QString& name)
         return m_bulbsByName[name];
     
     return nullptr;
+}
+
+void LifxManager::changeBulbColor(QString& name, QColor color)
+{
+    if (m_bulbsByName.contains(name)) {
+        LifxBulb *bulb = m_bulbsByName[name];
+        bulb->setColor(color);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+void LifxManager::changeBulbColor(uint64_t target, QColor color)
+{
+    if (m_bulbs.contains(target)) {
+        LifxBulb *bulb = m_bulbs[target];
+        bulb->setColor(color);
+        m_protocol->setBulbColor(bulb);
+    }
 }
 

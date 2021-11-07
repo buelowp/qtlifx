@@ -1,13 +1,41 @@
 #pragma once
 
+/* \file defines.h
+ * Provides the structures and const ints that allow us to talk
+ * to a LIFX device
+ */
 
+/**
+ * \def BROADCAST_PORT
+ * \brief The default port we start with. 
+ * 
+ * Once bulbs start responding we will get the port for individual bulbs from the bulb itself.
+ */
 #define BROADCAST_PORT      56700
-#define RECEIVE_RETRIES     5
 
+/**
+ * \def PROTOCOL_NUMBER
+ * \brief This is a defined value from LIFX and is used when communicating with a device
+ */
 #define PROTOCOL_NUMBER     1024
-#define ADDRESSABLE         1
-#define ORIGIN              0
+
+/**
+ * \def LIFX_UDP_SERVICE
+ * \brief This is a defined value from LIFX and is used when communicating with a device
+ */
 #define LIFX_UDP_SERVICE    1
+
+/**
+ * \def ADDRESSABLE
+ * \brief This is a defined value from LIFX and is used when communicating with a device
+ */
+#define ADDRESSABLE         1
+
+/**
+ * \def ORIGIN
+ * \brief This is a defined value from LIFX and is used when communicating with a device
+ */
+#define ORIGIN              0
 
 #pragma pack(push, 1)
 typedef struct {
@@ -60,6 +88,15 @@ typedef struct {
 typedef struct {
     uint16_t power;
 } lx_dev_power_t;
+
+/**
+ * Container struct for the group info state message
+ */
+typedef struct {
+    uint8_t group1[16];     /**< Group UUID */
+    uint8_t label[32];      /**< Group Name */
+    uint64_t updated_at;    /**< Timestamp  */
+} lx_group_info_t;
 
 typedef struct {
     uint8_t reserved;

@@ -1,13 +1,12 @@
 #include <QtCore/QtCore>
-#include "lightmanager.h"
+#include "lifxmanager.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
-    LightManager manager;
+    LifxManager manager;
 
-    QObject::connect(&manager, &LightManager::finished, &app, &QCoreApplication::quit);
-//    QTimer::singleShot(0, &manager, &LightManager::run);
+    QObject::connect(&manager, &LifxManager::finished, &app, &QCoreApplication::quit);
     manager.initialize();
     
     return app.exec();
