@@ -35,18 +35,49 @@ public:
     LifxGroup(QString label, QByteArray uuid, uint64_t timestamp);
     ~LifxGroup();
     
+    /**
+     * \fn void addBulb(LifxBulb *bulb)
+     * \param bulb Pointer to a LifxBulb class
+     * \brief adds a bulb to this group
+     */
     void addBulb(LifxBulb *bulb) { m_bulbs.push_back(bulb); }
+    /**
+     * \fn QString label() const
+     * \return QString group name
+     * \brief Returns the group name
+     */
     QString label() const { return m_label; }
+    /**
+     * \fn QByteArray uuid() const
+     * \return Returns the QByteArray UUID assigned to this group
+     * \brief This is the UUID as returned by the query and is mostly used for MAP keys in this library
+     */
     QByteArray uuid() const { return m_uuid; }
+    /**
+     * \fn uint64_t timestamp() const
+     * \return uint64_t field containing the last modified timestamp from the bulb
+     * \brief This is the last time the group name was modified by someone as reported by the bulb
+     */
     uint64_t timestamp() const { return m_timestamp; }
+    /**
+     * \fn int size() const
+     * \return An int size which is the number of bulbs in the group
+     * \brief Returns the number of bulbs in the group which is just the QVector size in this case
+     */
     int size() const { return m_bulbs.size(); }
+    /**
+     * \fn bool contains(LifxBulb *bulb)
+     * \param LifxBulb pointer to a bulb
+     * \return A bool indicating whether a bulb is in the vector
+     * \brief Checks the group for a bulb, returns true if the bulb is in the group, false otherwise
+     */
     bool contains(LifxBulb *bulb) { return m_bulbs.contains(bulb); }
     
 private:
-    QVector<LifxBulb*> m_bulbs;
-    QString m_label;
-    QByteArray m_uuid;
-    uint64_t m_timestamp;
+    QVector<LifxBulb*> m_bulbs;     //!< Vector with all bulbs that exist in this group
+    QString m_label;                //!< The group name/label
+    QByteArray m_uuid;              //!< Gropu assigned UUID, used for map storage later
+    uint64_t m_timestamp;           //!< Assigned timestamp of last time group was modified, currently not used
 };
 
 QDebug operator<<(QDebug debug, const LifxGroup &group);
