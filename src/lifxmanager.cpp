@@ -94,6 +94,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                     LifxGroup *g = new LifxGroup(label, uuid, group->updated_at);
                     g->addBulb(bulb);
                     m_groups[uuid] = g;
+                    emit newGroupAvailable(label, uuid);
                     qDebug() << __PRETTY_FUNCTION__ << ": GROUPS (new):" << g;
                 }
                 m_protocol->getColorForBulb(bulb);
@@ -165,6 +166,49 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color)
         LifxBulb *bulb = m_bulbs[target];
         bulb->setColor(color);
         m_protocol->setBulbColor(bulb);
+    }
+}
+
+void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
+{
+    if (m_groups.contains(uuid)) {
+        LifxGroup *group = m_groups[uuid];
+        QVector<LifxBulb*> bulbs = group->bulbs();
+        for (auto bulb : bulbs) {
+            changeBulbColor(bulb->targetAsLong(), color);
+        }
+    }
+}
+
+LifxGroup * LifxManager::getGroupByName(QString& name)
+{
+    QMapIterator<QByteArray, LifxGroup*> i(m_groups);
+    
+    while (i.hasNext()) {
+        i.next();
+        LifxGroup *group = i.value();
+        if (group->label() == name) {
+            return group;
+        }
+    }
+    
+    return nullptr;
+}
+
+LifxGroup * LifxManager::getGroupByUUID(QByteArray& uuid)
+{
+    if (m_groups.contains(uuid)) {
+        return m_groups[uuid];
+    }
+    
+    return nullptr;
+}
+
+void LifxManager::changeGroupState(QByteArray& uuid, bool state)
+{
+    if (m_groups.contains(uuid)) {
+        LifxGroup *group = m_groups[uuid];
+        m_protocol->changeGroupState(group, state);
     }
 }
 

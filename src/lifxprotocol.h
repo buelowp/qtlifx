@@ -25,6 +25,7 @@
 #include "defines.h"
 #include "lifxbulb.h"
 #include "lifxpacket.h"
+#include "lifxgroup.h"
 
 class LifxProtocol : public QObject
 {
@@ -43,6 +44,9 @@ public:
     LifxBulb *createNewBulb();
     
     void setBulbColor(LifxBulb *bulb);
+    void setBulbColor(LifxBulb *bulb, QColor color);
+    void setBulbState(LifxBulb *bulb, bool state);
+    void setGroupState(LifxGroup *group, bool state);
     
     void getPowerForBulb(LifxBulb *bulb);
     void getLabelForBulb(LifxBulb *bulb);

@@ -109,9 +109,40 @@ void LifxProtocol::setBulbColor(LifxBulb* bulb)
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
+void LifxProtocol::setBulbColor(LifxBulb* bulb, QColor color)
+{
+    LifxPacket packet;
+    bulb->setColor(color);
+    packet.setBulbColor(bulb);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());    
+}
+
 void LifxProtocol::getGroupForBulb(LifxBulb* bulb)
 {
     LifxPacket packet;
     packet.getBulbGroup(bulb);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
+
+void LifxProtocol::setBulbState(LifxBulb* bulb, bool state)
+{
+    uint16_t power = state ? 65535 : 0;
+    LifxPacket packet;
+    bulb->setPower(power);
+    packet.setBulbPower(bulb);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+}
+
+void LifxProtocol::setGroupState(LifxGroup* group, bool state)
+{
+    uint16_t power = state ? 65535 : 0;
+    
+    LifxPacket packet;
+    QVector<LifxBulb*> bulbs = group->bulbs();
+    for (auto bulb : bulbs) {
+        bulb->setPower(power);
+        packet.setBulbPower(bulb);
+        m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    }
+}
+

@@ -208,6 +208,7 @@ void LifxPacket::setBulbColor(LifxBulb* bulb)
     m_source = 919827;
     
     createHeader(bulb, false);
+    m_payload.clear();
     m_payload = QByteArray::fromRawData((char*)color, sizeof(lx_dev_color_t));
 }
 
@@ -220,4 +221,17 @@ void LifxPacket::getBulbGroup(LifxBulb* bulb)
     m_source = 919827;
     
     createHeader(bulb, false);    
+}
+
+void LifxPacket::setBulbPower(LifxBulb* bulb)
+{
+    m_tagged = 0;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::SET_POWER;
+    m_source = 919827;
+    
+    createHeader(bulb, false);
+    m_payload.clear();
+    m_payload.setNum(bulb->power());
 }

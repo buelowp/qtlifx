@@ -72,6 +72,12 @@ public:
      * \brief Checks the group for a bulb, returns true if the bulb is in the group, false otherwise
      */
     bool contains(LifxBulb *bulb) { return m_bulbs.contains(bulb); }
+    /**
+     * \fn QVector<LifxBulb*>& bulbs()
+     * \return The vector of bulbs in this group
+     * \brief Returns the bulbs list this group owns as a reference
+     */
+    QVector<LifxBulb*>& bulbs() { return m_bulbs; }
     
 private:
     QVector<LifxBulb*> m_bulbs;     //!< Vector with all bulbs that exist in this group

@@ -42,23 +42,28 @@ public:
     void initialize();
     LifxBulb* getBulbByName(QString &name);
     LifxBulb* getBulbByMac(uint64_t target);
+    LifxGroup* getGroupByName(QString &name);
+    LifxGroup* getGroupByUUID(QByteArray &uuid);
     
 public slots:
     void discoveryFailed();
     void newPacket(LifxPacket *packet);
     void changeBulbColor(QString &name, QColor color);
     void changeBulbColor(uint64_t target, QColor color);
+    void changeGroupColor(QByteArray &uuid, QColor color);
+    void changeGroupState(QByteArray &uuid, bool state);
 
 signals:
     void finished();
     void newBulbAvailable(QString, uint64_t);
     void bulbStateChanged(QString, uint64_t);
+    void newGroupAvailable(QString, QByteArray);
 
 private:
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
     QMap<QString, LifxBulb*> m_bulbsByName;
-    QMap<QString, LifxGroup*> m_groups;
+    QMap<QByteArray, LifxGroup*> m_groups;
 };
 
 #endif // LIGHTMANAGER_H
