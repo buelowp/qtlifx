@@ -208,7 +208,7 @@ void LifxManager::changeGroupState(QByteArray& uuid, bool state)
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
-        m_protocol->changeGroupState(group, state);
+        m_protocol->setGroupState(group, state);
     }
 }
 
