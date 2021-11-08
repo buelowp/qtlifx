@@ -324,9 +324,9 @@ lx_dev_color_t* LifxBulb::toDeviceColor() const
  * \param group A QString with a valid group name as returned by the groups get message
  * \brief Add a group name to the bulb for reference
  */
-void LifxBulb::addGroupName(QString group)
+void LifxBulb::setGroup(QString group)
 {
-    m_groups.push_back(group);
+    m_group = group;
 }
 
 /**
@@ -349,7 +349,7 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
         p = ((float)bulb.power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
 
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "]" << " " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
+    debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "] (" << bulb.group() << ") " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
     if (bulb.isOn()) {
         debug.nospace().noquote()  << " Power: " << p << "% Brightness: " << b << "%";
     }
@@ -379,7 +379,7 @@ QDebug operator<<(QDebug debug, const LifxBulb *bulb)
         p = ((float)bulb->power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
         
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "]" << " " << bulb->addressToString(false) << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
+    debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "] (" << bulb->group() << ") " << bulb->addressToString(false) << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
     if (bulb->isOn()) {
         debug.nospace().noquote() << " Power: " << p << "%" << " Kelvin " << bulb->kelvin();
         debug.nospace().noquote() << " Color(" << bulb->toDeviceColor()->hue << "," <<  bulb->toDeviceColor()->saturation << "," << bulb->toDeviceColor()->brightness << ")";

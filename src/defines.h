@@ -93,8 +93,8 @@ typedef struct {
  * Container struct for the group info state message
  */
 typedef struct {
-    uint8_t group1[16];     /**< Group UUID */
-    uint8_t label[32];      /**< Group Name */
+    char group[16];     /**< Group UUID */
+    char label[32];      /**< Group Name */
     uint64_t updated_at;    /**< Timestamp  */
 } lx_group_info_t;
 

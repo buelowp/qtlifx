@@ -133,7 +133,6 @@ void LifxPacket::setPayload(QByteArray ba)
  */
 void LifxPacket::setDatagram(char* data, int len, QHostAddress &addr, quint16 port)
 {
-//    QByteArray ba;
     char* payload  = nullptr;
     int payloadsize = len - m_headerSize;
 
@@ -210,4 +209,15 @@ void LifxPacket::setBulbColor(LifxBulb* bulb)
     
     createHeader(bulb, false);
     m_payload = QByteArray::fromRawData((char*)color, sizeof(lx_dev_color_t));
+}
+
+void LifxPacket::getBulbGroup(LifxBulb* bulb)
+{
+    m_tagged = 0;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::GET_GROUP;
+    m_source = 919827;
+    
+    createHeader(bulb, false);    
 }

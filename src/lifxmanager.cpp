@@ -72,6 +72,33 @@ void LifxManager::newPacket(LifxPacket* packet)
                 qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
             }
             break;
+        case LIFX_DEFINES::STATE_GROUP:
+            if (m_bulbs.contains(target)) {
+                QString label;
+                QByteArray uuid;
+                bulb = m_bulbs[target];
+                lx_group_info_t *group = (lx_group_info_t*)malloc(sizeof(lx_group_info_t));
+                memcpy(group, packet->payload().data(), sizeof(lx_group_info_t));
+                label = QString(group->label);
+                uuid = QByteArray::fromRawData(group->group, 16);
+                bulb->setGroup(group->label);
+                if (m_groups.contains(uuid)) {
+                    LifxGroup *g = m_groups[uuid];
+                    if (g != nullptr) {
+                        if (!g->contains(bulb))
+                            g->addBulb(bulb);
+                            qDebug() << __PRETTY_FUNCTION__ << ": GROUPS (add):" << g;
+                    }
+                }
+                else {
+                    LifxGroup *g = new LifxGroup(label, uuid, group->updated_at);
+                    g->addBulb(bulb);
+                    m_groups[uuid] = g;
+                    qDebug() << __PRETTY_FUNCTION__ << ": GROUPS (new):" << g;
+                }
+                m_protocol->getColorForBulb(bulb);
+            }
+            break;
         case LIFX_DEFINES::STATE_HOST_FIRMWARE:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
@@ -79,7 +106,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setMajor(firmware->major);
                 bulb->setMinor(firmware->minor);
                 qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
-                m_protocol->getColorForBulb(bulb);
+                m_protocol->getGroupForBulb(bulb);
             }
             else {
                 qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";

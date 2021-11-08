@@ -83,7 +83,7 @@ public:
     void setColor(QColor &color);
     void setKelvin(uint16_t kelvin);
     void setDuration(uint32_t duration);
-    void addGroupName(QString group);
+    void setGroup(QString group);
     
     QHostAddress& address() { return m_address; }
     uint8_t service() const { return m_service; }
@@ -97,8 +97,7 @@ public:
     uint16_t brightness() const { return m_deviceColor->brightness; }
     uint16_t kelvin() const { return m_deviceColor->kelvin; }
     uint32_t duration() const { return m_deviceColor->duration; }
-    QVector<QString> groups() const { return m_groups; }
-    QString groupNameByIndex(int index) const { if (index < m_groups.size()) return m_groups[index]; }
+    QString group() const { return m_group; }
     
     QString macToString() const;
     QString addressToString(bool isIPV6) const;
@@ -107,7 +106,7 @@ public:
 private:
     QHostAddress m_address;         //!< The QHostAddress with the bulbs IP address
     QString m_label;                //!< The QString label returned as part of the STATE_LABEL reply
-    QVector<QString> m_groups;      //!< The group or groups that this bulb belongs to
+    QString m_group;                //!< The group that this bulb belongs to
     QColor m_color;                 //!< The color object this bulb is currently set to
     uint8_t m_service;              //!< The service value in the header
     uint32_t m_port;                //!< The IP port we are communicating with

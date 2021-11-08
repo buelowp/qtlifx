@@ -25,6 +25,7 @@
 #include "lifxprotocol.h"
 #include "lifxbulb.h"
 #include "lifxpacket.h"
+#include "lifxgroup.h"
 
 /**
  * \class LifxManager
@@ -57,7 +58,7 @@ private:
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
     QMap<QString, LifxBulb*> m_bulbsByName;
-    QMultiMap<QString, LifxBulb*> m_groups;
+    QMap<QString, LifxGroup*> m_groups;
 };
 
 #endif // LIGHTMANAGER_H

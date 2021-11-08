@@ -108,3 +108,10 @@ void LifxProtocol::setBulbColor(LifxBulb* bulb)
     packet.setBulbColor(bulb);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
+
+void LifxProtocol::getGroupForBulb(LifxBulb* bulb)
+{
+    LifxPacket packet;
+    packet.getBulbGroup(bulb);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+}

@@ -48,6 +48,7 @@ public:
     void getLabelForBulb(LifxBulb *bulb);
     void getVersionForBulb(LifxBulb *bulb);
     void getColorForBulb(LifxBulb *bulb);
+    void getGroupForBulb(LifxBulb *bulb);
 
 protected slots:
     void readDatagram();
