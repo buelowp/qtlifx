@@ -25,6 +25,8 @@ LifxBulb::LifxBulb()
     m_minor = 0;
     m_label = "Unknown";
     m_power = 0;
+    m_vid = 0;
+    m_pid = 0;
     m_deviceColor = (lx_dev_color_t*)malloc(sizeof(lx_dev_color_t));
     memset(m_deviceColor, 0, sizeof(lx_dev_color_t));
     memset(m_target, 0, 8);
@@ -330,6 +332,29 @@ void LifxBulb::setGroup(QString group)
 }
 
 /**
+ * \fn void LifxBulb::setPID(uint32_t pid)
+ * \param pid Product ID for this bulb
+ * 
+ * Sets the PID
+ */
+void LifxBulb::setPID(uint32_t pid)
+{
+    m_pid = pid;
+}
+
+/**
+ * \fn void LifxBulb::setVID(uint32_t pid)
+ * \param pid Product ID for this bulb
+ * 
+ * Sets the VID
+ */
+void LifxBulb::setVID(uint32_t vid)
+{
+    m_vid = vid;
+}
+
+
+/**
  * \fn QDebug operator<<(QDebug debug, const LifxBulb &bulb)
  * \brief Pretty print the LifxBulb object
  * 
@@ -349,7 +374,7 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
         p = ((float)bulb.power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
 
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "] (" << bulb.group() << ") " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
+    debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "] (" << bulb.group() << ") (" << bulb.vid() << "," << bulb.pid() <<") " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
     if (bulb.isOn()) {
         debug.nospace().noquote()  << " Power: " << p << "% Brightness: " << b << "%";
     }
@@ -379,7 +404,7 @@ QDebug operator<<(QDebug debug, const LifxBulb *bulb)
         p = ((float)bulb->power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
         
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "] (" << bulb->group() << ") " << bulb->addressToString(false) << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
+    debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "] (" << bulb->group() << ") (" << bulb->vid() << "," << bulb->pid() <<") " << bulb->addressToString(false) << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
     if (bulb->isOn()) {
         debug.nospace().noquote() << " Power: " << p << "%" << " Kelvin " << bulb->kelvin();
         debug.nospace().noquote() << " Color(" << bulb->toDeviceColor()->hue << "," <<  bulb->toDeviceColor()->saturation << "," << bulb->toDeviceColor()->brightness << ")";

@@ -53,6 +53,7 @@ public:
     void getBulbLabel(LifxBulb *bulb);
     void getBulbColor(LifxBulb *bulb);
     void getBulbGroup(LifxBulb *bulb);
+    void getBulbVersion(LifxBulb *bulb);
     void setBulbColor(LifxBulb *bulb);
     void setBulbPower(LifxBulb *bulb);
 

@@ -84,6 +84,8 @@ public:
     void setKelvin(uint16_t kelvin);
     void setDuration(uint32_t duration);
     void setGroup(QString group);
+    void setPID(uint32_t pid);
+    void setVID(uint32_t vid);
     
     QHostAddress& address() { return m_address; }
     uint8_t service() const { return m_service; }
@@ -98,6 +100,8 @@ public:
     uint16_t kelvin() const { return m_deviceColor->kelvin; }
     uint32_t duration() const { return m_deviceColor->duration; }
     QString group() const { return m_group; }
+    uint32_t pid() const { return m_pid; }
+    uint32_t vid() const { return m_vid; }
     
     QString macToString() const;
     QString addressToString(bool isIPV6) const;
@@ -115,6 +119,8 @@ private:
     uint16_t m_major;               //!< The major version
     uint16_t m_minor;               //!< The minor version
     uint16_t m_power;               //!< The current bulb power output (0 means OFF, all other values are considered ON)
+    uint32_t m_vid;                 //!< The vendor ID the bulb, should generally always be 1
+    uint32_t m_pid;                 //!< The product ID from the bulb, can be used to determine capabilities from the JSON
     lx_dev_color_t *m_deviceColor;  //!< The color structure as returned from the bulb
 };
 

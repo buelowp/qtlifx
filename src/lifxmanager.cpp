@@ -126,9 +126,22 @@ void LifxManager::newPacket(LifxPacket* packet)
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
             }
             break;            
+        case LIFX_DEFINES::STATE_VERSION:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                lx_dev_version_t *version = (lx_dev_version_t*)malloc(sizeof(lx_dev_version_t));
+                memcpy(version, packet->payload().data(), sizeof(lx_dev_version_t)); 
+                bulb->setVID(version->vendor);
+                bulb->setPID(version->product);
+                qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
+                m_protocol->getFirmwareForBulb(bulb);
+            }
+            else {
+                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";
+            }
+            break;            
 
         default:
-//            qDebug() << __PRETTY_FUNCTION__ << ": Unknown type received" << packet->type();
             break;
     }
     

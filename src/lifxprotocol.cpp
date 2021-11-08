@@ -88,10 +88,17 @@ void LifxProtocol::getLabelForBulb(LifxBulb* bulb)
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::getVersionForBulb(LifxBulb* bulb)
+void LifxProtocol::getFirmwareForBulb(LifxBulb* bulb)
 {
     LifxPacket packet;
     packet.getBulbFirmware(bulb);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+}
+
+void LifxProtocol::getVersionForBulb(LifxBulb* bulb)
+{
+    LifxPacket packet;
+    packet.getBulbVersion(bulb);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 

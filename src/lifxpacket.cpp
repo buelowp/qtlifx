@@ -223,6 +223,17 @@ void LifxPacket::getBulbGroup(LifxBulb* bulb)
     createHeader(bulb, false);    
 }
 
+void LifxPacket::getBulbVersion(LifxBulb* bulb)
+{
+    m_tagged = 0;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::GET_VERSION;
+    m_source = 919827;
+    
+    createHeader(bulb, false);        
+}
+
 void LifxPacket::setBulbPower(LifxBulb* bulb)
 {
     m_tagged = 0;
