@@ -26,6 +26,7 @@
 #include <QtGui/QtGui>
 
 #include "defines.h"
+#include "lifxproduct.h"
 
 /**
  * \class LifxBulb
@@ -86,6 +87,7 @@ public:
     void setGroup(QString group);
     void setPID(uint32_t pid);
     void setVID(uint32_t vid);
+    void setProduct(QJsonObject &obj);
     
     QHostAddress& address() { return m_address; }
     uint8_t service() const { return m_service; }

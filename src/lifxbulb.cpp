@@ -353,6 +353,59 @@ void LifxBulb::setVID(uint32_t vid)
     m_vid = vid;
 }
 
+void LifxBulb::setProduct(QJsonObject& obj)
+{
+    if (obj.contains("pid")) {
+        if (obj["pid"].toInt() == m_pid) {
+            LifxProduct *product = new LifxProduct();
+            if (obj.contains("name")) {
+                product->setName(obj["name"].toString());
+                if (obj.contains("features") && obj["features"].isObject()) {
+                    QJsonObject features = obj["features"].toObject();
+                    
+                    if (features.contains("color"))
+                        product->setColor(features["color"].toBool());
+                    
+                    if (features.contains("chain"))
+                        product->setChain(features["chain"].toBool());
+                    
+                    if (features.contains("matrix"))
+                        product->setMatrix(features["matrix"].toBool());
+                    
+                    if (features.contains("infrared"))
+                        product->setIR(features["infrared"].toBool());
+                    
+                    if (features.contains("multizone"))
+                        product->setMultiZone(features["multizone"].toBool());
+                    
+                    if (features.contains("temperature_range") && features["temperature_range"].isArray()) {
+                        QJsonArray array = features["temperature_range"].toArray();
+                        if (array.size() > 0) {
+                            product->setRange(array[0].toInt(), array[1].toInt());
+                        }
+                    }
+                }
+            }
+            if (obj.contains("upgrades") && obj["upgrades"].isArray()) {
+                QJsonArray upgrades = obj["upgrades"].toArray();
+                for (int i = 0; i < upgrades.size(); ++i) {
+                    QJsonObject upgrade = upgrades[i].toObject();
+                    int major = upgrade["major"].toInt();
+                    int minor = upgrade["minor"].toInt();
+                    QJsonObject features = upgrade["features"].toObject();
+                    if (features.contains("temperature_range") && features["temperature_range"].isArray()) {
+                        QJsonArray array = features["temperature_range"].toArray();
+                        if (array.size() > 0) {
+                            if (m_major >= major && m_minor >= minor)
+                                product->setRange(array[0].toInt(), array[1].toInt());
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 /**
  * \fn QDebug operator<<(QDebug debug, const LifxBulb &bulb)
