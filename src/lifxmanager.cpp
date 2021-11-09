@@ -66,12 +66,40 @@ void LifxManager::newPacket(LifxPacket* packet)
                 m_bulbsByName[bulb->label()] = bulb;
                 qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
                 emit newBulbAvailable(bulb->label(), target);
-                m_protocol->getVersionForBulb(bulb);
+                m_protocol->getFirmwareForBulb(bulb);
             }
             else {
                 qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
             }
             break;
+        case LIFX_DEFINES::STATE_HOST_FIRMWARE:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                lx_dev_firmware_t *firmware = (lx_dev_firmware_t*)packet->payload().data();
+                bulb->setMajor(firmware->major);
+                bulb->setMinor(firmware->minor);
+                qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
+                m_protocol->getVersionForBulb(bulb);
+            }
+            else {
+                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";
+            }
+            break;            
+        case LIFX_DEFINES::STATE_VERSION:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                lx_dev_version_t *version = (lx_dev_version_t*)malloc(sizeof(lx_dev_version_t));
+                memcpy(version, packet->payload().data(), sizeof(lx_dev_version_t)); 
+                bulb->setVID(version->vendor);
+                bulb->setPID(version->product);
+                m_bulbsByPID.insert(version->product, bulb);
+                qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
+                m_protocol->getGroupForBulb(bulb);
+            }
+            else {
+                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_VERSION for a bulb (" << target << ") which isn't in the map";
+            }
+            break;            
         case LIFX_DEFINES::STATE_GROUP:
             if (m_bulbs.contains(target)) {
                 QString label;
@@ -87,7 +115,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                     if (g != nullptr) {
                         if (!g->contains(bulb))
                             g->addBulb(bulb);
-                            qDebug() << __PRETTY_FUNCTION__ << ": GROUPS (add):" << g;
+                            qDebug() << __PRETTY_FUNCTION__ << ": GROUP (add):" << g;
                     }
                 }
                 else {
@@ -95,24 +123,11 @@ void LifxManager::newPacket(LifxPacket* packet)
                     g->addBulb(bulb);
                     m_groups[uuid] = g;
                     emit newGroupAvailable(label, uuid);
-                    qDebug() << __PRETTY_FUNCTION__ << ": GROUPS (new):" << g;
+                    qDebug() << __PRETTY_FUNCTION__ << ": GROUP (new):" << g;
                 }
                 m_protocol->getColorForBulb(bulb);
             }
             break;
-        case LIFX_DEFINES::STATE_HOST_FIRMWARE:
-            if (m_bulbs.contains(target)) {
-                bulb = m_bulbs[target];
-                lx_dev_firmware_t *firmware = (lx_dev_firmware_t*)packet->payload().data();
-                bulb->setMajor(firmware->major);
-                bulb->setMinor(firmware->minor);
-                qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
-                m_protocol->getGroupForBulb(bulb);
-            }
-            else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";
-            }
-            break;            
         case LIFX_DEFINES::LIGHT_STATE:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
@@ -126,21 +141,6 @@ void LifxManager::newPacket(LifxPacket* packet)
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
             }
             break;            
-        case LIFX_DEFINES::STATE_VERSION:
-            if (m_bulbs.contains(target)) {
-                bulb = m_bulbs[target];
-                lx_dev_version_t *version = (lx_dev_version_t*)malloc(sizeof(lx_dev_version_t));
-                memcpy(version, packet->payload().data(), sizeof(lx_dev_version_t)); 
-                bulb->setVID(version->vendor);
-                bulb->setPID(version->product);
-                qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
-                m_protocol->getFirmwareForBulb(bulb);
-            }
-            else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";
-            }
-            break;            
-
         default:
             break;
     }
@@ -223,5 +223,10 @@ void LifxManager::changeGroupState(QByteArray& uuid, bool state)
         LifxGroup *group = m_groups[uuid];
         m_protocol->setGroupState(group, state);
     }
+}
+
+QList<LifxBulb *> LifxManager::getBulbsByPID(int pid)
+{
+    return m_bulbsByPID.values(pid);
 }
 

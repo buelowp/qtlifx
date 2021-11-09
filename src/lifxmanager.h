@@ -44,6 +44,7 @@ public:
     LifxBulb* getBulbByMac(uint64_t target);
     LifxGroup* getGroupByName(QString &name);
     LifxGroup* getGroupByUUID(QByteArray &uuid);
+    QList<LifxBulb*> getBulbsByPID(int pid);
     
 public slots:
     void discoveryFailed();
@@ -64,6 +65,7 @@ private:
     QMap<uint64_t, LifxBulb*> m_bulbs;
     QMap<QString, LifxBulb*> m_bulbsByName;
     QMap<QByteArray, LifxGroup*> m_groups;
+    QMultiMap<int, LifxBulb*> m_bulbsByPID;
 };
 
 #endif // LIGHTMANAGER_H
