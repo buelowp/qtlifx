@@ -142,7 +142,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                     LifxGroup *g = new LifxGroup(label, uuid, group->updated_at);
                     g->addBulb(bulb);
                     m_groups[uuid] = g;
-                    emit newGroupAvailable(label, uuid);
+                    emit newGroupFound(label, uuid);
                     qDebug() << __PRETTY_FUNCTION__ << ": GROUP (new):" << g;
                 }
                 m_protocol->getColorForBulb(bulb);
@@ -156,7 +156,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setDevColor(color);
                 if (bulb->inDiscovery()) {
                     bulb->setDiscoveryActive(false);
-                    emit bulbFinished(bulb);
+                    emit bulbDiscoveryFinished(bulb);
                 }
                 emit bulbStateChanged(bulb->label(), target);
                 qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
@@ -223,6 +223,20 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
+        bulb->setColor(color);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
+ * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color)
+ * \param bulb Pointer to LifxBulb object
+ * \param color QColor object containing the new color to set the bulb to
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color)
+{
+    if (bulb) {
         bulb->setColor(color);
         m_protocol->setBulbColor(bulb);
     }

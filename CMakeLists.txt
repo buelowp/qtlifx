@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 project (qtlifx DESCRIPTION "LIFX control library for Linux")
 
 FILE (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-FILE (GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
+FILE (GLOB PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/public/*.h")
+FILE (GLOB PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private/*.h")
+
 
 option (BUILD_TESTS "Build Google test capability (default OFF)" OFF)
 option (LIFX_BUILD_STATIC "Build as a static object (default OFF)" OFF)
@@ -32,3 +34,8 @@ endif()
 # Use the Widgets module from Qt 5.
 target_link_libraries (${PROJECT_NAME} Qt5::Network Qt5::Gui)
 
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/public")
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/private")
+
+install (TARGETS ${PROJECT_NAME} DESTINATION lib)
+install (FILES ${PUBLIC} DESTINATION include)

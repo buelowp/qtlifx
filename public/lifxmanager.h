@@ -72,14 +72,16 @@ public slots:
     void newPacket(LifxPacket *packet);
     void changeBulbColor(QString &name, QColor color);
     void changeBulbColor(uint64_t target, QColor color);
+    void changeBulbColor(LifxBulb* bulb, QColor color);
     void changeGroupColor(QByteArray &uuid, QColor color);
     void changeGroupState(QByteArray &uuid, bool state);
+    void setProductCapabilities(QJsonDocument &doc);
 
 signals:
-    void bulbFinished(LifxBulb *bulb);
+    void bulbDiscoveryFinished(LifxBulb *bulb);
     void newBulbAvailable(QString, uint64_t);
     void bulbStateChanged(QString, uint64_t);
-    void newGroupAvailable(QString, QByteArray);
+    void newGroupFound(QString, QByteArray);
 
 private:
     LifxProtocol *m_protocol;

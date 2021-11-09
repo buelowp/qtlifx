@@ -20,7 +20,7 @@
 
 LifxProduct::LifxProduct()
 {
-    m_color = false;
+    m_color = true;
     m_chain = false;
     m_matrix = false;
     m_infrared = false;
