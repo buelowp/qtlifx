@@ -30,6 +30,27 @@
 /**
  * \class LifxManager
  * \brief Public interface to the LIFX bulbs
+ * 
+ * This is the brains, and does the heavy lifting. It creates the
+ * comms socket, and owns starting discovery and communicating
+ * with bulbs/groups/zones. All work done by an APP should use
+ * the manager directly, and not attempt to work independently.
+ * 
+ * Note, there is no state management here. Because the API is
+ * functionally stateless, it's possible to ask a bulb to do
+ * something even if discovery is still going on. The first
+ * signal indicating a bulb is available is not sent until
+ * there is enough information to indicate that bulb can
+ * do something (label, version, firmware).
+ * 
+ * There will be several signals sent over the course of
+ * discovery, and once complete, a complete message will
+ * be sent for each bulb. Note, there will be no overall complete
+ * message as it's possible for bulbs to take longer to
+ * respond, and as such, it's difficutl to determine if
+ * discovery is complete without a timeout. No such timeout
+ * will be done in the library, but it is possible to manage
+ * state in the application.
  */
 class LifxManager : public QObject
 {
@@ -55,7 +76,7 @@ public slots:
     void changeGroupState(QByteArray &uuid, bool state);
 
 signals:
-    void finished();
+    void bulbFinished(LifxBulb *bulb);
     void newBulbAvailable(QString, uint64_t);
     void bulbStateChanged(QString, uint64_t);
     void newGroupAvailable(QString, QByteArray);

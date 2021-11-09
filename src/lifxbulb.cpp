@@ -27,9 +27,20 @@ LifxBulb::LifxBulb()
     m_power = 0;
     m_vid = 0;
     m_pid = 0;
+    m_inDiscovery = true;
     m_deviceColor = (lx_dev_color_t*)malloc(sizeof(lx_dev_color_t));
     memset(m_deviceColor, 0, sizeof(lx_dev_color_t));
     memset(m_target, 0, 8);
+}
+
+/**
+ * \fn void LifxBulb::setDiscoveryActive(bool discovery)
+ * \param discovery bool indicating state of discovery operation for this bulb
+ * \brief True if we are in discovery, false if the bulb is ready to use
+ */
+void LifxBulb::setDiscoveryActive(bool discovery)
+{
+    m_inDiscovery = discovery;
 }
 
 /**

@@ -29,18 +29,38 @@ LifxManager::~LifxManager()
 {
 }
 
+/**
+ * \fn void LifxManager::discoveryFailed()
+ * \brief SLOT that is called when the discovery operation times out
+ * 
+ * This will be called if a timer is set by the Manager to limit
+ * how long we wait for discovery. This is better handled by the
+ * application
+ */
 void LifxManager::discoveryFailed()
 {
     qDebug() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
     m_protocol->discover();
 }
 
+/**
+ * \fn void LifxManager::initialize()
+ * \brief SLOT which is called when the app wants to start talking to LIFX bulbs
+ */
 void LifxManager::initialize()
 {
     m_protocol->initialize();
     m_protocol->discover();
 }
 
+/**
+ * \fn void LifxManager::newPacket(LifxPacket* packet)
+ * \param packet Pointer to a LifxPacket container
+ * \brief SLOT called when a new packet arrives from the protocol manager
+ * 
+ * This handles the state messages and decodes the packets by stuffing them into
+ * a bulb container and emitting signals to indicate something happened.
+ */
 void LifxManager::newPacket(LifxPacket* packet)
 {
     LifxBulb *bulb;
@@ -134,6 +154,10 @@ void LifxManager::newPacket(LifxPacket* packet)
                 lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(sizeof(lx_dev_lightstate_t));
                 memcpy(color, packet->payload().data(), sizeof(lx_dev_lightstate_t)); 
                 bulb->setDevColor(color);
+                if (bulb->inDiscovery()) {
+                    bulb->setDiscoveryActive(false);
+                    emit bulbFinished(bulb);
+                }
                 emit bulbStateChanged(bulb->label(), target);
                 qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
             }
@@ -148,6 +172,11 @@ void LifxManager::newPacket(LifxPacket* packet)
     delete packet;
 }
 
+/**
+ * \fn LifxBulb * LifxManager::getBulbByMac(uint64_t target)
+ * \param target 64bit integer which has an encoded version of the MAC address
+ * \return Returns the bulb if a bulb with target MAC is found, nullptr if no bulb exists
+ */
 LifxBulb * LifxManager::getBulbByMac(uint64_t target)
 {
     if (m_bulbs.contains(target))
@@ -156,6 +185,11 @@ LifxBulb * LifxManager::getBulbByMac(uint64_t target)
     return nullptr;
 }
 
+/**
+ * \fn LifxBulb * LifxManager::getBulbByName(QString& name)
+ * \param name QString name of the bulb being queried
+ * \return Retuns the bulb if a bulb with name is found, nullptr if no bulb exists
+ */
 LifxBulb * LifxManager::getBulbByName(QString& name)
 {
     if (m_bulbsByName.contains(name))
@@ -164,6 +198,12 @@ LifxBulb * LifxManager::getBulbByName(QString& name)
     return nullptr;
 }
 
+/**
+ * \fn void LifxManager::changeBulbColor(QString& name, QColor color)
+ * \param name QString name of the bulb being changed
+ * \param color New color to set the bulb to
+ * \brief Sets the color of a single bulb to color
+ */
 void LifxManager::changeBulbColor(QString& name, QColor color)
 {
     if (m_bulbsByName.contains(name)) {
@@ -173,6 +213,12 @@ void LifxManager::changeBulbColor(QString& name, QColor color)
     }
 }
 
+/**
+ * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color)
+ * \param target 64bit integer which has an encoded version of the MAC address
+ * \param color QColor object containing the new color to set the bulb to
+ * \brief Sets the color of a single bulb to color
+ */
 void LifxManager::changeBulbColor(uint64_t target, QColor color)
 {
     if (m_bulbs.contains(target)) {
@@ -182,6 +228,12 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color)
     }
 }
 
+/**
+ * \fn void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
+ * \param uuid The group UUID to query for bulbs
+ * \param color The QColor color to assign to the group
+ * \brief Sets the color of all bulbs in the group identified by uuid to color
+ */
 void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
 {
     if (m_groups.contains(uuid)) {
@@ -193,6 +245,12 @@ void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
     }
 }
 
+/**
+ * \fn LifxGroup * LifxManager::getGroupByName(QString& name)
+ * \param name Name of the group to retrieve
+ * \return Returns a pointer to a LifxGroup object if name exists, nullptr otherwise
+ * \brief Will look through the group map and if name exists, return that group container
+ */
 LifxGroup * LifxManager::getGroupByName(QString& name)
 {
     QMapIterator<QByteArray, LifxGroup*> i(m_groups);
@@ -208,6 +266,12 @@ LifxGroup * LifxManager::getGroupByName(QString& name)
     return nullptr;
 }
 
+/**
+ * \fn LifxGroup * LifxManager::getGroupByUUID(QByteArray& uuid)
+ * \param uuid UUID of the group to retrieve
+ * \return Returns a pointer to a LifxGroup object if name exists, nullptr otherwise
+ * \brief Will look through the group map and if uuid exists, return that group container
+ */
 LifxGroup * LifxManager::getGroupByUUID(QByteArray& uuid)
 {
     if (m_groups.contains(uuid)) {
@@ -217,6 +281,12 @@ LifxGroup * LifxManager::getGroupByUUID(QByteArray& uuid)
     return nullptr;
 }
 
+/**
+ * \fn void LifxManager::changeGroupState(QByteArray& uuid, bool state)
+ * \param uuid UUID of the group to retrieve
+ * \param state Sets the bulbs in a group to ON/OFF based on state TRUE/FALSE
+ * \brief Finds the group by uuid and attempts to either turn on or off each bulb
+ */
 void LifxManager::changeGroupState(QByteArray& uuid, bool state)
 {
     if (m_groups.contains(uuid)) {
@@ -225,6 +295,12 @@ void LifxManager::changeGroupState(QByteArray& uuid, bool state)
     }
 }
 
+/**
+ * \fn QList<LifxBulb *> LifxManager::getBulbsByPID(int pid)
+ * \param pid Bulb product ID
+ * \return Returns a list of bulbs by PID, may be an empty set of PID isn't valid
+ * \brief Get a list of bulbs that have the same product ID
+ */
 QList<LifxBulb *> LifxManager::getBulbsByPID(int pid)
 {
     return m_bulbsByPID.values(pid);

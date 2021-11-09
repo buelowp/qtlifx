@@ -88,6 +88,7 @@ public:
     void setPID(uint32_t pid);
     void setVID(uint32_t vid);
     void setProduct(QJsonObject &obj);
+    void setDiscoveryActive(bool discovery);
     
     QHostAddress& address() { return m_address; }
     uint8_t service() const { return m_service; }
@@ -104,6 +105,7 @@ public:
     QString group() const { return m_group; }
     uint32_t pid() const { return m_pid; }
     uint32_t vid() const { return m_vid; }
+    bool inDiscovery() const { return m_inDiscovery; }
     
     QString macToString() const;
     QString addressToString(bool isIPV6) const;
@@ -125,6 +127,7 @@ private:
     uint32_t m_pid;                 //!< The product ID from the bulb, can be used to determine capabilities from the JSON
     lx_dev_color_t *m_deviceColor;  //!< The color structure as returned from the bulb
     LifxProduct *m_product;         //!< A container class with static product details from LIFX
+    bool m_inDiscovery;             //!< Flag indicating whether the bulb has been completely discovered yet
 };
 
 QDebug operator<<(QDebug debug, const LifxBulb &bulb);
