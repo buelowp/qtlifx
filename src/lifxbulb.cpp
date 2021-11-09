@@ -402,6 +402,8 @@ void LifxBulb::setProduct(QJsonObject& obj)
                     }
                 }
             }
+            m_product = product;
+            qDebug() << __PRETTY_FUNCTION__ << ":" << product;
         }
     }
 }

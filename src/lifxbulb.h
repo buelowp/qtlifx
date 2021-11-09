@@ -124,6 +124,7 @@ private:
     uint32_t m_vid;                 //!< The vendor ID the bulb, should generally always be 1
     uint32_t m_pid;                 //!< The product ID from the bulb, can be used to determine capabilities from the JSON
     lx_dev_color_t *m_deviceColor;  //!< The color structure as returned from the bulb
+    LifxProduct *m_product;         //!< A container class with static product details from LIFX
 };
 
 QDebug operator<<(QDebug debug, const LifxBulb &bulb);
