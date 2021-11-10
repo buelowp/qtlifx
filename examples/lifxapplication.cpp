@@ -47,12 +47,17 @@ LifxApplication::~LifxApplication()
 void LifxApplication::setProductsJsonFile(QString path)
 {
     QFile file(path);
+    QJsonParseError error;
     
     if (file.open(QIODevice::ReadOnly)) {
+        qDebug() << __PRETTY_FUNCTION__ << ": found" << file;
         QByteArray json = file.readAll();
-        QJsonDocument doc = QJsonDocument::fromJson(json);
-        if (doc.isObject())
+        QJsonDocument doc = QJsonDocument::fromJson(json, &error);
+        qDebug() << __PRETTY_FUNCTION__ << ":" << error.errorString();
+        if (doc.isArray()) {
+            qDebug() << __PRETTY_FUNCTION__ << ": Successfully parsed" << file;
             m_manager->setProductCapabilities(doc);
+        }
     }
 }
 

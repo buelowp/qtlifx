@@ -345,28 +345,30 @@ QList<LifxBulb *> LifxManager::getBulbsByPID(int pid)
  */
 void LifxManager::setProductCapabilities(QJsonDocument& doc)
 {
-    QJsonObject parent = doc.object();
-    if (parent.contains("products") && parent["products"].isArray()) {
-        QJsonArray products = parent["products"].toArray();
-        for (int i = 0; i < products.size(); i++) {
-            if (products[i].isObject()) {
-                QJsonObject obj = products[i].toObject();
-                if (obj.contains("pid")) {
-                    int pid = obj["pid"].toInt();
-                    qDebug() << __PRETTY_FUNCTION__ << ": Found Product ID" << pid;
-                    
-                    if (m_bulbs.size() == 0) {
-                        m_productObjects.insert(pid, obj);
-                    }
-                    else {
-                        if (m_bulbsByPID.contains(pid)) {
-                            QList<LifxBulb*> bulbs = m_bulbs.values(pid);
-                            for (auto bulb : bulbs) {
-                                bulb->setProduct(obj);
+    QJsonArray parent = doc.array();
+    for (int i = 0; i < parent.size(); i++) {
+        if (parent[i].isObject()) {
+            QJsonObject vendor = parent[i].toObject();
+            if (vendor.contains("products")) {
+                QJsonArray products = vendor["products"].toArray();
+                for (int i = 0; i < products.size(); i++) {
+                    if (products[i].isObject()) {
+                        QJsonObject obj = products[i].toObject();
+                        int pid = obj["pid"].toInt();
+                        
+                        if (m_bulbs.size() == 0) {
+                            m_productObjects.insert(pid, obj);
+                        }
+                        else {
+                            if (m_bulbsByPID.contains(pid)) {
+                                QList<LifxBulb*> bulbs = m_bulbs.values(pid);
+                                for (auto bulb : bulbs) {
+                                    bulb->setProduct(obj);
+                                }
                             }
                         }
                     }
-                }   
+                }
             }
         }
     }

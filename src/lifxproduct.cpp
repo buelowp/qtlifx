@@ -34,7 +34,7 @@ LifxProduct::~LifxProduct()
 QDebug operator<<(QDebug debug, const LifxProduct& product)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << product.name() << " [" << product.highKelvin() << "," << product.lowKelvin() << "] color:" << product.colorCapable();
+    debug.nospace().noquote() << product.name() << " [" << product.lowKelvin() << "," << product.highKelvin() << "] color:" << product.colorCapable();
     debug.nospace().noquote() << " chain:" << product.canChain() << " matrix:" << product.matrixCapable() << " IR:" << product.irCapable();
     debug.nospace().noquote() << " multizone:" << product.multizoneCapable();
     return debug;
@@ -43,7 +43,7 @@ QDebug operator<<(QDebug debug, const LifxProduct& product)
 QDebug operator<<(QDebug debug, const LifxProduct *product)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << product->name() << " [" << product->highKelvin() << "," << product->lowKelvin() << "] color:" << product->colorCapable();
+    debug.nospace().noquote() << product->name() << " [" << product->lowKelvin() << "," << product->highKelvin() << "] color:" << product->colorCapable();
     debug.nospace().noquote() << " chain:" << product->canChain() << " matrix:" << product->matrixCapable() << " IR:" << product->irCapable();
     debug.nospace().noquote() << " multizone:" << product->multizoneCapable();
     return debug;
