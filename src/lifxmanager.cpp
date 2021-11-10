@@ -25,6 +25,16 @@ LifxManager::LifxManager(QObject *parent) : QObject(parent)
     connect(m_protocol, &LifxProtocol::newPacket, this, &LifxManager::newPacket);
 }
 
+LifxManager::LifxManager(const LifxManager& object) : QObject()
+{
+    m_protocol = object.m_protocol;
+    m_bulbs = object.m_bulbs;
+    m_bulbsByName =  object.m_bulbsByName;
+    m_groups = object.m_groups;
+    m_bulbsByPID = object.m_bulbsByPID;
+    m_productObjects = object.m_productObjects;
+}
+
 LifxManager::~LifxManager()
 {
 }
@@ -112,6 +122,9 @@ void LifxManager::newPacket(LifxPacket* packet)
                 memcpy(version, packet->payload().data(), sizeof(lx_dev_version_t)); 
                 bulb->setVID(version->vendor);
                 bulb->setPID(version->product);
+                if (m_productObjects.size() && m_productObjects.contains(version->product)) {
+                    bulb->setProduct(m_productObjects[version->product]);
+                }
                 m_bulbsByPID.insert(version->product, bulb);
                 qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
                 m_protocol->getGroupForBulb(bulb);
@@ -320,3 +333,97 @@ QList<LifxBulb *> LifxManager::getBulbsByPID(int pid)
     return m_bulbsByPID.values(pid);
 }
 
+/**
+ * \fn void LifxManager::setProductCapabilities(QJsonDocument& doc)
+ * \param doc Valid QJsonDocument
+ * \brief Parses the products.json file
+ * 
+ * This function takes a reference to a valid and validated QJsonDocument object.
+ * If this is not true, this function will fail. It will then parse
+ * the file either storing each object because bulb discovery hasn't started
+ * or assigning the correct PID content to a bulb because it's being done after.
+ */
+void LifxManager::setProductCapabilities(QJsonDocument& doc)
+{
+    QJsonObject parent = doc.object();
+    if (parent.contains("products") && parent["products"].isArray()) {
+        QJsonArray products = parent["products"].toArray();
+        for (int i = 0; i < products.size(); i++) {
+            if (products[i].isObject()) {
+                QJsonObject obj = products[i].toObject();
+                if (obj.contains("pid")) {
+                    int pid = obj["pid"].toInt();
+                    qDebug() << __PRETTY_FUNCTION__ << ": Found Product ID" << pid;
+                    
+                    if (m_bulbs.size() == 0) {
+                        m_productObjects.insert(pid, obj);
+                    }
+                    else {
+                        if (m_bulbsByPID.contains(pid)) {
+                            QList<LifxBulb*> bulbs = m_bulbs.values(pid);
+                            for (auto bulb : bulbs) {
+                                bulb->setProduct(obj);
+                            }
+                        }
+                    }
+                }   
+            }
+        }
+    }
+}
+
+void LifxManager::changeBulbState(LifxBulb* bulb, bool state)
+{
+    if (bulb != nullptr)
+        m_protocol->setBulbState(bulb, state);
+}
+
+void LifxManager::changeBulbState(QString& name, bool state)
+{
+    if (m_bulbsByName.contains(name)) {
+        LifxBulb *bulb = m_bulbsByName[name];
+        changeBulbState(bulb, state);
+    }
+}
+
+void LifxManager::changeBulbState(uint64_t target, bool state)
+{
+    if (m_bulbs.contains(target)) {
+        LifxBulb *bulb = m_bulbs[target];
+        changeBulbState(bulb, state);
+    }
+}
+
+void LifxManager::rebootBulb(LifxBulb* bulb)
+{
+    if (bulb != nullptr)
+        m_protocol->rebootBulb(bulb);
+}
+
+void LifxManager::rebootBulb(QString& name)
+{
+    if (m_bulbsByName.contains(name)) {
+        LifxBulb *bulb = m_bulbsByName[name];
+        rebootBulb(bulb);
+    }    
+}
+
+void LifxManager::rebootBulb(uint64_t target)
+{
+    if (m_bulbs.contains(target)) {
+        LifxBulb *bulb = m_bulbs[target];
+        rebootBulb(bulb);
+    }
+}
+
+void LifxManager::rebootGroup(QByteArray& uuid)
+{
+    if (m_groups.contains(uuid)) {
+        LifxGroup *group = m_groups[uuid];
+        QVector<LifxBulb*> bulbs = group->bulbs();
+        
+        for (auto bulb : bulbs) {
+            rebootBulb(bulb);
+        }
+    }
+}

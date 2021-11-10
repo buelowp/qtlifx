@@ -56,6 +56,7 @@ public:
     void getBulbVersion(LifxBulb *bulb);
     void setBulbColor(LifxBulb *bulb);
     void setBulbPower(LifxBulb *bulb);
+    void rebootBulb(LifxBulb *bulb);
 
     static constexpr int HEADER_SIZE = 36;
     

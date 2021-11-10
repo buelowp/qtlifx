@@ -133,13 +133,9 @@ void LifxPacket::setPayload(QByteArray ba)
  */
 void LifxPacket::setDatagram(char* data, int len, QHostAddress &addr, quint16 port)
 {
-    char* payload  = nullptr;
-    int payloadsize = len - m_headerSize;
-
     QByteArray pl(data, len);
     setHeader(data);
     if (len > m_headerSize) {
-        payload = data + payloadsize;
         setPayload(pl.mid(m_headerSize));
         m_address = addr;
         m_port = port;
@@ -245,4 +241,15 @@ void LifxPacket::setBulbPower(LifxBulb* bulb)
     createHeader(bulb, false);
     m_payload.clear();
     m_payload.setNum(bulb->power());
+}
+
+void LifxPacket::rebootBulb(LifxBulb* bulb)
+{
+    m_tagged = 0;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::SET_REBOOT;
+    m_source = 919827;
+    
+    createHeader(bulb, false);
 }

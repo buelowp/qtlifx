@@ -3,8 +3,6 @@ project (qtlifx DESCRIPTION "LIFX control library for Linux")
 
 FILE (GLOB SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 FILE (GLOB PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/public/*.h")
-FILE (GLOB PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private/*.h")
-
 
 option (BUILD_TESTS "Build Google test capability (default OFF)" OFF)
 option (LIFX_BUILD_STATIC "Build as a static object (default OFF)" OFF)
@@ -27,7 +25,7 @@ set(PROJ_VERSION ${PROJ_VERSION_MAJOR}.${PROJ_VERSION_MINOR}.${PROJ_VERSION_PATC
 if(LIFX_BUILD_STATIC)
     add_library (${PROJECT_NAME} STATIC ${SOURCES})
 else()
-    add_library (${PROJECT_NAME} SHARED ${SOURCES})
+    add_library (${PROJECT_NAME} SHARED ${SOURCES} ${PUBLIC})
     set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJ_VERSION} SOVERSION ${PROJ_VERSION_MAJOR} )
 endif()
 

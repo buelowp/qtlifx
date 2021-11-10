@@ -20,11 +20,15 @@
 
 LifxProtocol::LifxProtocol(QObject *parent) : QObject(parent)
 {
-    m_mutex.unlock();
 }
 
 LifxProtocol::~LifxProtocol()
 {
+}
+
+LifxProtocol::LifxProtocol(const LifxProtocol& object) : QObject()
+{
+    m_socket = object.m_socket;
 }
 
 qint64 LifxProtocol::discover()
@@ -45,18 +49,12 @@ void LifxProtocol::readDatagram()
 
     while (m_socket->hasPendingDatagrams()) {
         received = m_socket->readDatagram(data, 1024, &address, &port);
-        if (received != -1) {
+        if (received != (quint64)(-1)) {
             LifxPacket *packet = new LifxPacket;
             packet->setDatagram(data, received, address, port);
             emit newPacket(packet);
         }
     }
-}
-
-void LifxProtocol::discoveryTimeout()
-{
-    qDebug() << __PRETTY_FUNCTION__;
-    emit discoveryFailed();
 }
 
 bool LifxProtocol::newPacketAvailable()
@@ -67,10 +65,8 @@ bool LifxProtocol::newPacketAvailable()
 void LifxProtocol::initialize()
 {
     m_socket = new QUdpSocket();
-    m_discovery = new QTimer();
     m_socket->bind(LIFX_PORT);
     connect(m_socket, &QUdpSocket::readyRead, this, &LifxProtocol::readDatagram);
-    connect(m_discovery, &QTimer::timeout, this, &LifxProtocol::discoveryTimeout);
 }
 
 void LifxProtocol::getPowerForBulb(LifxBulb* bulb)
@@ -128,6 +124,13 @@ void LifxProtocol::getGroupForBulb(LifxBulb* bulb)
 {
     LifxPacket packet;
     packet.getBulbGroup(bulb);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+}
+
+void LifxProtocol::rebootBulb(LifxBulb* bulb)
+{
+    LifxPacket packet;
+    packet.rebootBulb(bulb);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 

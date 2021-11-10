@@ -37,8 +37,9 @@ LifxGroup::~LifxGroup()
  */
 QDebug operator<<(QDebug debug, const LifxGroup &group)
 {
+    QDateTime dt = QDateTime::fromMSecsSinceEpoch(group.timestamp() / 1000);
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << "Group: " << group.label() << " [" << group.uuid().toHex() << "] created at " << group.timestamp();
+    debug.nospace().noquote() << "Group: " << group.label() << " [" << group.uuid().toHex() << "] created at " << dt.toString();
 
     return debug;
 }
@@ -53,7 +54,8 @@ QDebug operator<<(QDebug debug, const LifxGroup &group)
  */
 QDebug operator<<(QDebug debug, const LifxGroup *group)
 {
+    QDateTime dt = QDateTime::fromMSecsSinceEpoch(group->timestamp() / 1000);
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << "Group: " << group->label() << " [" << group->uuid().toHex() << "] created at " << group->timestamp() << " has " << group->size() << " bulbs";
+    debug.nospace().noquote() << "Group: " << group->label() << " [" << group->uuid().toHex() << "] created at " << dt.toString() << " has " << group->size() << " bulbs";
     return debug;
 }

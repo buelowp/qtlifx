@@ -17,6 +17,19 @@ and Hue bulbs. There are currently some apps on phones/tablets than can do this,
 at the same time is complicated, expensive, and honestly, doesn't work as well as I would like. I have
 both types of bulbs around my house, so being able to use them for displays is a priority for me.
 
+## BUILD
+
+```
+git clone github.com:buelow/qtlifx.git
+mkdir build
+cd build
+cmake ..
+make
+make install
+```
+
+To use this in your library, simple add qtlifx to your link step
+
 ## HOWTO
 
 See the example main.cpp in the examples directory, but it's pretty simple to use.
@@ -29,9 +42,9 @@ manager->initialize();
 ```
 
 Once you have received the bulbDiscoveryFinished(bulb) signal, that bulb has completed discovery
-and can be queried or set as needed. If you choose to provide the product definitions, then
-it includes all of the LIFX capabilities. Otherwise, some functions may not work as the lights
-are not assumed to support them.
+and can be queried or set as needed. If you choose to provide the product definitions (see below), then
+each bulb includes all of the LIFX capabilities. Otherwise, some functions may not work as the lights
+are not assumed to support them by default.
 
 ```
 QFile file("products.json");
@@ -43,14 +56,56 @@ if (doc.isObject())
     manager->setProductCapabilities(doc);
 ```
 
-You can get the products.json file from https://github.com/LIFX/products
+The entirety of this library revolves around two objects, the manager and a bulb. The manager
+is created by the application, and is what does the work. The bulb is the complete code
+representation of a LIFX product. Each of these should be treated as immutable and owned
+completely by the library.
+
+* Do not delete a LifxBulb in your code, bad things will happen.
+* Do not try to change the contents of the maps, bad things will happen.
+
+It is possible to query for bulbs in a variety of ways, and you can talk to them
+using a pointer to the object, the bulb name, the bulb group name, the bulb group UUID,
+and the bulb MAC address.
+
 The LAN API is documented at https://lan.developer.lifx.com/docs/introduction
 
-## Some early Notes
+## PRODUCT
+
+LIFX provides a JSON document with all of their products identified by VID/PID. This document
+is pretty critical to a fully functioning library as each product has some caveats about
+what it can support versus what it cannot. The most important distinction is that some bulbs
+have different Kelvin min/max values. Without that decoded, the default is much smaller than what
+is possible, and you may lose some capabilities when trying to communicate with your bulbs.
+
+It is possible to set product capabilities prior to running initialize() or after. However, if done
+after, you will need to accept that getting a newBulbAvailable() signal does not mean the bulb
+is ready to use. It *can* be used, but it will be lacking it's full potential capabilities.
+
+You can get the products.json file from https://github.com/LIFX/products
+
+## CODE
+
+The headers are split between public and private, and only the public are installed. This is to avoid
+the potential of misusing the private API's which don't have a function outside of the manager class.
+
+It is possible to write your own manager, this code does nothing to stop that. But it's structured
+to provide a simple clean solution, and avoid having to do the lifting on your own.
+
+## RELEASE
+
+* ALPHA: Currently at alpha quality, and not ready for normal usage
+
+## NOTES
 
 * The LIFX API is little endian (LE) or network byte order. This library currently assumes a LE CPU. 
-* It likely will not work on a Pi right now because of the above assumption. There is a plan to fix, but not right now
+* This library will not work on RPi or BE CPU for the above assumption. There is a plan to fix for all endianness, just not today.
 * The API is still very early in development. It works for me, I don't know that it will work for anyone else ATM. I'll publish a release when I think it's ready.
 * This is a LAN library, and only works when local to the bulbs. It cannot be used outside the home network the bulbs are on.
+* This library does not support zones or tiles yet. That may come in the future, but for now, I don't have any to test against.
+* The get/set API is incomplete still, and does not support a lot of the set functions provided by the LIFX API.
+ * e.g. reboot/set label/set group.
+* There is no push notifications here, the lights won't tell us if someone else changes them.
+ * One solution is to query the lights every now and then to ask what's going on.
 
 

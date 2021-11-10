@@ -52,13 +52,14 @@
  * will be done in the library, but it is possible to manage
  * state in the application.
  */
-class LifxManager : public QObject
+class Q_DECL_EXPORT LifxManager : public QObject
 {
     Q_OBJECT
 
 public:
     LifxManager(QObject *parent = nullptr);
     ~LifxManager();
+    LifxManager(const LifxManager &object);
     
     void initialize();
     LifxBulb* getBulbByName(QString &name);
@@ -76,6 +77,13 @@ public slots:
     void changeGroupColor(QByteArray &uuid, QColor color);
     void changeGroupState(QByteArray &uuid, bool state);
     void setProductCapabilities(QJsonDocument &doc);
+    void changeBulbState(QString &name, bool state);
+    void changeBulbState(uint64_t target, bool state);
+    void changeBulbState(LifxBulb* bulb, bool state);
+    void rebootBulb(LifxBulb *bulb);
+    void rebootBulb(QString &name);
+    void rebootBulb(uint64_t target);
+    void rebootGroup(QByteArray &uuid);
 
 signals:
     void bulbDiscoveryFinished(LifxBulb *bulb);
@@ -89,6 +97,8 @@ private:
     QMap<QString, LifxBulb*> m_bulbsByName;
     QMap<QByteArray, LifxGroup*> m_groups;
     QMultiMap<int, LifxBulb*> m_bulbsByPID;
+    QMap<int, QJsonObject> m_productObjects;
 };
 
+Q_DECLARE_METATYPE(LifxManager);
 #endif // LIGHTMANAGER_H

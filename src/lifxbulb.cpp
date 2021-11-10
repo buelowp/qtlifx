@@ -152,7 +152,7 @@ QString LifxBulb::addressToString(bool isIPV6) const
  */
 bool LifxBulb::operator==(const LifxBulb &bulb)
 {
-    bool rval;
+    bool rval = true;
     
     for (int i = 0; i < 8; i++) {
         if (m_target[i] != bulb.m_target[i])
@@ -414,7 +414,7 @@ void LifxBulb::setProduct(QJsonObject& obj)
                 }
             }
             m_product = product;
-            qDebug() << __PRETTY_FUNCTION__ << ":" << product;
+            qDebug() << __PRETTY_FUNCTION__ << ": Bulb" << m_label << ":" << product;
         }
     }
 }
@@ -430,11 +430,7 @@ void LifxBulb::setProduct(QJsonObject& obj)
  */
 QDebug operator<<(QDebug debug, const LifxBulb &bulb)
 {
-    float b = 0;
     float p = 0;
-    
-    if (bulb.brightness() > 0)
-        b = ((qreal)bulb.brightness() / (qreal)std::numeric_limits<uint16_t>::max()) * 100;
     
     if (bulb.power() > 0)
         p = ((float)bulb.power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
@@ -442,7 +438,8 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "] (" << bulb.group() << ") (" << bulb.vid() << "," << bulb.pid() <<") " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
     if (bulb.isOn()) {
-        debug.nospace().noquote()  << " Power: " << p << "% Brightness: " << b << "%";
+        debug.nospace().noquote() << " Power: " << p << "%" << " Kelvin " << bulb.kelvin();
+        debug.nospace().noquote() << " Color(" << bulb.toDeviceColor()->hue << "," <<  bulb.toDeviceColor()->saturation << "," << bulb.toDeviceColor()->brightness << ")";
     }
     else {
         debug.nospace().noquote()  << " OFF";
@@ -460,11 +457,7 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
  */
 QDebug operator<<(QDebug debug, const LifxBulb *bulb)
 {
-    float b = 0;
     float p = 0;
-    
-    if (bulb->brightness() > 0)
-        b = ((float)bulb->brightness() / (float)std::numeric_limits<uint16_t>::max()) * 100;
     
     if (bulb->power() > 0)
         p = ((float)bulb->power() / (float)std::numeric_limits<uint16_t>::max()) * 100;

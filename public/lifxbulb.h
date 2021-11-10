@@ -106,6 +106,7 @@ public:
     uint32_t pid() const { return m_pid; }
     uint32_t vid() const { return m_vid; }
     bool inDiscovery() const { return m_inDiscovery; }
+    QColor color() const { return m_color; }
     
     QString macToString() const;
     QString addressToString(bool isIPV6) const;

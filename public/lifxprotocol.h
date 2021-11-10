@@ -27,15 +27,16 @@
 #include "lifxpacket.h"
 #include "lifxgroup.h"
 
-class LifxProtocol : public QObject
+class Q_DECL_EXPORT LifxProtocol : public QObject
 {
     Q_OBJECT
 
+public:
     static constexpr int LIFX_PORT = 56700;
     
-public:
     LifxProtocol(QObject *parent = nullptr);
     ~LifxProtocol();
+    LifxProtocol(const LifxProtocol &object);
 
     void initialize();
     qint64 discover();
@@ -47,6 +48,7 @@ public:
     void setBulbColor(LifxBulb *bulb, QColor color);
     void setBulbState(LifxBulb *bulb, bool state);
     void setGroupState(LifxGroup *group, bool state);
+    void rebootBulb(LifxBulb *bulb);
     
     void getPowerForBulb(LifxBulb *bulb);
     void getLabelForBulb(LifxBulb *bulb);
@@ -57,7 +59,6 @@ public:
 
 protected slots:
     void readDatagram();
-    void discoveryTimeout();
 
 signals:
     void datagramAvailable();
@@ -66,8 +67,7 @@ signals:
     
 private:
     QUdpSocket *m_socket;
-    QTimer *m_discovery;
-    QMutex m_mutex;
 };
 
+Q_DECLARE_METATYPE(LifxProtocol);
 #endif // LIFXPROTOCOL_H
