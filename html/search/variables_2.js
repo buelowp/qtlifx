@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['product_118',['product',['../structlx__dev__version__t.html#a0f78caea23d04a1749612dc2c123cc9f',1,'lx_dev_version_t']]]
+  ['group_135',['group',['../structlx__group__info__t.html#a3c40924deade1662fe28b64148ce9b33',1,'lx_group_info_t']]]
 ];

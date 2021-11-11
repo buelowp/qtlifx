@@ -12,11 +12,7 @@ Container class for a single bulb.
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classLifxBulb_a420f98495539293f91192d0f14896c05}\label{classLifxBulb_a420f98495539293f91192d0f14896c05}} 
-{\bfseries Lifx\+Bulb} (const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&)=default
-\item 
-\mbox{\Hypertarget{classLifxBulb_a681759a74810c4ca9d5c5bbc498353bf}\label{classLifxBulb_a681759a74810c4ca9d5c5bbc498353bf}} 
-\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \& {\bfseries operator=} (const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&)=default
+\mbox{\hyperlink{classLifxBulb_a48ab2778b385fe465aac7ba7c6f54df0}{Lifx\+Bulb}} ()
 \item 
 bool \mbox{\hyperlink{classLifxBulb_a11df29565994b27d93206fc50a3c3f66}{operator==}} (const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&bulb)
 \begin{DoxyCompactList}\small\item\em compares the internals of two light bulbs \end{DoxyCompactList}\item 
@@ -55,34 +51,12 @@ void \mbox{\hyperlink{classLifxBulb_a457ec2bddf6b7d8132df1fbf4fc0c05c}{set\+P\+I
 \item 
 void \mbox{\hyperlink{classLifxBulb_a09bec6d502507969a8f2997d93337452}{set\+V\+ID}} (uint32\+\_\+t vid)
 \item 
-\mbox{\Hypertarget{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}\label{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}} 
-void {\bfseries set\+Product} (Q\+Json\+Object \&obj)
+void \mbox{\hyperlink{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}{set\+Product}} (Q\+Json\+Object \&obj)
 \item 
 void \mbox{\hyperlink{classLifxBulb_a0156aac75b4d939a2ce59032bbc6ce18}{set\+Discovery\+Active}} (bool discovery)
 \begin{DoxyCompactList}\small\item\em True if we are in discovery, false if the bulb is ready to use. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classLifxBulb_afa72129f42aa10ceb176d9c30fb83e58}\label{classLifxBulb_afa72129f42aa10ceb176d9c30fb83e58}} 
-Q\+Host\+Address \& {\bfseries address} ()
-\item 
-\mbox{\Hypertarget{classLifxBulb_ac02b2aaa824d4531337389b279e66d7c}\label{classLifxBulb_ac02b2aaa824d4531337389b279e66d7c}} 
-uint8\+\_\+t {\bfseries service} () const
-\item 
-\mbox{\Hypertarget{classLifxBulb_a20f0f2b9177c9bb060e310f9e2a1b4be}\label{classLifxBulb_a20f0f2b9177c9bb060e310f9e2a1b4be}} 
-uint8\+\_\+t $\ast$ {\bfseries target} ()
-\item 
 uint64\+\_\+t \mbox{\hyperlink{classLifxBulb_a58112abeb62bf23334373e3badd8d589}{target\+As\+Long}} ()
-\item 
-\mbox{\Hypertarget{classLifxBulb_abff8917ce3d523336c50c5a8e9f6ba2e}\label{classLifxBulb_abff8917ce3d523336c50c5a8e9f6ba2e}} 
-uint32\+\_\+t {\bfseries port} () const
-\item 
-\mbox{\Hypertarget{classLifxBulb_ac7e62a545880ab19c7fd2a9ff29380b7}\label{classLifxBulb_ac7e62a545880ab19c7fd2a9ff29380b7}} 
-uint16\+\_\+t {\bfseries major} () const
-\item 
-\mbox{\Hypertarget{classLifxBulb_af189d2b3ca65852672f05cea1430a3c0}\label{classLifxBulb_af189d2b3ca65852672f05cea1430a3c0}} 
-uint16\+\_\+t {\bfseries minor} () const
-\item 
-\mbox{\Hypertarget{classLifxBulb_aa49b0833466b41ac47c502ccb6c5d2cd}\label{classLifxBulb_aa49b0833466b41ac47c502ccb6c5d2cd}} 
-Q\+String {\bfseries label} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Convienence function which turns the M\+AC into a number for indexing. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classLifxBulb_a8b071df5d5772c96a1bb810373317e8f}\label{classLifxBulb_a8b071df5d5772c96a1bb810373317e8f}} 
 uint16\+\_\+t {\bfseries power} () const
 \item 
@@ -136,6 +110,15 @@ The color is maintained in two places.
 \end{DoxyEnumerate}
 
 This library doesn\textquotesingle{}t keep the L\+I\+G\+H\+T\+\_\+\+S\+T\+A\+TE structure, but instead copies the contents into the S\+E\+T\+\_\+\+C\+O\+L\+OR structure and maintains that. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLifxBulb_a48ab2778b385fe465aac7ba7c6f54df0}\label{classLifxBulb_a48ab2778b385fe465aac7ba7c6f54df0}} 
+\index{LifxBulb@{LifxBulb}!LifxBulb@{LifxBulb}}
+\index{LifxBulb@{LifxBulb}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{LifxBulb()}{LifxBulb()}}
+{\footnotesize\ttfamily Lifx\+Bulb\+::\+Lifx\+Bulb (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default constructor. Sets the system to sensible defaults 
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classLifxBulb_a30513739e4686b2ee9b33e7056ce8dad}\label{classLifxBulb_a30513739e4686b2ee9b33e7056ce8dad}} 
@@ -356,7 +339,20 @@ The port will generally always be 57600, but this value is set as part of the re
 {\em power} & The 2 byte power value to be sent to the bulb\\
 \hline
 \end{DoxyParams}
-This is the power value to be used when sending an update to the bulb. \mbox{\Hypertarget{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}\label{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}} 
+This is the power value to be used when sending an update to the bulb. \mbox{\Hypertarget{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}\label{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}} 
+\index{LifxBulb@{LifxBulb}!setProduct@{setProduct}}
+\index{setProduct@{setProduct}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setProduct()}{setProduct()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Product (\begin{DoxyParamCaption}\item[{Q\+Json\+Object \&}]{obj }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & The J\+S\+ON object to parse to set the product capabilities\\
+\hline
+\end{DoxyParams}
+This will take an input object and assume it\textquotesingle{}s the object associated with the specific P\+ID we got in the S\+T\+A\+T\+E\+\_\+\+V\+E\+R\+S\+I\+ON message. It\textquotesingle{}s important to note that the library handles all parsing internally and it can only get here from the manager, and cannot be called directly.
+
+The output of this is udpates to what the bulb can do, along with a label to identify the specific type of bulb. \mbox{\Hypertarget{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}\label{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}} 
 \index{LifxBulb@{LifxBulb}!setService@{setService}}
 \index{setService@{setService}!LifxBulb@{LifxBulb}}
 \doxysubsubsection{\texorpdfstring{setService()}{setService()}}
@@ -394,6 +390,10 @@ Sets the V\+ID \mbox{\Hypertarget{classLifxBulb_a58112abeb62bf23334373e3badd8d58
 \index{targetAsLong@{targetAsLong}!LifxBulb@{LifxBulb}}
 \doxysubsubsection{\texorpdfstring{targetAsLong()}{targetAsLong()}}
 {\footnotesize\ttfamily uint64\+\_\+t Lifx\+Bulb\+::target\+As\+Long (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Convienence function which turns the M\+AC into a number for indexing. 
 
 \begin{DoxyReturn}{Returns}
 Returns the 64bit numeric representation of the mac address field

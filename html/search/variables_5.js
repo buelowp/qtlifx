@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vendor_121',['vendor',['../structlx__dev__version__t.html#aeb758c8d5a812dd9a15aea4bccf13e87',1,'lx_dev_version_t']]]
+  ['label_138',['label',['../structlx__dev__lightstate__t.html#a0b852ea6e7b30eeedb28c6f2d85210aa',1,'lx_dev_lightstate_t::label()'],['../structlx__group__info__t.html#ab707aa0e562cdff3208c4ec46f5ea20b',1,'lx_group_info_t::label()']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['product_34',['product',['../structlx__dev__version__t.html#a0f78caea23d04a1749612dc2c123cc9f',1,'lx_dev_version_t']]]
+  ['newpacket_39',['newPacket',['../classLifxManager.html#a0ffced614a6d49e9bffab104b2a6a968',1,'LifxManager']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['targetaslong_55',['targetAsLong',['../classLifxBulb.html#a58112abeb62bf23334373e3badd8d589',1,'LifxBulb']]],
-  ['timestamp_56',['timestamp',['../classLifxGroup.html#a0ed139c458a01218906208e49a5dde14',1,'LifxGroup']]],
-  ['todevicecolor_57',['toDeviceColor',['../classLifxBulb.html#aa1909c0082b9b499a6e959bd74c1f1be',1,'LifxBulb']]]
+  ['r1_45',['r1',['../structlx__dev__lightstate__t.html#acac03821405cd7db53f262fef75058be',1,'lx_dev_lightstate_t']]],
+  ['reserved_46',['reserved',['../structlx__dev__firmware__t.html#a68ecbbc1883678b3488ca3831e58346f',1,'lx_dev_firmware_t']]],
+  ['reserverd_47',['reserverd',['../structlx__dev__version__t.html#afe172cbb2a31118d13f9169d66f80c8c',1,'lx_dev_version_t']]]
 ];

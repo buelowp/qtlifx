@@ -1,21 +1,53 @@
 \hypertarget{structlx__dev__firmware__t}{}\doxysection{lx\+\_\+dev\+\_\+firmware\+\_\+t Struct Reference}
 \label{structlx__dev__firmware__t}\index{lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}}
+
+
+{\ttfamily \#include $<$defines.\+h$>$}
+
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structlx__dev__firmware__t_a435cfc4dffc33f270039f2548fa0f210}\label{structlx__dev__firmware__t_a435cfc4dffc33f270039f2548fa0f210}} 
-uint64\+\_\+t {\bfseries build}
+uint64\+\_\+t \mbox{\hyperlink{structlx__dev__firmware__t_a435cfc4dffc33f270039f2548fa0f210}{build}}
 \item 
-\mbox{\Hypertarget{structlx__dev__firmware__t_a68ecbbc1883678b3488ca3831e58346f}\label{structlx__dev__firmware__t_a68ecbbc1883678b3488ca3831e58346f}} 
-uint8\+\_\+t {\bfseries reserved} \mbox{[}8\mbox{]}
+uint8\+\_\+t \mbox{\hyperlink{structlx__dev__firmware__t_a68ecbbc1883678b3488ca3831e58346f}{reserved}} \mbox{[}8\mbox{]}
 \item 
-\mbox{\Hypertarget{structlx__dev__firmware__t_aba409ab36b5c1a1ccf4749b73cdf4bd1}\label{structlx__dev__firmware__t_aba409ab36b5c1a1ccf4749b73cdf4bd1}} 
-uint16\+\_\+t {\bfseries minor}
+uint16\+\_\+t \mbox{\hyperlink{structlx__dev__firmware__t_aba409ab36b5c1a1ccf4749b73cdf4bd1}{minor}}
 \item 
-\mbox{\Hypertarget{structlx__dev__firmware__t_a6c852dda58cd8dcc5886d9a8bcdf53c3}\label{structlx__dev__firmware__t_a6c852dda58cd8dcc5886d9a8bcdf53c3}} 
-uint16\+\_\+t {\bfseries major}
+uint16\+\_\+t \mbox{\hyperlink{structlx__dev__firmware__t_a6c852dda58cd8dcc5886d9a8bcdf53c3}{major}}
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+This is the state firmware payload returned from the bulb when G\+E\+T\+\_\+\+H\+O\+S\+T\+\_\+\+F\+I\+R\+M\+W\+A\+RE is requested.
+
+The firmware is dotted decimal, where the major is a different number for each bulb type, and the minor is the actual firmware revision. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structlx__dev__firmware__t_a435cfc4dffc33f270039f2548fa0f210}\label{structlx__dev__firmware__t_a435cfc4dffc33f270039f2548fa0f210}} 
+\index{lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}!build@{build}}
+\index{build@{build}!lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}}
+\doxysubsubsection{\texorpdfstring{build}{build}}
+{\footnotesize\ttfamily uint64\+\_\+t lx\+\_\+dev\+\_\+firmware\+\_\+t\+::build}
+
+Build time in millis \mbox{\Hypertarget{structlx__dev__firmware__t_a6c852dda58cd8dcc5886d9a8bcdf53c3}\label{structlx__dev__firmware__t_a6c852dda58cd8dcc5886d9a8bcdf53c3}} 
+\index{lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}!major@{major}}
+\index{major@{major}!lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}}
+\doxysubsubsection{\texorpdfstring{major}{major}}
+{\footnotesize\ttfamily uint16\+\_\+t lx\+\_\+dev\+\_\+firmware\+\_\+t\+::major}
+
+Major version number (x.\+yy where x is major) \mbox{\Hypertarget{structlx__dev__firmware__t_aba409ab36b5c1a1ccf4749b73cdf4bd1}\label{structlx__dev__firmware__t_aba409ab36b5c1a1ccf4749b73cdf4bd1}} 
+\index{lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}!minor@{minor}}
+\index{minor@{minor}!lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}}
+\doxysubsubsection{\texorpdfstring{minor}{minor}}
+{\footnotesize\ttfamily uint16\+\_\+t lx\+\_\+dev\+\_\+firmware\+\_\+t\+::minor}
+
+Minor version number (x.\+yy where yy is minor) \mbox{\Hypertarget{structlx__dev__firmware__t_a68ecbbc1883678b3488ca3831e58346f}\label{structlx__dev__firmware__t_a68ecbbc1883678b3488ca3831e58346f}} 
+\index{lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}!reserved@{reserved}}
+\index{reserved@{reserved}!lx\_dev\_firmware\_t@{lx\_dev\_firmware\_t}}
+\doxysubsubsection{\texorpdfstring{reserved}{reserved}}
+{\footnotesize\ttfamily uint8\+\_\+t lx\+\_\+dev\+\_\+firmware\+\_\+t\+::reserved\mbox{[}8\mbox{]}}
+
+Reserved bytes, not used by this library 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

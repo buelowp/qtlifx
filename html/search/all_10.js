@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['vendor_60',['vendor',['../structlx__dev__version__t.html#aeb758c8d5a812dd9a15aea4bccf13e87',1,'lx_dev_version_t']]]
+  ['targetaslong_69',['targetAsLong',['../classLifxBulb.html#a58112abeb62bf23334373e3badd8d589',1,'LifxBulb']]],
+  ['timestamp_70',['timestamp',['../classLifxGroup.html#a0ed139c458a01218906208e49a5dde14',1,'LifxGroup']]],
+  ['todevicecolor_71',['toDeviceColor',['../classLifxBulb.html#aa1909c0082b9b499a6e959bd74c1f1be',1,'LifxBulb']]]
 ];

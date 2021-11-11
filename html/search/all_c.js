@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['reserverd_36',['reserverd',['../structlx__dev__version__t.html#afe172cbb2a31118d13f9169d66f80c8c',1,'lx_dev_version_t']]]
+  ['port_41',['port',['../structlx__dev__service__t.html#a666409bebacb2a5006ee1a35c8ebb5fc',1,'lx_dev_service_t']]],
+  ['power_42',['power',['../structlx__dev__lightstate__t.html#a5f69b7569c178fea0dae62601865bc56',1,'lx_dev_lightstate_t::power()'],['../structlx__dev__power__t.html#afd61f74689e301b5731681aa136ed2b5',1,'lx_dev_power_t::power()']]],
+  ['product_43',['product',['../structlx__dev__version__t.html#a0f78caea23d04a1749612dc2c123cc9f',1,'lx_dev_version_t']]]
 ];
