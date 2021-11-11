@@ -1,0 +1,83 @@
+A comprehensive Qt5 based L\+I\+FX accessor library. The goal is to allow for simple A\+PI based access to all L\+I\+FX bulbs on a single network. This library uses the broadcast U\+DP solution published by L\+I\+FX linked below.
+
+This library is a simple asynchronous solution with a defined A\+PI. You can get and set bulb details individually or by group. You can change bulb colors independently or by group. Bulb discovery is automatic, and stateless. Once a bulb has been discovered and the new\+Bulb\+Available signal has been published, the bulb can be used by the application.
+
+This library provides a full abstraction. You don\textquotesingle{}t need to know anything about the bulbs or network to use it. Simply wire up the signals/slots to your code, and call initialize().
+
+The purpose of this library is simply to allow me to run a Christmas display that has both L\+I\+FX and Hue bulbs. There are currently some apps on phones/tablets than can do this, but getting both at the same time is complicated, expensive, and honestly, doesn\textquotesingle{}t work as well as I would like. I have both types of bulbs around my house, so being able to use them for displays is a priority for me.\hypertarget{index_autotoc_md1}{}\doxysection{B\+U\+I\+LD}\label{index_autotoc_md1}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git clone github.com:buelow/qtlifx.git}
+\DoxyCodeLine{mkdir build}
+\DoxyCodeLine{cd build}
+\DoxyCodeLine{cmake ..}
+\DoxyCodeLine{make}
+\DoxyCodeLine{make install}
+\end{DoxyCode}
+
+
+To use this in your library, simple add qtlifx to your link step\hypertarget{index_autotoc_md2}{}\doxysection{H\+O\+W\+TO}\label{index_autotoc_md2}
+See the example main.\+cpp in the examples directory, but it\textquotesingle{}s pretty simple to use.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{LifxManager *manager = new LifxManager();}
+\DoxyCodeLine{connect(manager, \&LifxManager::newBulbAvailable, this, \&Class::handleNewBulb);}
+\DoxyCodeLine{connect(manager, \&LifxManager::bulbDiscoveryFinished, this, \&Class::handleEndOfDiscovery);}
+\DoxyCodeLine{manager-\/>initialize();}
+\end{DoxyCode}
+
+
+Once you have received the bulb\+Discovery\+Finished(bulb) signal, that bulb has completed discovery and can be queried or set as needed. If you choose to provide the product definitions (see below), then each bulb includes all of the L\+I\+FX capabilities. Otherwise, some functions may not work as the lights are not assumed to support them by default.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{QFile file("products.json");}
+\DoxyCodeLine{if (!file.open())}
+\DoxyCodeLine{    handle\_error()}
+\DoxyCodeLine{QByteArray json = file.readAll();}
+\DoxyCodeLine{QJsonDocument doc = QJsonDocument::fromJson(json);}
+\DoxyCodeLine{if (doc.isObject())}
+\DoxyCodeLine{    manager-\/>setProductCapabilities(doc);}
+\end{DoxyCode}
+
+
+The entirety of this library revolves around two objects, the manager and a bulb. The manager is created by the application, and is what does the work. The bulb is the complete code representation of a L\+I\+FX product. Each of these should be treated as immutable and owned completely by the library.
+
+
+\begin{DoxyItemize}
+\item Do not delete a \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} in your code, bad things will happen.
+\item Do not try to change the contents of the maps, bad things will happen.
+\end{DoxyItemize}
+
+It is possible to query for bulbs in a variety of ways, and you can talk to them using a pointer to the object, the bulb name, the bulb group name, the bulb group U\+U\+ID, and the bulb M\+AC address.
+
+The L\+AN A\+PI is documented at \href{https://lan.developer.lifx.com/docs/introduction}{\texttt{ https\+://lan.\+developer.\+lifx.\+com/docs/introduction}}\hypertarget{index_autotoc_md3}{}\doxysection{P\+R\+O\+D\+U\+CT}\label{index_autotoc_md3}
+L\+I\+FX provides a J\+S\+ON document with all of their products identified by V\+I\+D/\+P\+ID. This document is pretty critical to a fully functioning library as each product has some caveats about what it can support versus what it cannot. The most important distinction is that some bulbs have different Kelvin min/max values. Without that decoded, the default is much smaller than what is possible, and you may lose some capabilities when trying to communicate with your bulbs.
+
+It is possible to set product capabilities prior to running initialize() or after. However, if done after, you will need to accept that getting a new\+Bulb\+Available() signal does not mean the bulb is ready to use. It {\itshape can} be used, but it will be lacking it\textquotesingle{}s full potential capabilities.
+
+You can get the products.\+json file from \href{https://github.com/LIFX/products}{\texttt{ https\+://github.\+com/\+L\+I\+F\+X/products}}\hypertarget{index_autotoc_md4}{}\doxysection{C\+O\+DE}\label{index_autotoc_md4}
+The headers are split between public and private, and only the public are installed. This is to avoid the potential of misusing the private A\+PI\textquotesingle{}s which don\textquotesingle{}t have a function outside of the manager class.
+
+It is possible to write your own manager, this code does nothing to stop that. But it\textquotesingle{}s structured to provide a simple clean solution, and avoid having to do the lifting on your own.\hypertarget{index_autotoc_md5}{}\doxysection{R\+E\+L\+E\+A\+SE}\label{index_autotoc_md5}
+
+\begin{DoxyItemize}
+\item A\+L\+P\+HA\+: Currently at alpha quality, and not ready for normal usage
+\end{DoxyItemize}\hypertarget{index_autotoc_md6}{}\doxysection{N\+O\+T\+ES}\label{index_autotoc_md6}
+
+\begin{DoxyItemize}
+\item The L\+I\+FX A\+PI is little endian (LE) or network byte order. This library currently assumes a LE C\+PU.
+\item This library will not work on R\+Pi or BE C\+PU for the above assumption. There is a plan to fix for all endianness, just not today.
+\item The A\+PI is still very early in development. It works for me, I don\textquotesingle{}t know that it will work for anyone else A\+TM. I\textquotesingle{}ll publish a release when I think it\textquotesingle{}s ready.
+\item This is a L\+AN library, and only works when local to the bulbs. It cannot be used outside the home network the bulbs are on.
+\item This library does not support zones or tiles yet. That may come in the future, but for now, I don\textquotesingle{}t have any to test against.
+\item The get/set A\+PI is incomplete still, and does not support a lot of the set functions provided by the L\+I\+FX A\+PI.
+\begin{DoxyItemize}
+\item e.\+g. reboot/set label/set group.
+\end{DoxyItemize}
+\item There is no push notifications here, the lights won\textquotesingle{}t tell us if someone else changes them.
+\begin{DoxyItemize}
+\item One solution is to query the lights every now and then to ask what\textquotesingle{}s going on. 
+\end{DoxyItemize}
+\end{DoxyItemize}

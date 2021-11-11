@@ -1,0 +1,109 @@
+\hypertarget{classLifxProtocol}{}\doxysection{Lifx\+Protocol Class Reference}
+\label{classLifxProtocol}\index{LifxProtocol@{LifxProtocol}}
+
+
+Inheritance diagram for Lifx\+Protocol\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{classLifxProtocol__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Lifx\+Protocol\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{classLifxProtocol__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxProtocol_ad1ef4233d3d4d248419bd91e2be9107d}\label{classLifxProtocol_ad1ef4233d3d4d248419bd91e2be9107d}} 
+void {\bfseries datagram\+Available} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_ac33afb2961e384378c527fe36722a3e5}\label{classLifxProtocol_ac33afb2961e384378c527fe36722a3e5}} 
+void {\bfseries discovery\+Failed} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a0886a8fff0a6a3fa7bd8a8a1cf67b0c3}\label{classLifxProtocol_a0886a8fff0a6a3fa7bd8a8a1cf67b0c3}} 
+void {\bfseries new\+Packet} (\mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} $\ast$packet)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a42a86aab97c107154825e85971f5ee6d}\label{classLifxProtocol_a42a86aab97c107154825e85971f5ee6d}} 
+{\bfseries Lifx\+Protocol} (Q\+Object $\ast$parent=nullptr)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a5f9292d9d793ccc203dfa5f3fbbd94cb}\label{classLifxProtocol_a5f9292d9d793ccc203dfa5f3fbbd94cb}} 
+{\bfseries Lifx\+Protocol} (const \mbox{\hyperlink{classLifxProtocol}{Lifx\+Protocol}} \&object)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a04156d5f96d19b7a09a80d4546ca2ffa}\label{classLifxProtocol_a04156d5f96d19b7a09a80d4546ca2ffa}} 
+void {\bfseries initialize} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a11d07eea9585ee13e61fccb1812c2252}\label{classLifxProtocol_a11d07eea9585ee13e61fccb1812c2252}} 
+qint64 {\bfseries discover} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a7719e274207dc173ec90b6912d899a9c}\label{classLifxProtocol_a7719e274207dc173ec90b6912d899a9c}} 
+\mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} $\ast$ {\bfseries next\+Packet} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_af4acce788275021a567ae3c5d1969c20}\label{classLifxProtocol_af4acce788275021a567ae3c5d1969c20}} 
+bool {\bfseries new\+Packet\+Available} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_ab2133d66c301365b3c24c7b10895043b}\label{classLifxProtocol_ab2133d66c301365b3c24c7b10895043b}} 
+\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ {\bfseries create\+New\+Bulb} ()
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a31b946459b6b547c9c166aed4b7729fb}\label{classLifxProtocol_a31b946459b6b547c9c166aed4b7729fb}} 
+void {\bfseries set\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_ad5c129a84d4678974b56115a9d8deb5c}\label{classLifxProtocol_ad5c129a84d4678974b56115a9d8deb5c}} 
+void {\bfseries set\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, Q\+Color color)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_ac5b9fc7e3191f0a23e06fc2bf44ded8b}\label{classLifxProtocol_ac5b9fc7e3191f0a23e06fc2bf44ded8b}} 
+void {\bfseries set\+Bulb\+State} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, bool state)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a54c42ff80cf74d3b2c7ebe700d0a804b}\label{classLifxProtocol_a54c42ff80cf74d3b2c7ebe700d0a804b}} 
+void {\bfseries set\+Group\+State} (\mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} $\ast$group, bool state)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a444f84e45008f2875511a97cff010676}\label{classLifxProtocol_a444f84e45008f2875511a97cff010676}} 
+void {\bfseries reboot\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a19cee82c1547407173c4bd6e1486da37}\label{classLifxProtocol_a19cee82c1547407173c4bd6e1486da37}} 
+void {\bfseries get\+Power\+For\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a21dd6536aa617304e4d4a95f0acfdc83}\label{classLifxProtocol_a21dd6536aa617304e4d4a95f0acfdc83}} 
+void {\bfseries get\+Label\+For\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_aad265b327156c34caf3398fce4413667}\label{classLifxProtocol_aad265b327156c34caf3398fce4413667}} 
+void {\bfseries get\+Version\+For\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_ab58ba5fd85309b2ff448c507c37cce3e}\label{classLifxProtocol_ab58ba5fd85309b2ff448c507c37cce3e}} 
+void {\bfseries get\+Firmware\+For\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a81f4ae1e3fa9202af9acc1bd1c1d165a}\label{classLifxProtocol_a81f4ae1e3fa9202af9acc1bd1c1d165a}} 
+void {\bfseries get\+Color\+For\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a2d917397bdf65bcbaf10d091ae8385d7}\label{classLifxProtocol_a2d917397bdf65bcbaf10d091ae8385d7}} 
+void {\bfseries get\+Group\+For\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxProtocol_a708fdc3d2d5d83f83422a14d498f39a1}\label{classLifxProtocol_a708fdc3d2d5d83f83422a14d498f39a1}} 
+static constexpr int {\bfseries L\+I\+F\+X\+\_\+\+P\+O\+RT} = 56700
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Slots}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxProtocol_afd4624cb44df2d4b9155886c13cceca5}\label{classLifxProtocol_afd4624cb44df2d4b9155886c13cceca5}} 
+void {\bfseries read\+Datagram} ()
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peter/\+Projects/qtlifx/public/lifxprotocol.\+h\item 
+/home/peter/\+Projects/qtlifx/src/lifxprotocol.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,321 @@
+\hypertarget{classLifxManager}{}\doxysection{Lifx\+Manager Class Reference}
+\label{classLifxManager}\index{LifxManager@{LifxManager}}
+
+
+Public interface to the L\+I\+FX bulbs.  
+
+
+
+
+{\ttfamily \#include $<$lifxmanager.\+h$>$}
+
+
+
+Inheritance diagram for Lifx\+Manager\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{classLifxManager__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Lifx\+Manager\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{classLifxManager__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLifxManager_aee8cbfbd666e757a865138a8ccd7878b}{discovery\+Failed}} ()
+\begin{DoxyCompactList}\small\item\em S\+L\+OT that is called when the discovery operation times out. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_a0ffced614a6d49e9bffab104b2a6a968}{new\+Packet}} (\mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} $\ast$packet)
+\begin{DoxyCompactList}\small\item\em S\+L\+OT called when a new packet arrives from the protocol manager. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_ab91722cd44106d9f19bf5487e4ae03aa}{change\+Bulb\+Color}} (Q\+String \&name, Q\+Color color)
+\begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_aa196ecf223922cae55cf47c2c23f5f39}{change\+Bulb\+Color}} (uint64\+\_\+t target, Q\+Color color)
+\begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLifxManager_a12907250f9190c60cec8f5b031a94cf8}\label{classLifxManager_a12907250f9190c60cec8f5b031a94cf8}} 
+void {\bfseries change\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, Q\+Color color)
+\item 
+void \mbox{\hyperlink{classLifxManager_acd8b165209b66dafd155aa5c9ca56812}{change\+Group\+Color}} (Q\+Byte\+Array \&uuid, Q\+Color color)
+\begin{DoxyCompactList}\small\item\em Sets the color of all bulbs in the group identified by uuid to color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_a5ec0da359c86f31cc466206177034ce1}{change\+Group\+State}} (Q\+Byte\+Array \&uuid, bool state)
+\begin{DoxyCompactList}\small\item\em Finds the group by uuid and attempts to either turn on or off each bulb. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_ac086081b7523c9bf63151a6d52cf26a8}{set\+Product\+Capabilities}} (Q\+Json\+Document \&doc)
+\begin{DoxyCompactList}\small\item\em Parses the products.\+json file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLifxManager_a73c1c7f7b1ea81a89ca62cd3df196a0b}\label{classLifxManager_a73c1c7f7b1ea81a89ca62cd3df196a0b}} 
+void {\bfseries change\+Bulb\+State} (Q\+String \&name, bool state)
+\item 
+\mbox{\Hypertarget{classLifxManager_a99c140f3da52f82de0184a0884661206}\label{classLifxManager_a99c140f3da52f82de0184a0884661206}} 
+void {\bfseries change\+Bulb\+State} (uint64\+\_\+t target, bool state)
+\item 
+\mbox{\Hypertarget{classLifxManager_acf1642abc232785cc8f79ca1250e5f0d}\label{classLifxManager_acf1642abc232785cc8f79ca1250e5f0d}} 
+void {\bfseries change\+Bulb\+State} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, bool state)
+\item 
+\mbox{\Hypertarget{classLifxManager_a8471799173030f1a7c46ffb574008dcb}\label{classLifxManager_a8471799173030f1a7c46ffb574008dcb}} 
+void {\bfseries reboot\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxManager_a2e96b4c19f28315593a58dcef62656c5}\label{classLifxManager_a2e96b4c19f28315593a58dcef62656c5}} 
+void {\bfseries reboot\+Bulb} (Q\+String \&name)
+\item 
+\mbox{\Hypertarget{classLifxManager_a99a5e127fe58d74ae7813fc9df9b7d22}\label{classLifxManager_a99a5e127fe58d74ae7813fc9df9b7d22}} 
+void {\bfseries reboot\+Bulb} (uint64\+\_\+t target)
+\item 
+\mbox{\Hypertarget{classLifxManager_a1a095125691bdb9d4dcd179b7e4524c6}\label{classLifxManager_a1a095125691bdb9d4dcd179b7e4524c6}} 
+void {\bfseries reboot\+Group} (Q\+Byte\+Array \&uuid)
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxManager_a585880d2928195a14da1f58634c78c9a}\label{classLifxManager_a585880d2928195a14da1f58634c78c9a}} 
+void {\bfseries bulb\+Discovery\+Finished} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxManager_aa79a4748e1c01c5ef93bcb38f676dc86}\label{classLifxManager_aa79a4748e1c01c5ef93bcb38f676dc86}} 
+void {\bfseries new\+Bulb\+Available} (Q\+String, uint64\+\_\+t)
+\item 
+\mbox{\Hypertarget{classLifxManager_af56726e86de1330be8fc7ba3cb128f25}\label{classLifxManager_af56726e86de1330be8fc7ba3cb128f25}} 
+void {\bfseries bulb\+State\+Changed} (Q\+String, uint64\+\_\+t)
+\item 
+\mbox{\Hypertarget{classLifxManager_a7a2eb723de618feafbe31bca4baafe79}\label{classLifxManager_a7a2eb723de618feafbe31bca4baafe79}} 
+void {\bfseries new\+Group\+Found} (Q\+String, Q\+Byte\+Array)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxManager_ab2c1fe13adb74ff77122a884cf0ab181}\label{classLifxManager_ab2c1fe13adb74ff77122a884cf0ab181}} 
+{\bfseries Lifx\+Manager} (Q\+Object $\ast$parent=nullptr)
+\item 
+\mbox{\Hypertarget{classLifxManager_a4b727762b98faabe9ef1771d2b1582ee}\label{classLifxManager_a4b727762b98faabe9ef1771d2b1582ee}} 
+{\bfseries Lifx\+Manager} (const \mbox{\hyperlink{classLifxManager}{Lifx\+Manager}} \&object)
+\item 
+\mbox{\Hypertarget{classLifxManager_a925e2e2b2d00fab3c6bd73034eaaa934}\label{classLifxManager_a925e2e2b2d00fab3c6bd73034eaaa934}} 
+void \mbox{\hyperlink{classLifxManager_a925e2e2b2d00fab3c6bd73034eaaa934}{initialize}} ()
+\begin{DoxyCompactList}\small\item\em S\+L\+OT which is called when the app wants to start talking to L\+I\+FX bulbs. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ \mbox{\hyperlink{classLifxManager_a4691d10e3834bab3c8b338b208415a0c}{get\+Bulb\+By\+Name}} (Q\+String \&name)
+\item 
+\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ \mbox{\hyperlink{classLifxManager_af645af1801cd93e12559301c95e53202}{get\+Bulb\+By\+Mac}} (uint64\+\_\+t target)
+\item 
+\mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} $\ast$ \mbox{\hyperlink{classLifxManager_aefc50b4a1ac8ae8545158a58e20375a2}{get\+Group\+By\+Name}} (Q\+String \&name)
+\begin{DoxyCompactList}\small\item\em Will look through the group map and if name exists, return that group container. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} $\ast$ \mbox{\hyperlink{classLifxManager_ac9a35cad25a28b9329fbc79bf9349865}{get\+Group\+By\+U\+U\+ID}} (Q\+Byte\+Array \&uuid)
+\begin{DoxyCompactList}\small\item\em Will look through the group map and if uuid exists, return that group container. \end{DoxyCompactList}\item 
+Q\+List$<$ \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ $>$ \mbox{\hyperlink{classLifxManager_acd71e9e2a159fc9591c5cf8cdf1338e8}{get\+Bulbs\+By\+P\+ID}} (int pid)
+\begin{DoxyCompactList}\small\item\em Get a list of bulbs that have the same product ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Public interface to the L\+I\+FX bulbs. 
+
+This is the brains, and does the heavy lifting. It creates the comms socket, and owns starting discovery and communicating with bulbs/groups/zones. All work done by an A\+PP should use the manager directly, and not attempt to work independently.
+
+Note, there is no state management here. Because the A\+PI is functionally stateless, it\textquotesingle{}s possible to ask a bulb to do something even if discovery is still going on. The first signal indicating a bulb is available is not sent until there is enough information to indicate that bulb can do something (label, version, firmware).
+
+There will be several signals sent over the course of discovery, and once complete, a complete message will be sent for each bulb. Note, there will be no overall complete message as it\textquotesingle{}s possible for bulbs to take longer to respond, and as such, it\textquotesingle{}s difficutl to determine if discovery is complete without a timeout. No such timeout will be done in the library, but it is possible to manage state in the application. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLifxManager_ab91722cd44106d9f19bf5487e4ae03aa}\label{classLifxManager_ab91722cd44106d9f19bf5487e4ae03aa}} 
+\index{LifxManager@{LifxManager}!changeBulbColor@{changeBulbColor}}
+\index{changeBulbColor@{changeBulbColor}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeBulbColor}{changeBulbColor}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Color (\begin{DoxyParamCaption}\item[{Q\+String \&}]{name,  }\item[{Q\+Color}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Sets the color of a single bulb to color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Q\+String name of the bulb being changed \\
+\hline
+{\em color} & New color to set the bulb to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_aa196ecf223922cae55cf47c2c23f5f39}\label{classLifxManager_aa196ecf223922cae55cf47c2c23f5f39}} 
+\index{LifxManager@{LifxManager}!changeBulbColor@{changeBulbColor}}
+\index{changeBulbColor@{changeBulbColor}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeBulbColor}{changeBulbColor}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Color (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{target,  }\item[{Q\+Color}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Sets the color of a single bulb to color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em target} & 64bit integer which has an encoded version of the M\+AC address \\
+\hline
+{\em color} & Q\+Color object containing the new color to set the bulb to\\
+\hline
+{\em bulb} & Pointer to \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} object \\
+\hline
+{\em color} & Q\+Color object containing the new color to set the bulb to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_acd8b165209b66dafd155aa5c9ca56812}\label{classLifxManager_acd8b165209b66dafd155aa5c9ca56812}} 
+\index{LifxManager@{LifxManager}!changeGroupColor@{changeGroupColor}}
+\index{changeGroupColor@{changeGroupColor}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeGroupColor}{changeGroupColor}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Group\+Color (\begin{DoxyParamCaption}\item[{Q\+Byte\+Array \&}]{uuid,  }\item[{Q\+Color}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Sets the color of all bulbs in the group identified by uuid to color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uuid} & The group U\+U\+ID to query for bulbs \\
+\hline
+{\em color} & The Q\+Color color to assign to the group \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_a5ec0da359c86f31cc466206177034ce1}\label{classLifxManager_a5ec0da359c86f31cc466206177034ce1}} 
+\index{LifxManager@{LifxManager}!changeGroupState@{changeGroupState}}
+\index{changeGroupState@{changeGroupState}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeGroupState}{changeGroupState}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Group\+State (\begin{DoxyParamCaption}\item[{Q\+Byte\+Array \&}]{uuid,  }\item[{bool}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Finds the group by uuid and attempts to either turn on or off each bulb. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uuid} & U\+U\+ID of the group to retrieve \\
+\hline
+{\em state} & Sets the bulbs in a group to O\+N/\+O\+FF based on state T\+R\+U\+E/\+F\+A\+L\+SE \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_aee8cbfbd666e757a865138a8ccd7878b}\label{classLifxManager_aee8cbfbd666e757a865138a8ccd7878b}} 
+\index{LifxManager@{LifxManager}!discoveryFailed@{discoveryFailed}}
+\index{discoveryFailed@{discoveryFailed}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{discoveryFailed}{discoveryFailed}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::discovery\+Failed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+S\+L\+OT that is called when the discovery operation times out. 
+
+This will be called if a timer is set by the Manager to limit how long we wait for discovery. This is better handled by the application \mbox{\Hypertarget{classLifxManager_af645af1801cd93e12559301c95e53202}\label{classLifxManager_af645af1801cd93e12559301c95e53202}} 
+\index{LifxManager@{LifxManager}!getBulbByMac@{getBulbByMac}}
+\index{getBulbByMac@{getBulbByMac}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{getBulbByMac()}{getBulbByMac()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ Lifx\+Manager\+::get\+Bulb\+By\+Mac (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{target }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em target} & 64bit integer which has an encoded version of the M\+AC address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the bulb if a bulb with target M\+AC is found, nullptr if no bulb exists 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxManager_a4691d10e3834bab3c8b338b208415a0c}\label{classLifxManager_a4691d10e3834bab3c8b338b208415a0c}} 
+\index{LifxManager@{LifxManager}!getBulbByName@{getBulbByName}}
+\index{getBulbByName@{getBulbByName}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{getBulbByName()}{getBulbByName()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ Lifx\+Manager\+::get\+Bulb\+By\+Name (\begin{DoxyParamCaption}\item[{Q\+String \&}]{name }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Q\+String name of the bulb being queried \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Retuns the bulb if a bulb with name is found, nullptr if no bulb exists 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxManager_acd71e9e2a159fc9591c5cf8cdf1338e8}\label{classLifxManager_acd71e9e2a159fc9591c5cf8cdf1338e8}} 
+\index{LifxManager@{LifxManager}!getBulbsByPID@{getBulbsByPID}}
+\index{getBulbsByPID@{getBulbsByPID}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{getBulbsByPID()}{getBulbsByPID()}}
+{\footnotesize\ttfamily Q\+List$<$ \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ $>$ Lifx\+Manager\+::get\+Bulbs\+By\+P\+ID (\begin{DoxyParamCaption}\item[{int}]{pid }\end{DoxyParamCaption})}
+
+
+
+Get a list of bulbs that have the same product ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pid} & Bulb product ID \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a list of bulbs by P\+ID, may be an empty set of P\+ID isn\textquotesingle{}t valid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxManager_aefc50b4a1ac8ae8545158a58e20375a2}\label{classLifxManager_aefc50b4a1ac8ae8545158a58e20375a2}} 
+\index{LifxManager@{LifxManager}!getGroupByName@{getGroupByName}}
+\index{getGroupByName@{getGroupByName}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{getGroupByName()}{getGroupByName()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} $\ast$ Lifx\+Manager\+::get\+Group\+By\+Name (\begin{DoxyParamCaption}\item[{Q\+String \&}]{name }\end{DoxyParamCaption})}
+
+
+
+Will look through the group map and if name exists, return that group container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the group to retrieve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a pointer to a \mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} object if name exists, nullptr otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxManager_ac9a35cad25a28b9329fbc79bf9349865}\label{classLifxManager_ac9a35cad25a28b9329fbc79bf9349865}} 
+\index{LifxManager@{LifxManager}!getGroupByUUID@{getGroupByUUID}}
+\index{getGroupByUUID@{getGroupByUUID}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{getGroupByUUID()}{getGroupByUUID()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} $\ast$ Lifx\+Manager\+::get\+Group\+By\+U\+U\+ID (\begin{DoxyParamCaption}\item[{Q\+Byte\+Array \&}]{uuid }\end{DoxyParamCaption})}
+
+
+
+Will look through the group map and if uuid exists, return that group container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uuid} & U\+U\+ID of the group to retrieve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a pointer to a \mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} object if name exists, nullptr otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxManager_a0ffced614a6d49e9bffab104b2a6a968}\label{classLifxManager_a0ffced614a6d49e9bffab104b2a6a968}} 
+\index{LifxManager@{LifxManager}!newPacket@{newPacket}}
+\index{newPacket@{newPacket}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{newPacket}{newPacket}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::new\+Packet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} $\ast$}]{packet }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+S\+L\+OT called when a new packet arrives from the protocol manager. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em packet} & Pointer to a \mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} container This handles the state messages and decodes the packets by stuffing them into a bulb container and emitting signals to indicate something happened. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_ac086081b7523c9bf63151a6d52cf26a8}\label{classLifxManager_ac086081b7523c9bf63151a6d52cf26a8}} 
+\index{LifxManager@{LifxManager}!setProductCapabilities@{setProductCapabilities}}
+\index{setProductCapabilities@{setProductCapabilities}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{setProductCapabilities}{setProductCapabilities}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::set\+Product\+Capabilities (\begin{DoxyParamCaption}\item[{Q\+Json\+Document \&}]{doc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Parses the products.\+json file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & Valid Q\+Json\+Document This function takes a reference to a valid and validated Q\+Json\+Document object. If this is not true, this function will fail. It will then parse the file either storing each object because bulb discovery hasn\textquotesingle{}t started or assigning the correct P\+ID content to a bulb because it\textquotesingle{}s being done after. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peter/\+Projects/qtlifx/public/lifxmanager.\+h\item 
+/home/peter/\+Projects/qtlifx/src/lifxmanager.\+cpp\end{DoxyCompactItemize}

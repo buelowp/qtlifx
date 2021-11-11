@@ -1,0 +1,136 @@
+\hypertarget{classLifxGroup}{}\doxysection{Lifx\+Group Class Reference}
+\label{classLifxGroup}\index{LifxGroup@{LifxGroup}}
+
+
+{\ttfamily \#include $<$lifxgroup.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxGroup_a0e92f873ea732ceef073eee55c62d838}\label{classLifxGroup_a0e92f873ea732ceef073eee55c62d838}} 
+{\bfseries Lifx\+Group} (Q\+String \mbox{\hyperlink{classLifxGroup_a97b6d6104cd66272fe4cf5b8c90780bc}{label}}, Q\+Byte\+Array \mbox{\hyperlink{classLifxGroup_a29eca78ef8f33c40c0c5ba2551cc85bd}{uuid}}, uint64\+\_\+t \mbox{\hyperlink{classLifxGroup_a0ed139c458a01218906208e49a5dde14}{timestamp}})
+\item 
+void \mbox{\hyperlink{classLifxGroup_a9373c8359bd6640dac42063a95dffdec}{add\+Bulb}} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\begin{DoxyCompactList}\small\item\em adds a bulb to this group \end{DoxyCompactList}\item 
+Q\+String \mbox{\hyperlink{classLifxGroup_a97b6d6104cd66272fe4cf5b8c90780bc}{label}} () const
+\begin{DoxyCompactList}\small\item\em Returns the group name. \end{DoxyCompactList}\item 
+Q\+Byte\+Array \mbox{\hyperlink{classLifxGroup_a29eca78ef8f33c40c0c5ba2551cc85bd}{uuid}} () const
+\begin{DoxyCompactList}\small\item\em This is the U\+U\+ID as returned by the query and is mostly used for M\+AP keys in this library. \end{DoxyCompactList}\item 
+uint64\+\_\+t \mbox{\hyperlink{classLifxGroup_a0ed139c458a01218906208e49a5dde14}{timestamp}} () const
+\begin{DoxyCompactList}\small\item\em This is the last time the group name was modified by someone as reported by the bulb. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classLifxGroup_a72d702600ca2620df6521c36be23950f}{size}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of bulbs in the group which is just the Q\+Vector size in this case. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classLifxGroup_a3cc816329d0345bbe7dcabf6909e2961}{contains}} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\begin{DoxyCompactList}\small\item\em Checks the group for a bulb, returns true if the bulb is in the group, false otherwise. \end{DoxyCompactList}\item 
+Q\+Vector$<$ \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ $>$ \& \mbox{\hyperlink{classLifxGroup_a670504303a5102124e05a6c7805ffd0f}{bulbs}} ()
+\begin{DoxyCompactList}\small\item\em Returns the bulbs list this group owns as a reference. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This is a container for a L\+I\+FX group. It is able to store and retrieve any bulb in the group and provides group details. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLifxGroup_a9373c8359bd6640dac42063a95dffdec}\label{classLifxGroup_a9373c8359bd6640dac42063a95dffdec}} 
+\index{LifxGroup@{LifxGroup}!addBulb@{addBulb}}
+\index{addBulb@{addBulb}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{addBulb()}{addBulb()}}
+{\footnotesize\ttfamily void Lifx\+Group\+::add\+Bulb (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$}]{bulb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+adds a bulb to this group 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bulb} & Pointer to a \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} class \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxGroup_a670504303a5102124e05a6c7805ffd0f}\label{classLifxGroup_a670504303a5102124e05a6c7805ffd0f}} 
+\index{LifxGroup@{LifxGroup}!bulbs@{bulbs}}
+\index{bulbs@{bulbs}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{bulbs()}{bulbs()}}
+{\footnotesize\ttfamily Q\+Vector$<$ \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ $>$ \& Lifx\+Group\+::bulbs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the bulbs list this group owns as a reference. 
+
+\begin{DoxyReturn}{Returns}
+The vector of bulbs in this group 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxGroup_a3cc816329d0345bbe7dcabf6909e2961}\label{classLifxGroup_a3cc816329d0345bbe7dcabf6909e2961}} 
+\index{LifxGroup@{LifxGroup}!contains@{contains}}
+\index{contains@{contains}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily bool Lifx\+Group\+::contains (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$}]{bulb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks the group for a bulb, returns true if the bulb is in the group, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}}} & pointer to a bulb \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A bool indicating whether a bulb is in the vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxGroup_a97b6d6104cd66272fe4cf5b8c90780bc}\label{classLifxGroup_a97b6d6104cd66272fe4cf5b8c90780bc}} 
+\index{LifxGroup@{LifxGroup}!label@{label}}
+\index{label@{label}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{label()}{label()}}
+{\footnotesize\ttfamily Q\+String Lifx\+Group\+::label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the group name. 
+
+\begin{DoxyReturn}{Returns}
+Q\+String group name 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxGroup_a72d702600ca2620df6521c36be23950f}\label{classLifxGroup_a72d702600ca2620df6521c36be23950f}} 
+\index{LifxGroup@{LifxGroup}!size@{size}}
+\index{size@{size}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily int Lifx\+Group\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the number of bulbs in the group which is just the Q\+Vector size in this case. 
+
+\begin{DoxyReturn}{Returns}
+An int size which is the number of bulbs in the group 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxGroup_a0ed139c458a01218906208e49a5dde14}\label{classLifxGroup_a0ed139c458a01218906208e49a5dde14}} 
+\index{LifxGroup@{LifxGroup}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{timestamp()}{timestamp()}}
+{\footnotesize\ttfamily uint64\+\_\+t Lifx\+Group\+::timestamp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This is the last time the group name was modified by someone as reported by the bulb. 
+
+\begin{DoxyReturn}{Returns}
+uint64\+\_\+t field containing the last modified timestamp from the bulb 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxGroup_a29eca78ef8f33c40c0c5ba2551cc85bd}\label{classLifxGroup_a29eca78ef8f33c40c0c5ba2551cc85bd}} 
+\index{LifxGroup@{LifxGroup}!uuid@{uuid}}
+\index{uuid@{uuid}!LifxGroup@{LifxGroup}}
+\doxysubsubsection{\texorpdfstring{uuid()}{uuid()}}
+{\footnotesize\ttfamily Q\+Byte\+Array Lifx\+Group\+::uuid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+This is the U\+U\+ID as returned by the query and is mostly used for M\+AP keys in this library. 
+
+\begin{DoxyReturn}{Returns}
+Returns the Q\+Byte\+Array U\+U\+ID assigned to this group 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peter/\+Projects/qtlifx/public/lifxgroup.\+h\item 
+/home/peter/\+Projects/qtlifx/src/lifxgroup.\+cpp\end{DoxyCompactItemize}

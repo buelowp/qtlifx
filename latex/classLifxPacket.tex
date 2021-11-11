@@ -1,0 +1,91 @@
+\hypertarget{classLifxPacket}{}\doxysection{Lifx\+Packet Class Reference}
+\label{classLifxPacket}\index{LifxPacket@{LifxPacket}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxPacket_a5255e0c97ffd0e35686e7c6df753521b}\label{classLifxPacket_a5255e0c97ffd0e35686e7c6df753521b}} 
+{\bfseries Lifx\+Packet} (const \mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} \&object)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a7e01d2871d4b1a865a3a4db1707849db}\label{classLifxPacket_a7e01d2871d4b1a865a3a4db1707849db}} 
+void {\bfseries make\+Discovery\+Packet} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_ab74d2a140f8d4cf3df18cf0e4617490a}\label{classLifxPacket_ab74d2a140f8d4cf3df18cf0e4617490a}} 
+void {\bfseries set\+Header} (const char $\ast$data)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a230ac8e5176e17a899b7686113763314}\label{classLifxPacket_a230ac8e5176e17a899b7686113763314}} 
+void {\bfseries set\+Payload} (Q\+Byte\+Array ba)
+\item 
+void \mbox{\hyperlink{classLifxPacket_ade2c4ad4b6f509ee4da9cd1b7b6fc3bb}{set\+Datagram}} (char $\ast$data, int len, Q\+Host\+Address \&addr, quint16 port)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a11de27ca4ca3567388e78d06915b6faa}\label{classLifxPacket_a11de27ca4ca3567388e78d06915b6faa}} 
+uint16\+\_\+t {\bfseries size} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_aee24c78be96e475273ed4e57381725b0}\label{classLifxPacket_aee24c78be96e475273ed4e57381725b0}} 
+uint16\+\_\+t {\bfseries type} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_a30e2be48328a37ed894aa45ef5cabb78}\label{classLifxPacket_a30e2be48328a37ed894aa45ef5cabb78}} 
+Q\+Host\+Address {\bfseries address} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_aad82132fd7283c1066c699e97fbdcee4}\label{classLifxPacket_aad82132fd7283c1066c699e97fbdcee4}} 
+Q\+Byte\+Array {\bfseries datagram} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_a06f67107bb20d060174bb40d4bf6e0ee}\label{classLifxPacket_a06f67107bb20d060174bb40d4bf6e0ee}} 
+Q\+Byte\+Array {\bfseries payload} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_a509d04744b4c1769cd324ccda6faebc2}\label{classLifxPacket_a509d04744b4c1769cd324ccda6faebc2}} 
+uint16\+\_\+t {\bfseries port} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_a7af08dec6c7b4cfd7350a78d9c540654}\label{classLifxPacket_a7af08dec6c7b4cfd7350a78d9c540654}} 
+uint8\+\_\+t $\ast$ {\bfseries target} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_a51f5a52a8b496724bc9793e23a43bd42}\label{classLifxPacket_a51f5a52a8b496724bc9793e23a43bd42}} 
+uint64\+\_\+t {\bfseries target\+As\+Long} ()
+\item 
+\mbox{\Hypertarget{classLifxPacket_ab5a043f33229894176135c8daabad6b9}\label{classLifxPacket_ab5a043f33229894176135c8daabad6b9}} 
+void {\bfseries get\+Bulb\+Power} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a2470dd8f38ee92eea303a387d9c08d25}\label{classLifxPacket_a2470dd8f38ee92eea303a387d9c08d25}} 
+void {\bfseries get\+Bulb\+Firmware} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a21aa4848acb314cba5d86c852c807203}\label{classLifxPacket_a21aa4848acb314cba5d86c852c807203}} 
+void {\bfseries get\+Bulb\+Label} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a38ea5a5199048a8c331e7af3cc4ef440}\label{classLifxPacket_a38ea5a5199048a8c331e7af3cc4ef440}} 
+void {\bfseries get\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a99fc468901f433fe5a8abe1afa7f43cd}\label{classLifxPacket_a99fc468901f433fe5a8abe1afa7f43cd}} 
+void {\bfseries get\+Bulb\+Group} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a4d298465c423ced697fbd365a8f58060}\label{classLifxPacket_a4d298465c423ced697fbd365a8f58060}} 
+void {\bfseries get\+Bulb\+Version} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_ac0d51e860788566b7288bee200e2ca79}\label{classLifxPacket_ac0d51e860788566b7288bee200e2ca79}} 
+void {\bfseries set\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_a0a1370e5d65e7fdb9b64e88f4951d182}\label{classLifxPacket_a0a1370e5d65e7fdb9b64e88f4951d182}} 
+void {\bfseries set\+Bulb\+Power} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\item 
+\mbox{\Hypertarget{classLifxPacket_afbe78baa979659ebb36c1814639a476d}\label{classLifxPacket_afbe78baa979659ebb36c1814639a476d}} 
+void {\bfseries reboot\+Bulb} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxPacket_a5ea6810a2d416403008d2628912063e5}\label{classLifxPacket_a5ea6810a2d416403008d2628912063e5}} 
+static constexpr int {\bfseries H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+ZE} = 36
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLifxPacket_ade2c4ad4b6f509ee4da9cd1b7b6fc3bb}\label{classLifxPacket_ade2c4ad4b6f509ee4da9cd1b7b6fc3bb}} 
+\index{LifxPacket@{LifxPacket}!setDatagram@{setDatagram}}
+\index{setDatagram@{setDatagram}!LifxPacket@{LifxPacket}}
+\doxysubsubsection{\texorpdfstring{setDatagram()}{setDatagram()}}
+{\footnotesize\ttfamily void Lifx\+Packet\+::set\+Datagram (\begin{DoxyParamCaption}\item[{char $\ast$}]{data,  }\item[{int}]{len,  }\item[{Q\+Host\+Address \&}]{addr,  }\item[{quint16}]{port }\end{DoxyParamCaption})}
+
+Currently, this only can accept individual commands Group requests will break everything 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peter/\+Projects/qtlifx/public/lifxpacket.\+h\item 
+/home/peter/\+Projects/qtlifx/src/lifxpacket.\+cpp\end{DoxyCompactItemize}

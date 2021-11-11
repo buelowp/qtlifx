@@ -1,0 +1,419 @@
+\hypertarget{classLifxBulb}{}\doxysection{Lifx\+Bulb Class Reference}
+\label{classLifxBulb}\index{LifxBulb@{LifxBulb}}
+
+
+Container class for a single bulb.  
+
+
+
+
+{\ttfamily \#include $<$lifxbulb.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLifxBulb_a420f98495539293f91192d0f14896c05}\label{classLifxBulb_a420f98495539293f91192d0f14896c05}} 
+{\bfseries Lifx\+Bulb} (const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&)=default
+\item 
+\mbox{\Hypertarget{classLifxBulb_a681759a74810c4ca9d5c5bbc498353bf}\label{classLifxBulb_a681759a74810c4ca9d5c5bbc498353bf}} 
+\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \& {\bfseries operator=} (const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&)=default
+\item 
+bool \mbox{\hyperlink{classLifxBulb_a11df29565994b27d93206fc50a3c3f66}{operator==}} (const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&bulb)
+\begin{DoxyCompactList}\small\item\em compares the internals of two light bulbs \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classLifxBulb_aac9f3d36bd8910af38a6fd4eb91b280c}{operator==}} (const uint8\+\_\+t $\ast$)
+\begin{DoxyCompactList}\small\item\em Checks to see if two classes are equal if they M\+AC is equal. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classLifxBulb_a8d8634ae9d5e7289cc934e48130809f1}{is\+On}} () const
+\begin{DoxyCompactList}\small\item\em If the bulb reports a power value, it\textquotesingle{}s considered ON. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxBulb_a309f9e9733b59ad258ad639f40fd2444}{set\+Address}} (Q\+Host\+Address address, uint32\+\_\+t port)
+\item 
+void \mbox{\hyperlink{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}{set\+Service}} (uint8\+\_\+t service)
+\item 
+void \mbox{\hyperlink{classLifxBulb_aab68b786be241e44025665ced7d256f8}{set\+Port}} (uint32\+\_\+t port)
+\item 
+void \mbox{\hyperlink{classLifxBulb_aae0d3c713eb512a046ec1efa5af3229d}{set\+Target}} (uint8\+\_\+t $\ast$target)
+\item 
+void \mbox{\hyperlink{classLifxBulb_ac2ac79d2f8b480461767a64e4cf4ab09}{set\+Major}} (uint16\+\_\+t major)
+\item 
+void \mbox{\hyperlink{classLifxBulb_af4c91e73077e5c533ee365fef55d2005}{set\+Minor}} (uint16\+\_\+t minor)
+\item 
+void \mbox{\hyperlink{classLifxBulb_a2e8240133ad913f9f7f8c40026aa51cd}{set\+Label}} (Q\+String label)
+\item 
+void \mbox{\hyperlink{classLifxBulb_ad4c5091b2dcf337990c0f9febf367e0d}{set\+Power}} (uint16\+\_\+t power)
+\item 
+void \mbox{\hyperlink{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}{set\+Dev\+Color}} (\mbox{\hyperlink{structlx__dev__lightstate__t}{lx\+\_\+dev\+\_\+lightstate\+\_\+t}} $\ast$color)
+\item 
+void \mbox{\hyperlink{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}{set\+Color}} (Q\+Color \&color)
+\item 
+void \mbox{\hyperlink{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}{set\+Kelvin}} (uint16\+\_\+t kelvin)
+\begin{DoxyCompactList}\small\item\em Sets the kelvin value this bulb will use when a new command is sent. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxBulb_a9010bebd9d12e527289a3960442715b4}{set\+Duration}} (uint32\+\_\+t duration)
+\begin{DoxyCompactList}\small\item\em Sets a duration for set functions which require it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}\label{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}} 
+void {\bfseries set\+Group} (Q\+String group)
+\item 
+void \mbox{\hyperlink{classLifxBulb_a457ec2bddf6b7d8132df1fbf4fc0c05c}{set\+P\+ID}} (uint32\+\_\+t pid)
+\item 
+void \mbox{\hyperlink{classLifxBulb_a09bec6d502507969a8f2997d93337452}{set\+V\+ID}} (uint32\+\_\+t vid)
+\item 
+\mbox{\Hypertarget{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}\label{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}} 
+void {\bfseries set\+Product} (Q\+Json\+Object \&obj)
+\item 
+void \mbox{\hyperlink{classLifxBulb_a0156aac75b4d939a2ce59032bbc6ce18}{set\+Discovery\+Active}} (bool discovery)
+\begin{DoxyCompactList}\small\item\em True if we are in discovery, false if the bulb is ready to use. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLifxBulb_afa72129f42aa10ceb176d9c30fb83e58}\label{classLifxBulb_afa72129f42aa10ceb176d9c30fb83e58}} 
+Q\+Host\+Address \& {\bfseries address} ()
+\item 
+\mbox{\Hypertarget{classLifxBulb_ac02b2aaa824d4531337389b279e66d7c}\label{classLifxBulb_ac02b2aaa824d4531337389b279e66d7c}} 
+uint8\+\_\+t {\bfseries service} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_a20f0f2b9177c9bb060e310f9e2a1b4be}\label{classLifxBulb_a20f0f2b9177c9bb060e310f9e2a1b4be}} 
+uint8\+\_\+t $\ast$ {\bfseries target} ()
+\item 
+uint64\+\_\+t \mbox{\hyperlink{classLifxBulb_a58112abeb62bf23334373e3badd8d589}{target\+As\+Long}} ()
+\item 
+\mbox{\Hypertarget{classLifxBulb_abff8917ce3d523336c50c5a8e9f6ba2e}\label{classLifxBulb_abff8917ce3d523336c50c5a8e9f6ba2e}} 
+uint32\+\_\+t {\bfseries port} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_ac7e62a545880ab19c7fd2a9ff29380b7}\label{classLifxBulb_ac7e62a545880ab19c7fd2a9ff29380b7}} 
+uint16\+\_\+t {\bfseries major} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_af189d2b3ca65852672f05cea1430a3c0}\label{classLifxBulb_af189d2b3ca65852672f05cea1430a3c0}} 
+uint16\+\_\+t {\bfseries minor} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_aa49b0833466b41ac47c502ccb6c5d2cd}\label{classLifxBulb_aa49b0833466b41ac47c502ccb6c5d2cd}} 
+Q\+String {\bfseries label} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_a8b071df5d5772c96a1bb810373317e8f}\label{classLifxBulb_a8b071df5d5772c96a1bb810373317e8f}} 
+uint16\+\_\+t {\bfseries power} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_a4c47931142e6d9b995ab0b3aed783281}\label{classLifxBulb_a4c47931142e6d9b995ab0b3aed783281}} 
+uint16\+\_\+t {\bfseries brightness} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_a21eff3112db00033cca90d8b0f0f8da4}\label{classLifxBulb_a21eff3112db00033cca90d8b0f0f8da4}} 
+uint16\+\_\+t {\bfseries kelvin} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_abae676d9aba975a853bf039e2861933a}\label{classLifxBulb_abae676d9aba975a853bf039e2861933a}} 
+uint32\+\_\+t {\bfseries duration} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_adc320b37170e6696d1496a4292ab869c}\label{classLifxBulb_adc320b37170e6696d1496a4292ab869c}} 
+Q\+String {\bfseries group} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_abd3c6cb6413169c7491ac1a6f87c3f3b}\label{classLifxBulb_abd3c6cb6413169c7491ac1a6f87c3f3b}} 
+uint32\+\_\+t {\bfseries pid} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_a5ef899d8436f192ab967e5dc2e397d4c}\label{classLifxBulb_a5ef899d8436f192ab967e5dc2e397d4c}} 
+uint32\+\_\+t {\bfseries vid} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_abc684d50a114133daaea466d6363f70a}\label{classLifxBulb_abc684d50a114133daaea466d6363f70a}} 
+bool {\bfseries in\+Discovery} () const
+\item 
+\mbox{\Hypertarget{classLifxBulb_a7d4a02585d2379d5cfc18a0b32b17342}\label{classLifxBulb_a7d4a02585d2379d5cfc18a0b32b17342}} 
+Q\+Color {\bfseries color} () const
+\item 
+Q\+String \mbox{\hyperlink{classLifxBulb_a59707f82725f2b536071bde06c19ab58}{mac\+To\+String}} () const
+\item 
+Q\+String \mbox{\hyperlink{classLifxBulb_a30513739e4686b2ee9b33e7056ce8dad}{address\+To\+String}} (bool is\+I\+P\+V6) const
+\item 
+\mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} $\ast$ \mbox{\hyperlink{classLifxBulb_aa1909c0082b9b499a6e959bd74c1f1be}{to\+Device\+Color}} () const
+\begin{DoxyCompactList}\small\item\em Returns the device color struct to the caller. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Container class for a single bulb. 
+
+This class is just a container. It keeps all the details about a bulb that is returned from the physical device in one place. It is referenced for every command that may be sent to the physical bulb. Updating data here does not send that data to the physical bulb. That is done by the manager directly.
+
+L\+I\+FX defins colors to be H\+S\+BK, not H\+SV or R\+GB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature
+
+The K value is generally retrieved from the bulb and not used otherwise as it\textquotesingle{}s not clear how to interpret it using Qt5. The higher the K value, the bluer the color.
+
+This library substitutes B with V in the Q\+Color object and uses it directly as a replacement. At this time, I can\textquotesingle{}t find a difference, but it may change if I find a need.
+
+The color is maintained in two places.
+\begin{DoxyEnumerate}
+\item The Q\+Color object so it can be used with a Gui
+\item The Lifx color struct which is what is used to send to the bulb
+\end{DoxyEnumerate}
+
+This library doesn\textquotesingle{}t keep the L\+I\+G\+H\+T\+\_\+\+S\+T\+A\+TE structure, but instead copies the contents into the S\+E\+T\+\_\+\+C\+O\+L\+OR structure and maintains that. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLifxBulb_a30513739e4686b2ee9b33e7056ce8dad}\label{classLifxBulb_a30513739e4686b2ee9b33e7056ce8dad}} 
+\index{LifxBulb@{LifxBulb}!addressToString@{addressToString}}
+\index{addressToString@{addressToString}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{addressToString()}{addressToString()}}
+{\footnotesize\ttfamily Q\+String Lifx\+Bulb\+::address\+To\+String (\begin{DoxyParamCaption}\item[{bool}]{is\+I\+P\+V6 }\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+I\+P\+V6} & True if the returned address should include I\+P\+V6 content \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a Q\+String format of the I\+P\+V4/6 address
+\end{DoxyReturn}
+This will return a printable version of the Q\+Host\+Address for debug purposes \mbox{\Hypertarget{classLifxBulb_a8d8634ae9d5e7289cc934e48130809f1}\label{classLifxBulb_a8d8634ae9d5e7289cc934e48130809f1}} 
+\index{LifxBulb@{LifxBulb}!isOn@{isOn}}
+\index{isOn@{isOn}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{isOn()}{isOn()}}
+{\footnotesize\ttfamily bool Lifx\+Bulb\+::is\+On (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+If the bulb reports a power value, it\textquotesingle{}s considered ON. 
+
+\begin{DoxyReturn}{Returns}
+True if the bulb is on, False otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxBulb_a59707f82725f2b536071bde06c19ab58}\label{classLifxBulb_a59707f82725f2b536071bde06c19ab58}} 
+\index{LifxBulb@{LifxBulb}!macToString@{macToString}}
+\index{macToString@{macToString}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{macToString()}{macToString()}}
+{\footnotesize\ttfamily Q\+String Lifx\+Bulb\+::mac\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+Returns the M\+AC address as a human readable string
+\end{DoxyReturn}
+This is just debug formatting, and does not zero pad just yet \mbox{\Hypertarget{classLifxBulb_a11df29565994b27d93206fc50a3c3f66}\label{classLifxBulb_a11df29565994b27d93206fc50a3c3f66}} 
+\index{LifxBulb@{LifxBulb}!operator==@{operator==}}
+\index{operator==@{operator==}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Lifx\+Bulb\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} \&}]{bulb }\end{DoxyParamCaption})}
+
+
+
+compares the internals of two light bulbs 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bulb} & A reference to the bulb being compared \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns True if the bulbs are considered equal This will compare the M\+AC and the variable contents of a light bulb to determine if they are the same object. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLifxBulb_aac9f3d36bd8910af38a6fd4eb91b280c}\label{classLifxBulb_aac9f3d36bd8910af38a6fd4eb91b280c}} 
+\index{LifxBulb@{LifxBulb}!operator==@{operator==}}
+\index{operator==@{operator==}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Lifx\+Bulb\+::operator== (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{array }\end{DoxyParamCaption})}
+
+
+
+Checks to see if two classes are equal if they M\+AC is equal. 
+
+\begin{DoxyReturn}{Returns}
+Returns True if the M\+AC addresses are equal 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em array} & Pointer to a 6 byte mac address array This will O\+N\+LY compare the M\+AC addresses, and will consider the classes to be equal I\+FF the M\+AC values are the same. This does not prove the classes were constructed the same way. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_a309f9e9733b59ad258ad639f40fd2444}\label{classLifxBulb_a309f9e9733b59ad258ad639f40fd2444}} 
+\index{LifxBulb@{LifxBulb}!setAddress@{setAddress}}
+\index{setAddress@{setAddress}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setAddress()}{setAddress()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Address (\begin{DoxyParamCaption}\item[{Q\+Host\+Address}]{address,  }\item[{uint32\+\_\+t}]{port }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & The Q\+Host\+Address container with the IP that the bulb sent data from \\
+\hline
+{\em port} & The Port encoded in the S\+T\+A\+T\+E\+\_\+\+S\+E\+R\+V\+I\+CE reply\\
+\hline
+\end{DoxyParams}
+This will encode the IP address we use when communicating with this bulb individually. \mbox{\Hypertarget{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}\label{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}} 
+\index{LifxBulb@{LifxBulb}!setColor@{setColor}}
+\index{setColor@{setColor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Color (\begin{DoxyParamCaption}\item[{Q\+Color \&}]{color }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & A reference to a Q\+Color which contains the color we want to show\\
+\hline
+\end{DoxyParams}
+This will translate the Q\+Color values which are qreal between 0 and 1 as a percentage into a uint16\+\_\+t where the value is the percentage of the max uint16\+\_\+t range. Lifx bulbs use brightness, or H\+S\+BK (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn\textquotesingle{}t map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 $\ast$ .15\%) and then store that value into bulb color struct to be used when a command is sent. \mbox{\Hypertarget{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}\label{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}} 
+\index{LifxBulb@{LifxBulb}!setDevColor@{setDevColor}}
+\index{setDevColor@{setDevColor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setDevColor()}{setDevColor()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Dev\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlx__dev__lightstate__t}{lx\+\_\+dev\+\_\+lightstate\+\_\+t}} $\ast$}]{color }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & A pointer to a lightstate struct\\
+\hline
+\end{DoxyParams}
+This works a bit different than translating directly from a Q\+Color. It will store the original value into the m\+\_\+device\+Color member variable, but it will also set the m\+\_\+color Q\+Color object to the reasonable approximation values. The reasonable approx values are determined by finding the percentage of max for each value and using that as the qreal value which is then set into the Q\+Color. \mbox{\Hypertarget{classLifxBulb_a0156aac75b4d939a2ce59032bbc6ce18}\label{classLifxBulb_a0156aac75b4d939a2ce59032bbc6ce18}} 
+\index{LifxBulb@{LifxBulb}!setDiscoveryActive@{setDiscoveryActive}}
+\index{setDiscoveryActive@{setDiscoveryActive}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setDiscoveryActive()}{setDiscoveryActive()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Discovery\+Active (\begin{DoxyParamCaption}\item[{bool}]{discovery }\end{DoxyParamCaption})}
+
+
+
+True if we are in discovery, false if the bulb is ready to use. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em discovery} & bool indicating state of discovery operation for this bulb \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_a9010bebd9d12e527289a3960442715b4}\label{classLifxBulb_a9010bebd9d12e527289a3960442715b4}} 
+\index{LifxBulb@{LifxBulb}!setDuration@{setDuration}}
+\index{setDuration@{setDuration}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setDuration()}{setDuration()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Duration (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{duration }\end{DoxyParamCaption})}
+
+
+
+Sets a duration for set functions which require it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em duration} & A 32bit time value used to set a duration on the bulb \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}\label{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}} 
+\index{LifxBulb@{LifxBulb}!setKelvin@{setKelvin}}
+\index{setKelvin@{setKelvin}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setKelvin()}{setKelvin()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Kelvin (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{kelvin }\end{DoxyParamCaption})}
+
+
+
+Sets the kelvin value this bulb will use when a new command is sent. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kelvin} & A 2 byte number which represents the kelvin value for the color being shown (higher is bluer) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_a2e8240133ad913f9f7f8c40026aa51cd}\label{classLifxBulb_a2e8240133ad913f9f7f8c40026aa51cd}} 
+\index{LifxBulb@{LifxBulb}!setLabel@{setLabel}}
+\index{setLabel@{setLabel}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setLabel()}{setLabel()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Label (\begin{DoxyParamCaption}\item[{Q\+String}]{label }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em label} & Q\+String container for the name of this bulb as returned from the physical bulb \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_ac2ac79d2f8b480461767a64e4cf4ab09}\label{classLifxBulb_ac2ac79d2f8b480461767a64e4cf4ab09}} 
+\index{LifxBulb@{LifxBulb}!setMajor@{setMajor}}
+\index{setMajor@{setMajor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setMajor()}{setMajor()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Major (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{major }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em major} & 16bit major version number as returned from the physical bulb \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_af4c91e73077e5c533ee365fef55d2005}\label{classLifxBulb_af4c91e73077e5c533ee365fef55d2005}} 
+\index{LifxBulb@{LifxBulb}!setMinor@{setMinor}}
+\index{setMinor@{setMinor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setMinor()}{setMinor()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Minor (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{minor }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em minor} & 16bit minor version number as returned from the physical bulb \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_a457ec2bddf6b7d8132df1fbf4fc0c05c}\label{classLifxBulb_a457ec2bddf6b7d8132df1fbf4fc0c05c}} 
+\index{LifxBulb@{LifxBulb}!setPID@{setPID}}
+\index{setPID@{setPID}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setPID()}{setPID()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+P\+ID (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pid }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em pid} & Product ID for this bulb\\
+\hline
+\end{DoxyParams}
+Sets the P\+ID \mbox{\Hypertarget{classLifxBulb_aab68b786be241e44025665ced7d256f8}\label{classLifxBulb_aab68b786be241e44025665ced7d256f8}} 
+\index{LifxBulb@{LifxBulb}!setPort@{setPort}}
+\index{setPort@{setPort}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setPort()}{setPort()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Port (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{port }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & The IP port value used when communicating with this device\\
+\hline
+\end{DoxyParams}
+The port will generally always be 57600, but this value is set as part of the reply from the bulb in the S\+T\+A\+T\+E\+\_\+\+S\+E\+R\+V\+I\+CE message, and is not assumed to be the default port. \mbox{\Hypertarget{classLifxBulb_ad4c5091b2dcf337990c0f9febf367e0d}\label{classLifxBulb_ad4c5091b2dcf337990c0f9febf367e0d}} 
+\index{LifxBulb@{LifxBulb}!setPower@{setPower}}
+\index{setPower@{setPower}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setPower()}{setPower()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Power (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{power }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em power} & The 2 byte power value to be sent to the bulb\\
+\hline
+\end{DoxyParams}
+This is the power value to be used when sending an update to the bulb. \mbox{\Hypertarget{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}\label{classLifxBulb_aeb17ea453e7dc7a7e30915dad14e155e}} 
+\index{LifxBulb@{LifxBulb}!setService@{setService}}
+\index{setService@{setService}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setService()}{setService()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Service (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{service }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em service} & The service value as defined by the L\+I\+FX protocol \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_aae0d3c713eb512a046ec1efa5af3229d}\label{classLifxBulb_aae0d3c713eb512a046ec1efa5af3229d}} 
+\index{LifxBulb@{LifxBulb}!setTarget@{setTarget}}
+\index{setTarget@{setTarget}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setTarget()}{setTarget()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Target (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{target }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em target} & Pointer to an 8 byte array containing the M\+AC as the first 6 bytes\\
+\hline
+\end{DoxyParams}
+The L\+I\+FX protocol uses 8 bytes for a M\+AC for whatever reason (uint64\+\_\+t) and encodes the M\+AC values as 6 2 byte parts of an 8 byte array. There is a distinction in this library between the M\+AC and the target. They are used somewhat interchangeably, but whenever communicating with the bulb (send/recv), the full 8 bytes are used. Whenever doing comparisons or providing human readable content, only the first 6 bytes are used. \mbox{\Hypertarget{classLifxBulb_a09bec6d502507969a8f2997d93337452}\label{classLifxBulb_a09bec6d502507969a8f2997d93337452}} 
+\index{LifxBulb@{LifxBulb}!setVID@{setVID}}
+\index{setVID@{setVID}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setVID()}{setVID()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+V\+ID (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{pid }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em pid} & Product ID for this bulb\\
+\hline
+\end{DoxyParams}
+Sets the V\+ID \mbox{\Hypertarget{classLifxBulb_a58112abeb62bf23334373e3badd8d589}\label{classLifxBulb_a58112abeb62bf23334373e3badd8d589}} 
+\index{LifxBulb@{LifxBulb}!targetAsLong@{targetAsLong}}
+\index{targetAsLong@{targetAsLong}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{targetAsLong()}{targetAsLong()}}
+{\footnotesize\ttfamily uint64\+\_\+t Lifx\+Bulb\+::target\+As\+Long (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+Returns the 64bit numeric representation of the mac address field
+\end{DoxyReturn}
+This number is effectively a U\+U\+ID for the bulb and will be unique to each bulb. It is used internally as a Q\+Map key along with the bulb name as we may not have a bulb name at every point in the process. The bulbs should be handled by name by consumers of this A\+PI. \mbox{\Hypertarget{classLifxBulb_aa1909c0082b9b499a6e959bd74c1f1be}\label{classLifxBulb_aa1909c0082b9b499a6e959bd74c1f1be}} 
+\index{LifxBulb@{LifxBulb}!toDeviceColor@{toDeviceColor}}
+\index{toDeviceColor@{toDeviceColor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{toDeviceColor()}{toDeviceColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} $\ast$ Lifx\+Bulb\+::to\+Device\+Color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns the device color struct to the caller. 
+
+\begin{DoxyReturn}{Returns}
+Returns \mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} pointer 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peter/\+Projects/qtlifx/public/lifxbulb.\+h\item 
+/home/peter/\+Projects/qtlifx/src/lifxbulb.\+cpp\end{DoxyCompactItemize}
