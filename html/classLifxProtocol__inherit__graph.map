@@ -1,4 +1,4 @@
 <map id="LifxProtocol" name="LifxProtocol">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,104,107"/>
+<area shape="rect" id="node1" title="(PRIVATE) The UDP protocol manager for sending/receiving bulb data" alt="" coords="5,80,104,107"/>
 <area shape="rect" id="node2" title=" " alt="" coords="17,5,92,32"/>
 </map>

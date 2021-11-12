@@ -2,7 +2,17 @@
 \label{classLifxProtocol}\index{LifxProtocol@{LifxProtocol}}
 
 
-Inheritance diagram for Lifx\+Protocol\+:\nopagebreak
+(P\+R\+I\+V\+A\+TE) The U\+DP protocol manager for sending/receiving bulb data  
+
+
+
+
+{\ttfamily \#include $<$lifxprotocol.\+h$>$}
+
+
+
+Inheritance diagram for Lifx\+Protocol\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -11,7 +21,8 @@ Inheritance diagram for Lifx\+Protocol\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for Lifx\+Protocol\+:\nopagebreak
+Collaboration diagram for Lifx\+Protocol\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -100,6 +111,11 @@ static constexpr int {\bfseries L\+I\+F\+X\+\_\+\+P\+O\+RT} = 56700
 void {\bfseries read\+Datagram} ()
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+(P\+R\+I\+V\+A\+TE) The U\+DP protocol manager for sending/receiving bulb data 
+
+This class controls access to the bulbs over the wire. It used \mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} internally to create a header/payload to send and then decodes the incoming packet into a header and payload which can then be used to update a bulb or to provide state data to the application 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

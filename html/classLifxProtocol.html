@@ -71,12 +71,17 @@ $(function() {
 <div class="title">LifxProtocol Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>(PRIVATE) The UDP protocol manager for sending/receiving bulb data  
+ <a href="classLifxProtocol.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="lifxprotocol_8h_source.html">lifxprotocol.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for LifxProtocol:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLifxProtocol__inherit__graph.png" border="0" usemap="#LifxProtocol_inherit__map" alt="Inheritance graph"/></div>
 <map name="LifxProtocol_inherit__map" id="LifxProtocol_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,80,104,107"/>
+<area shape="rect" title="(PRIVATE) The UDP protocol manager for sending/receiving bulb data" alt="" coords="5,80,104,107"/>
 <area shape="rect" title=" " alt="" coords="17,5,92,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -85,7 +90,7 @@ Collaboration diagram for LifxProtocol:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLifxProtocol__coll__graph.png" border="0" usemap="#LifxProtocol_coll__map" alt="Collaboration graph"/></div>
 <map name="LifxProtocol_coll__map" id="LifxProtocol_coll__map">
-<area shape="rect" title=" " alt="" coords="5,80,104,107"/>
+<area shape="rect" title="(PRIVATE) The UDP protocol manager for sending/receiving bulb data" alt="" coords="5,80,104,107"/>
 <area shape="rect" title=" " alt="" coords="17,5,92,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -171,7 +176,10 @@ Protected Slots</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>readDatagram</b> ()</td></tr>
 <tr class="separator:afd4624cb44df2d4b9155886c13cceca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>(PRIVATE) The UDP protocol manager for sending/receiving bulb data </p>
+<p>This class controls access to the bulbs over the wire. It used <a class="el" href="classLifxPacket.html" title="(PRIVATE) This is an internal class to the library and should not be used by apps">LifxPacket</a> internally to create a header/payload to send and then decodes the incoming packet into a header and payload which can then be used to update a bulb or to provide state data to the application </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/peter/Projects/qtlifx/public/<a class="el" href="lifxprotocol_8h_source.html">lifxprotocol.h</a></li>
 <li>/home/peter/Projects/qtlifx/src/lifxprotocol.cpp</li>
 </ul>

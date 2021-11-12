@@ -147,69 +147,70 @@ $(function() {
 <div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="structlx__dev__version__t.html#afe172cbb2a31118d13f9169d66f80c8c">  152</a></span>&#160;    uint8_t reserverd[4];   </div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;} <a class="code" href="structlx__dev__version__t.html">lx_dev_version_t</a>;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html">  155</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    uint8_t reserved;</div>
-<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a0edbf0385f3c8ae8bd49abbbf435e149">  157</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a0edbf0385f3c8ae8bd49abbbf435e149">hue</a>;           </div>
-<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a30004ed8428840357994e18ecc3431d4">  158</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a30004ed8428840357994e18ecc3431d4">saturation</a>;    </div>
-<div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b">  159</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b">brightness</a>;    </div>
-<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a5af3576029f7e7345f4aa598f96ce4d9">  160</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a5af3576029f7e7345f4aa598f96ce4d9">kelvin</a>;        </div>
-<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35">  161</a></span>&#160;    uint32_t <a class="code" href="structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35">duration</a>;      </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;} <a class="code" href="structlx__dev__color__t.html">lx_dev_color_t</a>;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor">#pragma pack(pop)</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="keyword">namespace </span>LIFX_DEFINES {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">// Discovery</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_SERVICE = 2;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_SERVICE = 3;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="comment">// Device Queries</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_HOST_FIRMWARE = 14;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_HOST_FIRMWARE = 15;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_WIFI_INFO = 16;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_WIFI_INFO = 17;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_DEV_WIFI_FIRMWARE = 18;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_WIFI_FIRMWARE = 19;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_POWER = 20;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_POWER = 21;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_POWER = 22;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LABEL = 23;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_LABEL = 24;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LABEL = 25;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_VERSION = 32;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_VERSION = 33;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_INFO = 34;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_INFO = 35;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_REBOOT = 38;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LOCATION = 48;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_LOCATION = 49;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LOCATION = 50;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_GROUP = 51;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_GROUP = 52;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_GROUP = 53;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keyword">static</span> constexpr uint16_t ECHO_REQUEST = 58;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keyword">static</span> constexpr uint16_t ECHO_REPLY = 59;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">// LED Queries</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_COLOR = 101;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_COLOR = 102;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_WAVEFORM = 103;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keyword">static</span> constexpr uint16_t LIGHT_STATE = 107;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LIGHT_POWER = 116;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_LIGHT_POWER = 117;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LIGHT_POWER = 118;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_WAVEFORM_OPTIONAL = 119;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_IR = 120;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_IR = 122;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_IR = 121;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_HEV_CYCLE = 142;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_HEV_CYCLE = 143;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_HEV_CYCLE = 144;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_HEV_CYCLE_CONFIG = 145;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_HEV_CYCLE_CONFIG = 146;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_HEV_CYCLE_CONFIG = 147;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LAST_HEV_CYCLE_RESULT = 148;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LAST_HEV_CYCLE_RESULT = 149;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;};</div>
+<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html">  163</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    uint8_t reserved;</div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a0edbf0385f3c8ae8bd49abbbf435e149">  165</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a0edbf0385f3c8ae8bd49abbbf435e149">hue</a>;           </div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a30004ed8428840357994e18ecc3431d4">  166</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a30004ed8428840357994e18ecc3431d4">saturation</a>;    </div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b">  167</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b">brightness</a>;    </div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#a5af3576029f7e7345f4aa598f96ce4d9">  168</a></span>&#160;    uint16_t <a class="code" href="structlx__dev__color__t.html#a5af3576029f7e7345f4aa598f96ce4d9">kelvin</a>;        </div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35">  169</a></span>&#160;    uint32_t <a class="code" href="structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35">duration</a>;      </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;} <a class="code" href="structlx__dev__color__t.html">lx_dev_color_t</a>;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#pragma pack(pop)</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keyword">namespace </span>LIFX_DEFINES {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="comment">// Discovery</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_SERVICE = 2;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_SERVICE = 3;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="comment">// Device Queries</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_HOST_FIRMWARE = 14;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_HOST_FIRMWARE = 15;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_WIFI_INFO = 16;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_WIFI_INFO = 17;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_DEV_WIFI_FIRMWARE = 18;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_WIFI_FIRMWARE = 19;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_POWER = 20;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_POWER = 21;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_POWER = 22;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LABEL = 23;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_LABEL = 24;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LABEL = 25;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_VERSION = 32;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_VERSION = 33;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_INFO = 34;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_INFO = 35;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_REBOOT = 38;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LOCATION = 48;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_LOCATION = 49;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LOCATION = 50;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_GROUP = 51;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_GROUP = 52;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_GROUP = 53;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">static</span> constexpr uint16_t ECHO_REQUEST = 58;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keyword">static</span> constexpr uint16_t ECHO_REPLY = 59;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    </div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="comment">// LED Queries</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_COLOR = 101;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_COLOR = 102;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_WAVEFORM = 103;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keyword">static</span> constexpr uint16_t LIGHT_STATE = 107;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LIGHT_POWER = 116;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_LIGHT_POWER = 117;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LIGHT_POWER = 118;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_WAVEFORM_OPTIONAL = 119;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_IR = 120;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_IR = 122;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_IR = 121;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_HEV_CYCLE = 142;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_HEV_CYCLE = 143;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_HEV_CYCLE = 144;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_HEV_CYCLE_CONFIG = 145;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keyword">static</span> constexpr uint16_t SET_HEV_CYCLE_CONFIG = 146;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_HEV_CYCLE_CONFIG = 147;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">static</span> constexpr uint16_t GET_LAST_HEV_CYCLE_RESULT = 148;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">static</span> constexpr uint16_t STATE_LAST_HEV_CYCLE_RESULT = 149;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructlx__protocol__header__t_html_aa38817781afa8b438103bd9cbadde2c7"><div class="ttname"><a href="structlx__protocol__header__t.html#aa38817781afa8b438103bd9cbadde2c7">lx_protocol_header_t::size</a></div><div class="ttdeci">uint16_t size</div><div class="ttdef"><b>Definition:</b> defines.h:52</div></div>
 <div class="ttc" id="astructlx__dev__service__t_html"><div class="ttname"><a href="structlx__dev__service__t.html">lx_dev_service_t</a></div><div class="ttdoc">(PRIVATE) payload for a service state response from a bulb</div><div class="ttdef"><b>Definition:</b> defines.h:74</div></div>
@@ -219,14 +220,14 @@ $(function() {
 <div class="ttc" id="astructlx__dev__lightstate__t_html_a5f3cf8f44df022d41ad5ad15e0184e24"><div class="ttname"><a href="structlx__dev__lightstate__t.html#a5f3cf8f44df022d41ad5ad15e0184e24">lx_dev_lightstate_t::hue</a></div><div class="ttdeci">uint16_t hue</div><div class="ttdef"><b>Definition:</b> defines.h:92</div></div>
 <div class="ttc" id="astructlx__dev__power__t_html_afd61f74689e301b5731681aa136ed2b5"><div class="ttname"><a href="structlx__dev__power__t.html#afd61f74689e301b5731681aa136ed2b5">lx_dev_power_t::power</a></div><div class="ttdeci">uint16_t power</div><div class="ttdef"><b>Definition:</b> defines.h:128</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_a0eb02bab30f347c8318bbd69c18f20d6"><div class="ttname"><a href="structlx__protocol__header__t.html#a0eb02bab30f347c8318bbd69c18f20d6">lx_protocol_header_t::reserved3</a></div><div class="ttdeci">uint16_t reserved3</div><div class="ttdef"><b>Definition:</b> defines.h:66</div></div>
-<div class="ttc" id="astructlx__dev__color__t_html"><div class="ttname"><a href="structlx__dev__color__t.html">lx_dev_color_t</a></div><div class="ttdef"><b>Definition:</b> defines.h:155</div></div>
+<div class="ttc" id="astructlx__dev__color__t_html"><div class="ttname"><a href="structlx__dev__color__t.html">lx_dev_color_t</a></div><div class="ttdoc">(PRIVATE) The struct used to send color data to a bulb</div><div class="ttdef"><b>Definition:</b> defines.h:163</div></div>
 <div class="ttc" id="astructlx__dev__firmware__t_html_aba409ab36b5c1a1ccf4749b73cdf4bd1"><div class="ttname"><a href="structlx__dev__firmware__t.html#aba409ab36b5c1a1ccf4749b73cdf4bd1">lx_dev_firmware_t::minor</a></div><div class="ttdeci">uint16_t minor</div><div class="ttdef"><b>Definition:</b> defines.h:115</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_aef1e7c46e3abbaf7a060bb38bf6d4469"><div class="ttname"><a href="structlx__protocol__header__t.html#aef1e7c46e3abbaf7a060bb38bf6d4469">lx_protocol_header_t::type</a></div><div class="ttdeci">uint16_t type</div><div class="ttdef"><b>Definition:</b> defines.h:65</div></div>
 <div class="ttc" id="astructlx__dev__version__t_html_aeb758c8d5a812dd9a15aea4bccf13e87"><div class="ttname"><a href="structlx__dev__version__t.html#aeb758c8d5a812dd9a15aea4bccf13e87">lx_dev_version_t::vendor</a></div><div class="ttdeci">uint32_t vendor</div><div class="ttdef"><b>Definition:</b> defines.h:150</div></div>
-<div class="ttc" id="astructlx__dev__color__t_html_a0edbf0385f3c8ae8bd49abbbf435e149"><div class="ttname"><a href="structlx__dev__color__t.html#a0edbf0385f3c8ae8bd49abbbf435e149">lx_dev_color_t::hue</a></div><div class="ttdeci">uint16_t hue</div><div class="ttdef"><b>Definition:</b> defines.h:157</div></div>
+<div class="ttc" id="astructlx__dev__color__t_html_a0edbf0385f3c8ae8bd49abbbf435e149"><div class="ttname"><a href="structlx__dev__color__t.html#a0edbf0385f3c8ae8bd49abbbf435e149">lx_dev_color_t::hue</a></div><div class="ttdeci">uint16_t hue</div><div class="ttdef"><b>Definition:</b> defines.h:165</div></div>
 <div class="ttc" id="astructlx__dev__lightstate__t_html_a0a89b27f3571a6807039f31bde78da83"><div class="ttname"><a href="structlx__dev__lightstate__t.html#a0a89b27f3571a6807039f31bde78da83">lx_dev_lightstate_t::saturation</a></div><div class="ttdeci">uint16_t saturation</div><div class="ttdef"><b>Definition:</b> defines.h:93</div></div>
 <div class="ttc" id="astructlx__dev__power__t_html"><div class="ttname"><a href="structlx__dev__power__t.html">lx_dev_power_t</a></div><div class="ttdoc">(PRIVATE) Power state from a bulb</div><div class="ttdef"><b>Definition:</b> defines.h:127</div></div>
-<div class="ttc" id="astructlx__dev__color__t_html_aa68e394b00ffecfaa60671ce22536c35"><div class="ttname"><a href="structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35">lx_dev_color_t::duration</a></div><div class="ttdeci">uint32_t duration</div><div class="ttdef"><b>Definition:</b> defines.h:161</div></div>
+<div class="ttc" id="astructlx__dev__color__t_html_aa68e394b00ffecfaa60671ce22536c35"><div class="ttname"><a href="structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35">lx_dev_color_t::duration</a></div><div class="ttdeci">uint32_t duration</div><div class="ttdef"><b>Definition:</b> defines.h:169</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_a0164f13794ea00d3b92aa3bebdc1b212"><div class="ttname"><a href="structlx__protocol__header__t.html#a0164f13794ea00d3b92aa3bebdc1b212">lx_protocol_header_t::ack_required</a></div><div class="ttdeci">uint8_t ack_required</div><div class="ttdef"><b>Definition:</b> defines.h:61</div></div>
 <div class="ttc" id="astructlx__dev__firmware__t_html_a6c852dda58cd8dcc5886d9a8bcdf53c3"><div class="ttname"><a href="structlx__dev__firmware__t.html#a6c852dda58cd8dcc5886d9a8bcdf53c3">lx_dev_firmware_t::major</a></div><div class="ttdeci">uint16_t major</div><div class="ttdef"><b>Definition:</b> defines.h:116</div></div>
 <div class="ttc" id="astructlx__dev__version__t_html_a0f78caea23d04a1749612dc2c123cc9f"><div class="ttname"><a href="structlx__dev__version__t.html#a0f78caea23d04a1749612dc2c123cc9f">lx_dev_version_t::product</a></div><div class="ttdeci">uint32_t product</div><div class="ttdef"><b>Definition:</b> defines.h:151</div></div>
@@ -237,12 +238,12 @@ $(function() {
 <div class="ttc" id="astructlx__protocol__header__t_html_a52e08798864c440c473bbaa3d183716a"><div class="ttname"><a href="structlx__protocol__header__t.html#a52e08798864c440c473bbaa3d183716a">lx_protocol_header_t::tagged</a></div><div class="ttdeci">uint8_t tagged</div><div class="ttdef"><b>Definition:</b> defines.h:55</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_a3531628092387568a8dd604aa08c4245"><div class="ttname"><a href="structlx__protocol__header__t.html#a3531628092387568a8dd604aa08c4245">lx_protocol_header_t::protocol</a></div><div class="ttdeci">uint16_t protocol</div><div class="ttdef"><b>Definition:</b> defines.h:53</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_a78f8e6054594f3d7023284340e54d2a9"><div class="ttname"><a href="structlx__protocol__header__t.html#a78f8e6054594f3d7023284340e54d2a9">lx_protocol_header_t::sequence</a></div><div class="ttdeci">uint8_t sequence</div><div class="ttdef"><b>Definition:</b> defines.h:63</div></div>
-<div class="ttc" id="astructlx__dev__color__t_html_a0abffbd183bd8f1077e10742dbd3fc2b"><div class="ttname"><a href="structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b">lx_dev_color_t::brightness</a></div><div class="ttdeci">uint16_t brightness</div><div class="ttdef"><b>Definition:</b> defines.h:159</div></div>
+<div class="ttc" id="astructlx__dev__color__t_html_a0abffbd183bd8f1077e10742dbd3fc2b"><div class="ttname"><a href="structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b">lx_dev_color_t::brightness</a></div><div class="ttdeci">uint16_t brightness</div><div class="ttdef"><b>Definition:</b> defines.h:167</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_ad4060570d06724c507980ab1b5e91c3c"><div class="ttname"><a href="structlx__protocol__header__t.html#ad4060570d06724c507980ab1b5e91c3c">lx_protocol_header_t::reserved2</a></div><div class="ttdeci">uint64_t reserved2</div><div class="ttdef"><b>Definition:</b> defines.h:64</div></div>
 <div class="ttc" id="astructlx__dev__lightstate__t_html_a35a6decdd2faa122c9104c626b3ada59"><div class="ttname"><a href="structlx__dev__lightstate__t.html#a35a6decdd2faa122c9104c626b3ada59">lx_dev_lightstate_t::kelvin</a></div><div class="ttdeci">uint16_t kelvin</div><div class="ttdef"><b>Definition:</b> defines.h:95</div></div>
-<div class="ttc" id="astructlx__dev__color__t_html_a5af3576029f7e7345f4aa598f96ce4d9"><div class="ttname"><a href="structlx__dev__color__t.html#a5af3576029f7e7345f4aa598f96ce4d9">lx_dev_color_t::kelvin</a></div><div class="ttdeci">uint16_t kelvin</div><div class="ttdef"><b>Definition:</b> defines.h:160</div></div>
+<div class="ttc" id="astructlx__dev__color__t_html_a5af3576029f7e7345f4aa598f96ce4d9"><div class="ttname"><a href="structlx__dev__color__t.html#a5af3576029f7e7345f4aa598f96ce4d9">lx_dev_color_t::kelvin</a></div><div class="ttdeci">uint16_t kelvin</div><div class="ttdef"><b>Definition:</b> defines.h:168</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html_a57dc6a6c1a4c541db1b82cb99841f2eb"><div class="ttname"><a href="structlx__protocol__header__t.html#a57dc6a6c1a4c541db1b82cb99841f2eb">lx_protocol_header_t::origin</a></div><div class="ttdeci">uint8_t origin</div><div class="ttdef"><b>Definition:</b> defines.h:56</div></div>
-<div class="ttc" id="astructlx__dev__color__t_html_a30004ed8428840357994e18ecc3431d4"><div class="ttname"><a href="structlx__dev__color__t.html#a30004ed8428840357994e18ecc3431d4">lx_dev_color_t::saturation</a></div><div class="ttdeci">uint16_t saturation</div><div class="ttdef"><b>Definition:</b> defines.h:158</div></div>
+<div class="ttc" id="astructlx__dev__color__t_html_a30004ed8428840357994e18ecc3431d4"><div class="ttname"><a href="structlx__dev__color__t.html#a30004ed8428840357994e18ecc3431d4">lx_dev_color_t::saturation</a></div><div class="ttdeci">uint16_t saturation</div><div class="ttdef"><b>Definition:</b> defines.h:166</div></div>
 <div class="ttc" id="astructlx__dev__version__t_html"><div class="ttname"><a href="structlx__dev__version__t.html">lx_dev_version_t</a></div><div class="ttdoc">(PRIVATE) VID and PID from the bulb</div><div class="ttdef"><b>Definition:</b> defines.h:149</div></div>
 <div class="ttc" id="astructlx__dev__service__t_html_a666409bebacb2a5006ee1a35c8ebb5fc"><div class="ttname"><a href="structlx__dev__service__t.html#a666409bebacb2a5006ee1a35c8ebb5fc">lx_dev_service_t::port</a></div><div class="ttdeci">uint32_t port</div><div class="ttdef"><b>Definition:</b> defines.h:76</div></div>
 <div class="ttc" id="astructlx__dev__firmware__t_html_a435cfc4dffc33f270039f2548fa0f210"><div class="ttname"><a href="structlx__dev__firmware__t.html#a435cfc4dffc33f270039f2548fa0f210">lx_dev_firmware_t::build</a></div><div class="ttdeci">uint64_t build</div><div class="ttdef"><b>Definition:</b> defines.h:113</div></div>
