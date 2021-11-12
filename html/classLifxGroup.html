@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>(PUBLIC) Lifx Group container  
+ <a href="classLifxGroup.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="lifxgroup_8h_source.html">lifxgroup.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -99,7 +102,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a670504303a5102124e05a6c7805ffd0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This is a container for a LIFX group. It is able to store and retrieve any bulb in the group and provides group details. </p>
+<div class="textblock"><p>(PUBLIC) Lifx Group container </p>
+<p>This is a container for a LIFX group. It is able to store and retrieve any bulb in the group and provides group details. Access to the individual bulbs then is possible by asking for a bulb pointer and referencing it's content. This is the same pointer used by the manager class and can be used the same way. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a9373c8359bd6640dac42063a95dffdec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9373c8359bd6640dac42063a95dffdec">&#9670;&nbsp;</a></span>addBulb()</h2>
@@ -128,7 +132,7 @@ Public Member Functions</h2></td></tr>
 <p>adds a bulb to this group </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">bulb</td><td>Pointer to a <a class="el" href="classLifxBulb.html" title="Container class for a single bulb.">LifxBulb</a> class </td></tr>
+    <tr><td class="paramname">bulb</td><td>Pointer to a <a class="el" href="classLifxBulb.html" title="(PUBLIC) Container/controller class for a LIFX bulb">LifxBulb</a> class </td></tr>
   </table>
   </dd>
 </dl>
@@ -190,7 +194,7 @@ Public Member Functions</h2></td></tr>
 <p>Checks the group for a bulb, returns true if the bulb is in the group, false otherwise. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"><a class="el" href="classLifxBulb.html" title="Container class for a single bulb.">LifxBulb</a></td><td>pointer to a bulb </td></tr>
+    <tr><td class="paramname"><a class="el" href="classLifxBulb.html" title="(PUBLIC) Container/controller class for a LIFX bulb">LifxBulb</a></td><td>pointer to a bulb </td></tr>
   </table>
   </dd>
 </dl>

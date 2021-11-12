@@ -2,6 +2,11 @@
 \label{structlx__dev__lightstate__t}\index{lx\_dev\_lightstate\_t@{lx\_dev\_lightstate\_t}}
 
 
+(P\+R\+I\+V\+A\+TE) Color response from a bulb  
+
+
+
+
 {\ttfamily \#include $<$defines.\+h$>$}
 
 \doxysubsection*{Public Attributes}
@@ -27,6 +32,8 @@ uint8\+\_\+t {\bfseries r2} \mbox{[}8\mbox{]}
 
 
 \doxysubsection{Detailed Description}
+(P\+R\+I\+V\+A\+TE) Color response from a bulb 
+
 This is the state container returned from the bulb when G\+E\+T\+\_\+\+C\+O\+L\+OR is requested. This struct will be parsed and stored as the color structure, which is what is sent.
 
 L\+I\+FX colors are H\+S\+BK, not H\+SV or R\+GB, so brightness here is V in H\+SV and Kelvin is generally left at 3500 for all operations, but can be changed. 

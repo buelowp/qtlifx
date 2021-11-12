@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['group_135',['group',['../structlx__group__info__t.html#a3c40924deade1662fe28b64148ce9b33',1,'lx_group_info_t']]]
+  ['duration_149',['duration',['../structlx__dev__color__t.html#aa68e394b00ffecfaa60671ce22536c35',1,'lx_dev_color_t']]]
 ];

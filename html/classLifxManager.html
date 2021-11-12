@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Public interface to the LIFX bulbs.  
+<p>(PUBLIC) Primary interface to the LIFX bulbs  
  <a href="classLifxManager.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="lifxmanager_8h_source.html">lifxmanager.h</a>&gt;</code></p>
@@ -80,7 +80,7 @@ Inheritance diagram for LifxManager:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLifxManager__inherit__graph.png" border="0" usemap="#LifxManager_inherit__map" alt="Inheritance graph"/></div>
 <map name="LifxManager_inherit__map" id="LifxManager_inherit__map">
-<area shape="rect" title="Public interface to the LIFX bulbs." alt="" coords="5,80,108,107"/>
+<area shape="rect" title="(PUBLIC) Primary interface to the LIFX bulbs" alt="" coords="5,80,108,107"/>
 <area shape="rect" title=" " alt="" coords="19,5,94,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -89,7 +89,7 @@ Collaboration diagram for LifxManager:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLifxManager__coll__graph.png" border="0" usemap="#LifxManager_coll__map" alt="Collaboration graph"/></div>
 <map name="LifxManager_coll__map" id="LifxManager_coll__map">
-<area shape="rect" title="Public interface to the LIFX bulbs." alt="" coords="5,80,108,107"/>
+<area shape="rect" title="(PUBLIC) Primary interface to the LIFX bulbs" alt="" coords="5,80,108,107"/>
 <area shape="rect" title=" " alt="" coords="19,5,94,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -184,7 +184,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:acd71e9e2a159fc9591c5cf8cdf1338e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Public interface to the LIFX bulbs. </p>
+<div class="textblock"><p>(PUBLIC) Primary interface to the LIFX bulbs </p>
 <p>This is the brains, and does the heavy lifting. It creates the comms socket, and owns starting discovery and communicating with bulbs/groups/zones. All work done by an APP should use the manager directly, and not attempt to work independently.</p>
 <p>Note, there is no state management here. Because the API is functionally stateless, it's possible to ask a bulb to do something even if discovery is still going on. The first signal indicating a bulb is available is not sent until there is enough information to indicate that bulb can do something (label, version, firmware).</p>
 <p>There will be several signals sent over the course of discovery, and once complete, a complete message will be sent for each bulb. Note, there will be no overall complete message as it's possible for bulbs to take longer to respond, and as such, it's difficutl to determine if discovery is complete without a timeout. No such timeout will be done in the library, but it is possible to manage state in the application. </p>
@@ -273,7 +273,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <table class="params">
     <tr><td class="paramname">target</td><td>64bit integer which has an encoded version of the MAC address </td></tr>
     <tr><td class="paramname">color</td><td>QColor object containing the new color to set the bulb to</td></tr>
-    <tr><td class="paramname">bulb</td><td>Pointer to <a class="el" href="classLifxBulb.html" title="Container class for a single bulb.">LifxBulb</a> object </td></tr>
+    <tr><td class="paramname">bulb</td><td>Pointer to <a class="el" href="classLifxBulb.html" title="(PUBLIC) Container/controller class for a LIFX bulb">LifxBulb</a> object </td></tr>
     <tr><td class="paramname">color</td><td>QColor object containing the new color to set the bulb to </td></tr>
   </table>
   </dd>
@@ -499,7 +499,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to a <a class="el" href="classLifxGroup.html">LifxGroup</a> object if name exists, nullptr otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to a <a class="el" href="classLifxGroup.html" title="(PUBLIC) Lifx Group container">LifxGroup</a> object if name exists, nullptr otherwise </dd></dl>
 
 </div>
 </div>
@@ -526,7 +526,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to a <a class="el" href="classLifxGroup.html">LifxGroup</a> object if name exists, nullptr otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to a <a class="el" href="classLifxGroup.html" title="(PUBLIC) Lifx Group container">LifxGroup</a> object if name exists, nullptr otherwise </dd></dl>
 
 </div>
 </div>
@@ -557,7 +557,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>SLOT called when a new packet arrives from the protocol manager. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">packet</td><td>Pointer to a <a class="el" href="classLifxPacket.html">LifxPacket</a> container This handles the state messages and decodes the packets by stuffing them into a bulb container and emitting signals to indicate something happened. </td></tr>
+    <tr><td class="paramname">packet</td><td>Pointer to a <a class="el" href="classLifxPacket.html" title="(PRIVATE) This is an internal class to the library and should not be used by apps">LifxPacket</a> container This handles the state messages and decodes the packets by stuffing them into a bulb container and emitting signals to indicate something happened. </td></tr>
   </table>
   </dd>
 </dl>

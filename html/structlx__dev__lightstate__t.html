@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>(PRIVATE) Color response from a bulb  
+ <a href="structlx__dev__lightstate__t.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="defines_8h_source.html">defines.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -92,7 +95,8 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>r2</b> [8]</td></t
 <tr class="separator:a420b451fdec2d2c054530eebae7666a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This is the state container returned from the bulb when GET_COLOR is requested. This struct will be parsed and stored as the color structure, which is what is sent.</p>
+<div class="textblock"><p>(PRIVATE) Color response from a bulb </p>
+<p>This is the state container returned from the bulb when GET_COLOR is requested. This struct will be parsed and stored as the color structure, which is what is sent.</p>
 <p>LIFX colors are HSBK, not HSV or RGB, so brightness here is V in HSV and Kelvin is generally left at 3500 for all operations, but can be changed. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="aa002d3bd03f2b558df3731701baac394"></a>

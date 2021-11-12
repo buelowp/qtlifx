@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['brightness_132',['brightness',['../structlx__dev__lightstate__t.html#aa002d3bd03f2b558df3731701baac394',1,'lx_dev_lightstate_t::brightness()'],['../structlx__dev__color__t.html#a0abffbd183bd8f1077e10742dbd3fc2b',1,'lx_dev_color_t::brightness()']]],
-  ['build_133',['build',['../structlx__dev__firmware__t.html#a435cfc4dffc33f270039f2548fa0f210',1,'lx_dev_firmware_t']]]
+  ['ack_5frequired_145',['ack_required',['../structlx__protocol__header__t.html#a0164f13794ea00d3b92aa3bebdc1b212',1,'lx_protocol_header_t']]],
+  ['addressable_146',['addressable',['../structlx__protocol__header__t.html#a8671081565e4c18118642a799fae87b6',1,'lx_protocol_header_t']]]
 ];

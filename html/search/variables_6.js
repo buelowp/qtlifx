@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['major_139',['major',['../structlx__dev__firmware__t.html#a6c852dda58cd8dcc5886d9a8bcdf53c3',1,'lx_dev_firmware_t']]],
-  ['minor_140',['minor',['../structlx__dev__firmware__t.html#aba409ab36b5c1a1ccf4749b73cdf4bd1',1,'lx_dev_firmware_t']]]
+  ['label_153',['label',['../structlx__dev__lightstate__t.html#a0b852ea6e7b30eeedb28c6f2d85210aa',1,'lx_dev_lightstate_t::label()'],['../structlx__group__info__t.html#ab707aa0e562cdff3208c4ec46f5ea20b',1,'lx_group_info_t::label()']]]
 ];

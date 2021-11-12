@@ -68,55 +68,274 @@ $(function() {
 <div class="title">lx_protocol_header_t Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>(PRIVATE) The header for all packets sent to/from a bulb.  
+ <a href="structlx__protocol__header__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="defines_8h_source.html">defines.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aa38817781afa8b438103bd9cbadde2c7"><td class="memItemLeft" align="right" valign="top"><a id="aa38817781afa8b438103bd9cbadde2c7"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
+<tr class="memitem:aa38817781afa8b438103bd9cbadde2c7"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#aa38817781afa8b438103bd9cbadde2c7">size</a></td></tr>
 <tr class="separator:aa38817781afa8b438103bd9cbadde2c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3531628092387568a8dd604aa08c4245"><td class="memItemLeft" align="right" valign="top"><a id="a3531628092387568a8dd604aa08c4245"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>protocol</b>:12</td></tr>
+<tr class="memitem:a3531628092387568a8dd604aa08c4245"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a3531628092387568a8dd604aa08c4245">protocol</a>:12</td></tr>
 <tr class="separator:a3531628092387568a8dd604aa08c4245"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8671081565e4c18118642a799fae87b6"><td class="memItemLeft" align="right" valign="top"><a id="a8671081565e4c18118642a799fae87b6"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>addressable</b>:1</td></tr>
+<tr class="memitem:a8671081565e4c18118642a799fae87b6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a8671081565e4c18118642a799fae87b6">addressable</a>:1</td></tr>
 <tr class="separator:a8671081565e4c18118642a799fae87b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52e08798864c440c473bbaa3d183716a"><td class="memItemLeft" align="right" valign="top"><a id="a52e08798864c440c473bbaa3d183716a"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>tagged</b>:1</td></tr>
+<tr class="memitem:a52e08798864c440c473bbaa3d183716a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a52e08798864c440c473bbaa3d183716a">tagged</a>:1</td></tr>
 <tr class="separator:a52e08798864c440c473bbaa3d183716a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57dc6a6c1a4c541db1b82cb99841f2eb"><td class="memItemLeft" align="right" valign="top"><a id="a57dc6a6c1a4c541db1b82cb99841f2eb"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>origin</b>:2</td></tr>
+<tr class="memitem:a57dc6a6c1a4c541db1b82cb99841f2eb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a57dc6a6c1a4c541db1b82cb99841f2eb">origin</a>:2</td></tr>
 <tr class="separator:a57dc6a6c1a4c541db1b82cb99841f2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2afa036f44255cba705999929679e713"><td class="memItemLeft" align="right" valign="top"><a id="a2afa036f44255cba705999929679e713"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>source</b></td></tr>
+<tr class="memitem:a2afa036f44255cba705999929679e713"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a2afa036f44255cba705999929679e713">source</a></td></tr>
 <tr class="separator:a2afa036f44255cba705999929679e713"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e5210fb0e870b01586d77a906b6e82d"><td class="memItemLeft" align="right" valign="top"><a id="a9e5210fb0e870b01586d77a906b6e82d"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>target</b> [8]</td></tr>
+<tr class="memitem:a9e5210fb0e870b01586d77a906b6e82d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a9e5210fb0e870b01586d77a906b6e82d">target</a> [8]</td></tr>
 <tr class="separator:a9e5210fb0e870b01586d77a906b6e82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5366ca8a942290ff608eeaa574c650ce"><td class="memItemLeft" align="right" valign="top"><a id="a5366ca8a942290ff608eeaa574c650ce"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>reserved</b> [6]</td></tr>
+<tr class="memitem:a5366ca8a942290ff608eeaa574c650ce"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a5366ca8a942290ff608eeaa574c650ce">reserved</a> [6]</td></tr>
 <tr class="separator:a5366ca8a942290ff608eeaa574c650ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd8dd36ca04d1849fda32b945d20dcc7"><td class="memItemLeft" align="right" valign="top"><a id="abd8dd36ca04d1849fda32b945d20dcc7"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>res_required</b>:1</td></tr>
+<tr class="memitem:abd8dd36ca04d1849fda32b945d20dcc7"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#abd8dd36ca04d1849fda32b945d20dcc7">res_required</a>:1</td></tr>
 <tr class="separator:abd8dd36ca04d1849fda32b945d20dcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0164f13794ea00d3b92aa3bebdc1b212"><td class="memItemLeft" align="right" valign="top"><a id="a0164f13794ea00d3b92aa3bebdc1b212"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>ack_required</b>:1</td></tr>
+<tr class="memitem:a0164f13794ea00d3b92aa3bebdc1b212"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a0164f13794ea00d3b92aa3bebdc1b212">ack_required</a>:1</td></tr>
 <tr class="separator:a0164f13794ea00d3b92aa3bebdc1b212"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a641f3d4f35e31965edd21e06bd674681"><td class="memItemLeft" align="right" valign="top"><a id="a641f3d4f35e31965edd21e06bd674681"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>__pad0__</b>:6</td></tr>
-<tr class="separator:a641f3d4f35e31965edd21e06bd674681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78f8e6054594f3d7023284340e54d2a9"><td class="memItemLeft" align="right" valign="top"><a id="a78f8e6054594f3d7023284340e54d2a9"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>sequence</b></td></tr>
+<tr class="memitem:af15fc5ed0c2bcb987840a6b0ed715181"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#af15fc5ed0c2bcb987840a6b0ed715181">reserved1</a>:6</td></tr>
+<tr class="separator:af15fc5ed0c2bcb987840a6b0ed715181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f8e6054594f3d7023284340e54d2a9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a78f8e6054594f3d7023284340e54d2a9">sequence</a></td></tr>
 <tr class="separator:a78f8e6054594f3d7023284340e54d2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf634c8f254c5367a94512d217d5ac98"><td class="memItemLeft" align="right" valign="top"><a id="aaf634c8f254c5367a94512d217d5ac98"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>reserved1</b></td></tr>
-<tr class="separator:aaf634c8f254c5367a94512d217d5ac98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef1e7c46e3abbaf7a060bb38bf6d4469"><td class="memItemLeft" align="right" valign="top"><a id="aef1e7c46e3abbaf7a060bb38bf6d4469"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
+<tr class="memitem:ad4060570d06724c507980ab1b5e91c3c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#ad4060570d06724c507980ab1b5e91c3c">reserved2</a></td></tr>
+<tr class="separator:ad4060570d06724c507980ab1b5e91c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef1e7c46e3abbaf7a060bb38bf6d4469"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#aef1e7c46e3abbaf7a060bb38bf6d4469">type</a></td></tr>
 <tr class="separator:aef1e7c46e3abbaf7a060bb38bf6d4469"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66ed4f8b2a106085f4093de2cad164a0"><td class="memItemLeft" align="right" valign="top"><a id="a66ed4f8b2a106085f4093de2cad164a0"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>reserved2</b></td></tr>
-<tr class="separator:a66ed4f8b2a106085f4093de2cad164a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb02bab30f347c8318bbd69c18f20d6"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlx__protocol__header__t.html#a0eb02bab30f347c8318bbd69c18f20d6">reserved3</a></td></tr>
+<tr class="separator:a0eb02bab30f347c8318bbd69c18f20d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>(PRIVATE) The header for all packets sent to/from a bulb. </p>
+<p>This is the LIFX header and is used internally for communication. Parts may be exposed by the <a class="el" href="classLifxBulb.html" title="(PUBLIC) Container/controller class for a LIFX bulb">LifxBulb</a> class, but overall, this isn't available for use by applications. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0164f13794ea00d3b92aa3bebdc1b212"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0164f13794ea00d3b92aa3bebdc1b212">&#9670;&nbsp;</a></span>ack_required</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::ack_required</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Indicates the bulb should be forced to ACK a message </p>
+
+</div>
+</div>
+<a id="a8671081565e4c18118642a799fae87b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8671081565e4c18118642a799fae87b6">&#9670;&nbsp;</a></span>addressable</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::addressable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Boolean indicating ? </p>
+
+</div>
+</div>
+<a id="a57dc6a6c1a4c541db1b82cb99841f2eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57dc6a6c1a4c541db1b82cb99841f2eb">&#9670;&nbsp;</a></span>origin</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::origin</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Origin flag </p>
+
+</div>
+</div>
+<a id="a3531628092387568a8dd604aa08c4245"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3531628092387568a8dd604aa08c4245">&#9670;&nbsp;</a></span>protocol</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t lx_protocol_header_t::protocol</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Protocol, currently hardcoded to 1024 </p>
+
+</div>
+</div>
+<a id="abd8dd36ca04d1849fda32b945d20dcc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd8dd36ca04d1849fda32b945d20dcc7">&#9670;&nbsp;</a></span>res_required</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::res_required</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Indicates the bulb should be forced to respond to a message </p>
+
+</div>
+</div>
+<a id="a5366ca8a942290ff608eeaa574c650ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5366ca8a942290ff608eeaa574c650ce">&#9670;&nbsp;</a></span>reserved</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::reserved[6]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reserved space, used by bulbs but not by this library </p>
+
+</div>
+</div>
+<a id="af15fc5ed0c2bcb987840a6b0ed715181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af15fc5ed0c2bcb987840a6b0ed715181">&#9670;&nbsp;</a></span>reserved1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::reserved1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reserved space, used by bulbs but not by this library </p>
+
+</div>
+</div>
+<a id="ad4060570d06724c507980ab1b5e91c3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4060570d06724c507980ab1b5e91c3c">&#9670;&nbsp;</a></span>reserved2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t lx_protocol_header_t::reserved2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reserved space, used by bulbs but not by this library </p>
+
+</div>
+</div>
+<a id="a0eb02bab30f347c8318bbd69c18f20d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eb02bab30f347c8318bbd69c18f20d6">&#9670;&nbsp;</a></span>reserved3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t lx_protocol_header_t::reserved3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reserved space, used by bulbs but not by this library </p>
+
+</div>
+</div>
+<a id="a78f8e6054594f3d7023284340e54d2a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f8e6054594f3d7023284340e54d2a9">&#9670;&nbsp;</a></span>sequence</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::sequence</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sequence indicator </p>
+
+</div>
+</div>
+<a id="aa38817781afa8b438103bd9cbadde2c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa38817781afa8b438103bd9cbadde2c7">&#9670;&nbsp;</a></span>size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t lx_protocol_header_t::size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Size of the entire packet </p>
+
+</div>
+</div>
+<a id="a2afa036f44255cba705999929679e713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2afa036f44255cba705999929679e713">&#9670;&nbsp;</a></span>source</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t lx_protocol_header_t::source</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>32bit number which is returned in kind, can be used to identify messages </p>
+
+</div>
+</div>
+<a id="a52e08798864c440c473bbaa3d183716a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52e08798864c440c473bbaa3d183716a">&#9670;&nbsp;</a></span>tagged</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::tagged</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Boolean indicating ? </p>
+
+</div>
+</div>
+<a id="a9e5210fb0e870b01586d77a906b6e82d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e5210fb0e870b01586d77a906b6e82d">&#9670;&nbsp;</a></span>target</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t lx_protocol_header_t::target[8]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MAC address as an uint64_t </p>
+
+</div>
+</div>
+<a id="aef1e7c46e3abbaf7a060bb38bf6d4469"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef1e7c46e3abbaf7a060bb38bf6d4469">&#9670;&nbsp;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t lx_protocol_header_t::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Message type as defined in the constexpr below </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/peter/Projects/qtlifx/public/<a class="el" href="defines_8h_source.html">defines.h</a></li>
 </ul>

@@ -69,7 +69,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Container class for a single bulb.  
+<p>(PUBLIC) Container/controller class for a LIFX bulb  
  <a href="classLifxBulb.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="lifxbulb_8h_source.html">lifxbulb.h</a>&gt;</code></p>
@@ -164,7 +164,7 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
 <tr class="separator:aa1909c0082b9b499a6e959bd74c1f1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Container class for a single bulb. </p>
+<div class="textblock"><p>(PUBLIC) Container/controller class for a LIFX bulb </p>
 <p>This class is just a container. It keeps all the details about a bulb that is returned from the physical device in one place. It is referenced for every command that may be sent to the physical bulb. Updating data here does not send that data to the physical bulb. That is done by the manager directly.</p>
 <p>LIFX defins colors to be HSBK, not HSV or RGB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature</p>
 <p>The K value is generally retrieved from the bulb and not used otherwise as it's not clear how to interpret it using Qt5. The higher the K value, the bluer the color.</p>
