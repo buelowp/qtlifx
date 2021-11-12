@@ -26,6 +26,13 @@
 #include "defines.h"
 #include "lifxbulb.h"
 
+/**
+ * \class LifxPacket
+ * \brief (PRIVATE) This is an internal class to the library and should not be used by apps
+ * 
+ * The packet object contains the payload to be sent over the wire. It is created by the
+ * protocol manager and destroyed in kind.
+ */
 class LifxPacket
 {
 public:

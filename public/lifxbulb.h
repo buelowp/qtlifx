@@ -30,7 +30,7 @@
 
 /**
  * \class LifxBulb
- * \brief Container class for a single bulb
+ * \brief (PUBLIC) Container/controller class for a LIFX bulb
  * 
  * This class is just a container. It keeps all the details about a bulb
  * that is returned from the physical device in one place. It is referenced
@@ -65,8 +65,6 @@ public:
     LifxBulb();
     ~LifxBulb() = default;
     
-    LifxBulb(const LifxBulb &) = default;
-    LifxBulb &operator=(const LifxBulb &) = default;
     bool operator==(const LifxBulb &bulb);
     bool operator==(const uint8_t*);
     
@@ -90,14 +88,14 @@ public:
     void setProduct(QJsonObject &obj);
     void setDiscoveryActive(bool discovery);
     
-    QHostAddress& address() { return m_address; }
-    uint8_t service() const { return m_service; }
-    uint8_t* target() { return m_target; }
-    uint64_t targetAsLong();
-    uint32_t port() const { return m_port; }
-    uint16_t major() const { return m_major; }
-    uint16_t minor() const { return m_minor; }
-    QString label() const { return m_label; }
+    QHostAddress& address() { return m_address; }   //!< Returns the IP address associated with this bulb
+    uint8_t service() const { return m_service; }   //!< Returns the service which was set by STATE_SERVICE
+    uint8_t* target() { return m_target; }          //!< Returns the MAC as an array of ints
+    uint64_t targetAsLong();                        //!< Convienence function which turns the MAC into a number for indexing
+    uint32_t port() const { return m_port; }        //!< Returns IP Port this bulb is listening to
+    uint16_t major() const { return m_major; }      //!< Returns the major part of the version #
+    uint16_t minor() const { return m_minor; }      //!< Returns the minor part of the version #
+    QString label() const { return m_label; }       //!< Returns the bulb name
     uint16_t power() const { return m_power; }
     uint16_t brightness() const { return m_deviceColor->brightness; }
     uint16_t kelvin() const { return m_deviceColor->kelvin; }

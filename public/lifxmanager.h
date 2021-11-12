@@ -29,7 +29,7 @@
 
 /**
  * \class LifxManager
- * \brief Public interface to the LIFX bulbs
+ * \brief (PUBLIC) Primary interface to the LIFX bulbs
  * 
  * This is the brains, and does the heavy lifting. It creates the
  * comms socket, and owns starting discovery and communicating

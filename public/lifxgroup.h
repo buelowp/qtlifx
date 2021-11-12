@@ -25,9 +25,13 @@
 
 /**
  * \class LifxGroup
+ * \brief (PUBLIC) Lifx Group container
  * 
  * This is a container for a LIFX group. It is able to store and retrieve any
- * bulb in the group and provides group details.
+ * bulb in the group and provides group details. Access to the individual bulbs
+ * then is possible by asking for a bulb pointer and referencing it's content.
+ * This is the same pointer used by the manager class and can be used the same
+ * way.
  */
 class LifxGroup
 {
@@ -82,7 +86,7 @@ public:
 private:
     QVector<LifxBulb*> m_bulbs;     //!< Vector with all bulbs that exist in this group
     QString m_label;                //!< The group name/label
-    QByteArray m_uuid;              //!< Gropu assigned UUID, used for map storage later
+    QByteArray m_uuid;              //!< Group assigned UUID, used for map storage later
     uint64_t m_timestamp;           //!< Assigned timestamp of last time group was modified, currently not used
 };
 

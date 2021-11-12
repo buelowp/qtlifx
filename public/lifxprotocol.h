@@ -27,7 +27,16 @@
 #include "lifxpacket.h"
 #include "lifxgroup.h"
 
-class Q_DECL_EXPORT LifxProtocol : public QObject
+/**
+ * \class LifxProtocol
+ * \brief (PRIVATE) The UDP protocol manager for sending/receiving bulb data
+ * 
+ * This class controls access to the bulbs over the wire. It used LifxPacket
+ * internally to create a header/payload to send and then decodes the incoming
+ * packet into a header and payload which can then be used to update a bulb
+ * or to provide state data to the application
+ */
+class LifxProtocol : public QObject
 {
     Q_OBJECT
 

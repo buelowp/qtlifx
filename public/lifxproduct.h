@@ -21,6 +21,13 @@
 
 #include <QtCore/QtCore>
 
+/**
+ * \class LifxProduct
+ * \brief (PRIVATE) Contains product details for a bulb from products.json
+ * 
+ * This class is internal to a LifxBulb object, and any data in may be referenced
+ * directly from the bulb. This class is not available to external users.
+ */
 class LifxProduct
 {
 public:

@@ -18,6 +18,11 @@
 
 #include "lifxbulb.h"
 
+/**
+ * \fn LifxBulb::LifxBulb()
+ * 
+ * Default constructor. Sets the system to sensible defaults
+ */
 LifxBulb::LifxBulb()
 {
     m_port = 0;
@@ -364,6 +369,19 @@ void LifxBulb::setVID(uint32_t vid)
     m_vid = vid;
 }
 
+/**
+ * \fn void LifxBulb::setProduct(QJsonObject& obj)
+ * \param obj The JSON object to parse to set the product capabilities
+ * 
+ * This will take an input object and assume it's the object associated
+ * with the specific PID we got in the STATE_VERSION message. It's
+ * important to note that the library handles all parsing internally
+ * and it can only get here from the manager, and cannot be called
+ * directly.
+ * 
+ * The output of this is udpates to what the bulb can do, along with
+ * a label to identify the specific type of bulb.
+ */
 void LifxBulb::setProduct(QJsonObject& obj)
 {
     if (obj.contains("pid")) {
