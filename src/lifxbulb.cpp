@@ -295,6 +295,17 @@ void LifxBulb::setDevColor(lx_dev_lightstate_t* color)
 }
 
 /**
+ * \fn void LifxBulb::setBrightness(uint16_t brightness)
+ * \param brightness The new uint16_t value for how bright the color is
+ * 
+ * This just sets the V value of the HSBK color scheme.
+ */
+void LifxBulb::setBrightness(uint16_t brightness)
+{
+    m_deviceColor->brightness = brightness;
+}
+
+/**
  * \fn void LifxBulb::setColor(QColor &color)
  * \param color A reference to a QColor which contains the color we want to show
  * 

@@ -87,6 +87,7 @@ public:
     void setVID(uint32_t vid);
     void setProduct(QJsonObject &obj);
     void setDiscoveryActive(bool discovery);
+    void setBrightness(uint16_t brightness);
     
     QHostAddress& address() { return m_address; }   //!< Returns the IP address associated with this bulb
     uint8_t service() const { return m_service; }   //!< Returns the service which was set by STATE_SERVICE
