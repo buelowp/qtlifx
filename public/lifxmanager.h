@@ -74,6 +74,9 @@ public slots:
     void changeBulbColor(QString &name, QColor color);
     void changeBulbColor(uint64_t target, QColor color);
     void changeBulbColor(LifxBulb* bulb, QColor color);
+    void changeBulbBrightness(QString &name, uint16_t brightness);
+    void changeBulbBrightness(uint64_t target, uint16_t brightness);
+    void changeBulbBrightness(LifxBulb* bulb, uint16_t brightness);
     void changeGroupColor(QByteArray &uuid, QColor color);
     void changeGroupState(QByteArray &uuid, bool state);
     void setProductCapabilities(QJsonDocument &doc);

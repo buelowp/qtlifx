@@ -256,6 +256,50 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color)
 }
 
 /**
+ * \fn void LifxManager::changeBulbBrightness(QString& name, uint16_t brightness)
+ * \param name QString name of the bulb being changed
+ * \param brightness New brightness to set the bulb to
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbBrightness(QString& name, uint16_t brightness)
+{
+    if (m_bulbsByName.contains(name)) {
+        LifxBulb *bulb = m_bulbsByName[name];
+        bulb->setBrightness(brightness);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
+ * \fn void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness)
+ * \param target 64bit integer which has an encoded version of the MAC address
+ * \param brightness New brightness to set the bulb to
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness)
+{
+    if (m_bulbs.contains(target)) {
+        LifxBulb *bulb = m_bulbs[target];
+        bulb->setBrightness(brightness);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
+ * \fn void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness)
+ * \param bulb Pointer to LifxBulb object
+ * \param brightness New brightness to set the bulb to
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness)
+{
+    if (bulb) {
+        bulb->setBrightness(brightness);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
  * \fn void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
  * \param uuid The group UUID to query for bulbs
  * \param color The QColor color to assign to the group
