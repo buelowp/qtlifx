@@ -420,6 +420,7 @@ void LifxManager::setProductCapabilities(QJsonDocument& doc)
 
 void LifxManager::changeBulbState(LifxBulb* bulb, bool state)
 {
+    qDebug() << __PRETTY_FUNCTION__ << ": Setting" << bulb->label() << "to" << state;
     if (bulb != nullptr)
         m_protocol->setBulbState(bulb, state);
 }

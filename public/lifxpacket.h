@@ -50,7 +50,8 @@ public:
     uint16_t type() { return m_type; }
     QHostAddress address() { return m_address; }
     QByteArray datagram();
-    QByteArray payload() { return m_payload; }
+    QByteArray payload() const { return m_payload; }
+    QByteArray header() const { return m_hdr; }
     uint16_t port() { return m_port; }
     uint8_t* target() { return m_target; }
     uint64_t targetAsLong();
@@ -88,4 +89,6 @@ private:
     lx_protocol_header_t m_header;
 };
 
+QDebug operator<<(QDebug debug, const LifxPacket &packet);
+QDebug operator<<(QDebug debug, const LifxPacket *packet);
 #endif // LIFXPACKET_H

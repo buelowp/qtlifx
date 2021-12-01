@@ -240,7 +240,13 @@ void LifxPacket::setBulbPower(LifxBulb* bulb)
     
     createHeader(bulb, false);
     m_payload.clear();
-    m_payload.setNum(bulb->power());
+    if (bulb->power() == 0) {
+        m_payload[0] = 0;
+        m_payload[1] = 0;
+    }
+    else {
+        m_payload.setNum(65535);
+    }
 }
 
 void LifxPacket::rebootBulb(LifxBulb* bulb)
@@ -252,4 +258,34 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
     m_source = 919827;
     
     createHeader(bulb, false);
+}
+
+/**
+ * \fn QDebug operator<<(QDebug debug, const LifxBulb &bulb)
+ * \brief Pretty print the LifxBulb object
+ * 
+ * For use with qDebug() only
+ * 
+ * Only prints the ipv4 address at this time
+ */
+QDebug operator<<(QDebug debug, const LifxPacket &packet)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace().noquote() << "Packet: " << packet.header().toHex() << ":" << packet.payload().toHex();
+    return debug;
+}
+
+/**
+ * \fn QDebug operator<<(QDebug debug, const LifxBulb *bulb)
+ * \brief Pretty print the LifxBulb object
+ * 
+ * For use with qDebug() only
+ * 
+ * Only prints the ipv4 address at this time
+ */
+QDebug operator<<(QDebug debug, const LifxPacket *packet)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace().noquote() << "Packet: " << packet->header().toHex() << ":" << packet->payload().toHex();
+    return debug;
 }

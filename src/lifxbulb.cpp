@@ -448,7 +448,6 @@ void LifxBulb::setProduct(QJsonObject& obj)
     }
 }
 
-
 /**
  * \fn QDebug operator<<(QDebug debug, const LifxBulb &bulb)
  * \brief Pretty print the LifxBulb object
