@@ -67,13 +67,14 @@ public:
     LifxGroup* getGroupByName(QString &name);
     LifxGroup* getGroupByUUID(QByteArray &uuid);
     QList<LifxBulb*> getBulbsByPID(int pid);
+    void enableDebug(bool debug) { m_debug = debug; }
     
 public slots:
     void discoveryFailed();
     void newPacket(LifxPacket *packet);
-    void changeBulbColor(QString &name, QColor color);
-    void changeBulbColor(uint64_t target, QColor color);
-    void changeBulbColor(LifxBulb* bulb, QColor color);
+    void changeBulbColor(QString &name, QColor color, uint32_t duration = 400);
+    void changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400);
+    void changeBulbColor(LifxBulb* bulb, QColor color, uint32_t duration = 400);
     void changeBulbBrightness(QString &name, uint16_t brightness);
     void changeBulbBrightness(uint64_t target, uint16_t brightness);
     void changeBulbBrightness(LifxBulb* bulb, uint16_t brightness);
@@ -101,6 +102,7 @@ private:
     QMap<QByteArray, LifxGroup*> m_groups;
     QMultiMap<int, LifxBulb*> m_bulbsByPID;
     QMap<int, QJsonObject> m_productObjects;
+    bool m_debug;
 };
 
 Q_DECLARE_METATYPE(LifxManager);

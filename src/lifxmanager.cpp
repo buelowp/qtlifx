@@ -18,7 +18,7 @@
 
 #include "lifxmanager.h"
 
-LifxManager::LifxManager(QObject *parent) : QObject(parent)
+LifxManager::LifxManager(QObject *parent) : QObject(parent), m_debug(false)
 {
     m_protocol = new LifxProtocol();
     connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LifxManager::discoveryFailed);
@@ -49,7 +49,8 @@ LifxManager::~LifxManager()
  */
 void LifxManager::discoveryFailed()
 {
-    qDebug() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
+    if (m_debug)
+        qDebug() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
     m_protocol->discover();
 }
 
@@ -84,7 +85,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setAddress(packet->address(), service->port);
                 bulb->setService(service->service);
                 bulb->setTarget(packet->target());
-                qDebug() << __PRETTY_FUNCTION__ << ": SERVICE:" << bulb;
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": SERVICE:" << bulb;
                 m_bulbs[target] = bulb;
                 m_protocol->getLabelForBulb(bulb);
             }
@@ -94,12 +96,14 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb = m_bulbs[target];
                 bulb->setLabel(QString::fromUtf8(packet->payload()));
                 m_bulbsByName[bulb->label()] = bulb;
-                qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
                 emit newBulbAvailable(bulb->label(), target);
                 m_protocol->getFirmwareForBulb(bulb);
             }
             else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
             }
             break;
         case LIFX_DEFINES::STATE_HOST_FIRMWARE:
@@ -108,11 +112,13 @@ void LifxManager::newPacket(LifxPacket* packet)
                 lx_dev_firmware_t *firmware = (lx_dev_firmware_t*)packet->payload().data();
                 bulb->setMajor(firmware->major);
                 bulb->setMinor(firmware->minor);
-                qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
                 m_protocol->getVersionForBulb(bulb);
             }
             else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_HOST_FIRMWARE for a bulb (" << target << ") which isn't in the map";
             }
             break;            
         case LIFX_DEFINES::STATE_VERSION:
@@ -126,11 +132,13 @@ void LifxManager::newPacket(LifxPacket* packet)
                     bulb->setProduct(m_productObjects[version->product]);
                 }
                 m_bulbsByPID.insert(version->product, bulb);
-                qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
                 m_protocol->getGroupForBulb(bulb);
             }
             else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_VERSION for a bulb (" << target << ") which isn't in the map";
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_VERSION for a bulb (" << target << ") which isn't in the map";
             }
             break;            
         case LIFX_DEFINES::STATE_GROUP:
@@ -148,7 +156,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                     if (g != nullptr) {
                         if (!g->contains(bulb))
                             g->addBulb(bulb);
-                            qDebug() << __PRETTY_FUNCTION__ << ": GROUP (add):" << g;
+                            if (m_debug)
+                                qDebug() << __PRETTY_FUNCTION__ << ": GROUP (add):" << g;
                     }
                 }
                 else {
@@ -156,7 +165,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                     g->addBulb(bulb);
                     m_groups[uuid] = g;
                     emit newGroupFound(label, uuid);
-                    qDebug() << __PRETTY_FUNCTION__ << ": GROUP (new):" << g;
+                    if (m_debug)
+                        qDebug() << __PRETTY_FUNCTION__ << ": GROUP (new):" << g;
                 }
                 m_protocol->getColorForBulb(bulb);
             }
@@ -172,7 +182,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                     emit bulbDiscoveryFinished(bulb);
                 }
                 emit bulbStateChanged(bulb->label(), target);
-                qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
             }
             else {
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
@@ -212,45 +223,51 @@ LifxBulb * LifxManager::getBulbByName(QString& name)
 }
 
 /**
- * \fn void LifxManager::changeBulbColor(QString& name, QColor color)
+ * \fn void LifxManager::changeBulbColor(QString& name, QColor color, uint32_t duration)
  * \param name QString name of the bulb being changed
  * \param color New color to set the bulb to
+ * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(QString& name, QColor color)
+void LifxManager::changeBulbColor(QString& name, QColor color, uint32_t duration)
 {
     if (m_bulbsByName.contains(name)) {
         LifxBulb *bulb = m_bulbsByName[name];
         bulb->setColor(color);
+        bulb->setDuration(duration);
         m_protocol->setBulbColor(bulb);
     }
 }
 
 /**
- * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color)
+ * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
  * \param target 64bit integer which has an encoded version of the MAC address
  * \param color QColor object containing the new color to set the bulb to
+ * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(uint64_t target, QColor color)
+void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
         bulb->setColor(color);
+        bulb->setDuration(duration);
         m_protocol->setBulbColor(bulb);
     }
 }
 
 /**
- * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color)
+ * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
  * \param bulb Pointer to LifxBulb object
  * \param color QColor object containing the new color to set the bulb to
+ * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color)
+void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duration)
 {
     if (bulb) {
         bulb->setColor(color);
+        bulb->setDuration(duration);
         m_protocol->setBulbColor(bulb);
     }
 }
@@ -420,7 +437,8 @@ void LifxManager::setProductCapabilities(QJsonDocument& doc)
 
 void LifxManager::changeBulbState(LifxBulb* bulb, bool state)
 {
-    qDebug() << __PRETTY_FUNCTION__ << ": Setting" << bulb->label() << "to" << state;
+    if (m_debug)
+        qDebug() << __PRETTY_FUNCTION__ << ": Setting" << bulb->label() << "to" << state;
     if (bulb != nullptr)
         m_protocol->setBulbState(bulb, state);
 }

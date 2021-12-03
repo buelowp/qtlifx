@@ -33,7 +33,6 @@ LifxProtocol::LifxProtocol(const LifxProtocol& object) : QObject()
 
 qint64 LifxProtocol::discover()
 {
-    qDebug() << __PRETTY_FUNCTION__ << ": Starting discovery";
     LifxPacket packet;
     packet.makeDiscoveryPacket();
     return m_socket->writeDatagram(packet.datagram(), QHostAddress::Broadcast, LIFX_PORT);
@@ -137,12 +136,9 @@ void LifxProtocol::rebootBulb(LifxBulb* bulb)
 void LifxProtocol::setBulbState(LifxBulb* bulb, bool state)
 {
     uint16_t power = state ? 65535 : 0;
-    qDebug() << __PRETTY_FUNCTION__ << ": Setting power to" << power;
     LifxPacket packet;
     bulb->setPower(power);
     packet.setBulbPower(bulb);
-    qDebug() << __PRETTY_FUNCTION__ << ":" << bulb;
-    qDebug() << __PRETTY_FUNCTION__ << ":" << packet;
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
