@@ -123,3 +123,11 @@ HSBK & HSBK::operator=(HSBK& color)
     return *this;
 }
 
+QColor HSBK::getQColor()
+{
+    QColor c;
+    uint16_t max = std::numeric_limits<uint16_t>::max();
+    
+    c.setHsvF(m_hsbk.hue / max, m_hsbk.saturation / max, m_hsbk.brightness / max);
+    return c;
+}

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <QtCore/QtCore>
+#include <QtGui/QtGui>
 #include "defines.h"
 
 class HSBK
