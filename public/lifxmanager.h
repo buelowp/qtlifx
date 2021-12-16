@@ -26,6 +26,7 @@
 #include "lifxbulb.h"
 #include "lifxpacket.h"
 #include "lifxgroup.h"
+#include "hsbk.h"
 
 /**
  * \class LifxManager
@@ -75,6 +76,9 @@ public slots:
     void changeBulbColor(QString &name, QColor color, uint32_t duration = 400);
     void changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400);
     void changeBulbColor(LifxBulb* bulb, QColor color, uint32_t duration = 400);
+    void changeBulbColor(QString &name, HSBK color, uint32_t duration = 400);
+    void changeBulbColor(uint64_t target, HSBK color, uint32_t duration = 400);
+    void changeBulbColor(LifxBulb* bulb, HSBK color, uint32_t duration = 400);    
     void changeBulbBrightness(QString &name, uint16_t brightness);
     void changeBulbBrightness(uint64_t target, uint16_t brightness);
     void changeBulbBrightness(LifxBulb* bulb, uint16_t brightness);

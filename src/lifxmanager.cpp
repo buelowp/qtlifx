@@ -273,6 +273,56 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duratio
 }
 
 /**
+ * \fn void LifxManager::changeBulbColor(QString& name, QColor color, uint32_t duration)
+ * \param name QString name of the bulb being changed
+ * \param color New color to set the bulb to
+ * \param duration The uint32_t value in millis to slow the transition down
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbColor(QString& name, HSBK color, uint32_t duration)
+{
+    if (m_bulbsByName.contains(name)) {
+        LifxBulb *bulb = m_bulbsByName[name];
+        bulb->setColor(color);
+        bulb->setDuration(duration);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
+ * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
+ * \param target 64bit integer which has an encoded version of the MAC address
+ * \param color QColor object containing the new color to set the bulb to
+ * \param duration The uint32_t value in millis to slow the transition down
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbColor(uint64_t target, HSBK color, uint32_t duration)
+{
+    if (m_bulbs.contains(target)) {
+        LifxBulb *bulb = m_bulbs[target];
+        bulb->setColor(color);
+        bulb->setDuration(duration);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
+ * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
+ * \param bulb Pointer to LifxBulb object
+ * \param color QColor object containing the new color to set the bulb to
+ * \param duration The uint32_t value in millis to slow the transition down
+ * \brief Sets the color of a single bulb to color
+ */
+void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration)
+{
+    if (bulb) {
+        bulb->setColor(color);
+        bulb->setDuration(duration);
+        m_protocol->setBulbColor(bulb);
+    }
+}
+
+/**
  * \fn void LifxManager::changeBulbBrightness(QString& name, uint16_t brightness)
  * \param name QString name of the bulb being changed
  * \param brightness New brightness to set the bulb to

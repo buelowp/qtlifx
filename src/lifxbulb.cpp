@@ -321,6 +321,21 @@ void LifxBulb::setColor(lx_dev_color_t &color)
 }
 
 /**
+ * \fn void LifxBulb::setColor(HSBK &color)
+ * \param color A reference to the HSBK class which contains the color we want to show
+ * 
+ * This will copy an HSBK set of values which int a QColor and the device color
+ * member.
+ */
+void LifxBulb::setColor(HSBK &color)
+{
+    m_color = color.getQColor();
+    
+    memcpy(&m_deviceColor, &(color.getHSBK()), sizeof(lx_dev_color_t));
+}
+
+
+/**
  * \fn void LifxBulb::setColor(QColor &color)
  * \param color A reference to a QColor which contains the color we want to show
  * 
