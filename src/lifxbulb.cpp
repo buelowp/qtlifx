@@ -306,6 +306,21 @@ void LifxBulb::setBrightness(uint16_t brightness)
 }
 
 /**
+ * \fn void LifxBulb::setColor(lx_dev_color_t &color)
+ * \param color A reference to a lx_dev_color_t struct which contains the color we want to show
+ * 
+ * This will copy an lx_dev_color_t set of values which int a QColor and the device color
+ * member.
+ */
+void LifxBulb::setColor(lx_dev_color_t &color)
+{
+    uint16_t max = std::numeric_limits<uint16_t>::max();
+    m_color.setHsvF(color.hue / max, color.saturation / max, color.brightness / max);
+    
+    memcpy(&m_deviceColor, &color, sizeof(lx_dev_color_t));
+}
+
+/**
  * \fn void LifxBulb::setColor(QColor &color)
  * \param color A reference to a QColor which contains the color we want to show
  * 
