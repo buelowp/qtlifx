@@ -22,6 +22,17 @@
 #include <QtGui/QtGui>
 #include "defines.h"
 
+/**
+ * \class HSBK
+ * 
+ * Attempts to abstract the HSBK concept, and allow for easy assignment and management
+ * of LIFX specific HSBK colors.
+ * 
+ * HSBK is Hue, Saturation, Brightness, and Kelvin. It roughly maps to HSV, but includes
+ * the Kelvin argument. When assigning the HSBK to a QColor, Kelving is ignored
+ * unfortunately. Therefore, it's not possible to map 1-1. I'm still looking into how
+ * to "fix" this.
+ */
 class HSBK
 {
 public:
@@ -31,21 +42,22 @@ public:
     HSBK(const HSBK &color);
     HSBK& operator=(HSBK& color);
 
-    uint16_t h(float v) { m_hsbk.hue = v; return v; }
-    uint16_t s(float v) { m_hsbk.saturation = v; return v; }
-    uint16_t b(float v) { m_hsbk.brightness = v; return v; }
-    uint16_t k(float v) { m_hsbk.kelvin = v; return v; }
+    uint16_t h(float v) { m_hsbk.hue = v; return v; }           //!< Sets and returns the H from the HSBK
+    uint16_t s(float v) { m_hsbk.saturation = v; return v; }    //!< Sets and returns the S from the HSBK
+    uint16_t b(float v) { m_hsbk.brightness = v; return v; }    //!< Sets and returns the B from the HSBK
+    uint16_t k(float v) { m_hsbk.kelvin = v; return v; }        //!< Sets and returns the K from the HSBK
     
-    uint16_t h() const { return m_hsbk.hue; }
-    uint16_t s() const { return m_hsbk.saturation; }
-    uint16_t b() const { return m_hsbk.brightness; }
-    uint16_t k() const { return m_hsbk.kelvin; }
+    uint16_t h() const { return m_hsbk.hue; }                   //!< Returns the H from the HSBK
+    uint16_t s() const { return m_hsbk.saturation; }            //!< Returns the S from the HSBK
+    uint16_t b() const { return m_hsbk.brightness; }            //!< Returns the B from the HSBK
+    uint16_t k() const { return m_hsbk.kelvin; }                //!< Returns the K from the HSBK
     
-    lx_dev_color_t getHSBK() const { return m_hsbk; }
+    lx_dev_color_t getHSBK() const { return m_hsbk; }           //!< Returns the HSBK structure used by the LIFX protocol
     QColor getQColor();
+    void setColor(QString color);
     static QStringList colors();
     
 private:
-    lx_dev_color_t m_hsbk;
+    lx_dev_color_t m_hsbk;                                      //!< The color struct used by the LIFX protocol
 };
 
