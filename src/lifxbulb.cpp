@@ -330,8 +330,9 @@ void LifxBulb::setColor(lx_dev_color_t &color)
 void LifxBulb::setColor(HSBK &color)
 {
     m_color = color.getQColor();
+    lx_dev_color_t c = color.getHSBK();
     
-    memcpy(&m_deviceColor, &(color.getHSBK()), sizeof(lx_dev_color_t));
+    memcpy(m_deviceColor, &c, sizeof(lx_dev_color_t));
 }
 
 

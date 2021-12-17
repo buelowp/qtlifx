@@ -41,7 +41,7 @@ public:
     uint16_t b() const { return m_hsbk.brightness; }
     uint16_t k() const { return m_hsbk.kelvin; }
     
-    lx_dev_color_t& getHSBK() { return m_hsbk; }
+    lx_dev_color_t getHSBK() const { return m_hsbk; }
     QColor getQColor();
     
 private:
