@@ -131,3 +131,25 @@ QColor HSBK::getQColor()
     c.setHsvF(m_hsbk.hue / max, m_hsbk.saturation / max, m_hsbk.brightness / max);
     return c;
 }
+
+QStringList HSBK::colors()
+{
+    QStringList colorList = {"candlelight",
+                            "sunset",
+                            "ultrawarm",
+                            "incandescent",
+                            "warm",
+                            "neutral",
+                            "cool",
+                            "cooldaylight",
+                            "softdaylight",
+                            "daylight",
+                            "orange",
+                            "yellow",
+                            "red",
+                            "green",
+                            "blue",
+                            "purple"};
+    
+    return colorList;
+}

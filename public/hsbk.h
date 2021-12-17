@@ -25,23 +25,6 @@
 class HSBK
 {
 public:
-    QStringList colorList = {"candlelight",
-                            "sunset",
-                            "ultrawarm",
-                            "incandescent",
-                            "warm",
-                            "neutral",
-                            "cool",
-                            "cooldaylight",
-                            "softdaylight",
-                            "daylight",
-                            "orange",
-                            "yellow",
-                            "red",
-                            "green",
-                            "blue",
-                            "purple"};
-                            
     HSBK(uint16_t hue = 6242, uint16_t saturation = 0, uint16_t brightness = 65535, uint16_t kelvin = 3000);
     HSBK(QString color);
     ~HSBK();
@@ -60,7 +43,7 @@ public:
     
     lx_dev_color_t getHSBK() const { return m_hsbk; }
     QColor getQColor();
-    QStringList& colors() { return colorList; }
+    static QStringList colors();
     
 private:
     lx_dev_color_t m_hsbk;
