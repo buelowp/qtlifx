@@ -117,8 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9010bebd9d12e527289a3960442715b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a9010bebd9d12e527289a3960442715b4">setDuration</a> (uint32_t duration)</td></tr>
 <tr class="memdesc:a9010bebd9d12e527289a3960442715b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a duration for set functions which require it.  <a href="classLifxBulb.html#a9010bebd9d12e527289a3960442715b4">More...</a><br /></td></tr>
 <tr class="separator:a9010bebd9d12e527289a3960442715b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52a4249715aa99a8ef0fadbc1d3fa67e"><td class="memItemLeft" align="right" valign="top"><a id="a52a4249715aa99a8ef0fadbc1d3fa67e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setGroup</b> (QString group)</td></tr>
+<tr class="memitem:a52a4249715aa99a8ef0fadbc1d3fa67e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a52a4249715aa99a8ef0fadbc1d3fa67e">setGroup</a> (QString group)</td></tr>
+<tr class="memdesc:a52a4249715aa99a8ef0fadbc1d3fa67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a group name to the bulb for reference.  <a href="classLifxBulb.html#a52a4249715aa99a8ef0fadbc1d3fa67e">More...</a><br /></td></tr>
 <tr class="separator:a52a4249715aa99a8ef0fadbc1d3fa67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a457ec2bddf6b7d8132df1fbf4fc0c05c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a457ec2bddf6b7d8132df1fbf4fc0c05c">setPID</a> (uint32_t pid)</td></tr>
 <tr class="separator:a457ec2bddf6b7d8132df1fbf4fc0c05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -526,6 +526,32 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">duration</td><td>A 32bit time value used to set a duration on the bulb </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a52a4249715aa99a8ef0fadbc1d3fa67e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52a4249715aa99a8ef0fadbc1d3fa67e">&#9670;&nbsp;</a></span>setGroup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxBulb::setGroup </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>group</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a group name to the bulb for reference. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>A QString with a valid group name as returned by the groups get message </td></tr>
   </table>
   </dd>
 </dl>

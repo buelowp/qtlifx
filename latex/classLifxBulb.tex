@@ -48,9 +48,8 @@ void \mbox{\hyperlink{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}{set\+Kelv
 \begin{DoxyCompactList}\small\item\em Sets the kelvin value this bulb will use when a new command is sent. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLifxBulb_a9010bebd9d12e527289a3960442715b4}{set\+Duration}} (uint32\+\_\+t duration)
 \begin{DoxyCompactList}\small\item\em Sets a duration for set functions which require it. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}\label{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}} 
-void {\bfseries set\+Group} (Q\+String group)
-\item 
+void \mbox{\hyperlink{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}{set\+Group}} (Q\+String group)
+\begin{DoxyCompactList}\small\item\em Add a group name to the bulb for reference. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLifxBulb_a457ec2bddf6b7d8132df1fbf4fc0c05c}{set\+P\+ID}} (uint32\+\_\+t pid)
 \item 
 void \mbox{\hyperlink{classLifxBulb_a09bec6d502507969a8f2997d93337452}{set\+V\+ID}} (uint32\+\_\+t vid)
@@ -295,6 +294,21 @@ Sets a duration for set functions which require it.
 
 \begin{DoxyParams}{Parameters}
 {\em duration} & A 32bit time value used to set a duration on the bulb \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}\label{classLifxBulb_a52a4249715aa99a8ef0fadbc1d3fa67e}} 
+\index{LifxBulb@{LifxBulb}!setGroup@{setGroup}}
+\index{setGroup@{setGroup}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setGroup()}{setGroup()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Group (\begin{DoxyParamCaption}\item[{Q\+String}]{group }\end{DoxyParamCaption})}
+
+
+
+Add a group name to the bulb for reference. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em group} & A Q\+String with a valid group name as returned by the groups get message \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}\label{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}} 
