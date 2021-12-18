@@ -25,11 +25,12 @@
 
 /**
  * \class HSBK
+ * \brief An HSBK container class with helper functions for direct use of the LIFX color scheme
  * 
  * Attempts to abstract the HSBK concept, and allow for easy assignment and management
- * of LIFX specific HSBK colors.
+ * of LIFX specific HSBK colors. LIFX uses HSV, but replaces V with B for brightness. 
  * 
- * HSBK is Hue, Saturation, Brightness, and Kelvin. It roughly maps to HSV, but includes
+ * HSBK is Hue, Saturation, Brightness, and Kelvin. It maps directly to HSV, but includes
  * the Kelvin argument. When assigning the HSBK to a QColor, Kelving is ignored
  * unfortunately. Therefore, it's not possible to map 1-1. I'm still looking into how
  * to "fix" this.
@@ -43,19 +44,79 @@ public:
     HSBK(const HSBK &color);
     HSBK& operator=(HSBK& color);
 
-    uint16_t h(uint16_t v) { m_hsbk.hue = v; return v; }            //!< Sets and returns the H from the HSBK
-    uint16_t h(float v);                                            //!< Sets H to a percentage of the 360 color wheel
-    uint16_t s(uint16_t v) { m_hsbk.saturation = v; return v; }     //!< Sets and returns the S from the HSBK
+    /**
+     * \fn uint16_t h(uint16_t v)
+     * \param v The H value of the HSBK as a uint16_t
+     * \return Returns the newly set value
+     * 
+     * Sets the H value to the range 0 to 65535
+     */
+    uint16_t h(uint16_t v) { m_hsbk.hue = v; return v; }
+    uint16_t h(float v);
+    /**
+     * \fn uint16_t s(uint16_t v)
+     * \param v The S value of the HSBK as a uint16_t
+     * \return Returns the newly set value
+     * 
+     * Sets the S value to the range 0 to 65535
+     */
+    uint16_t s(uint16_t v) { m_hsbk.saturation = v; return v; }
+    /**
+     * \fn uint16_t b(uint16_t v)
+     * \param v The B value of the HSBK as a uint16_t
+     * \return Returns the newly set value
+     * 
+     * Sets the B value to the range 0 to 65535
+     */
     uint16_t b(uint16_t v) { m_hsbk.brightness = v; return v; }     //!< Sets and returns the B from the HSBK
-    uint16_t b(float v);                                            //!< Sets brightness by percent, where v > 0 && v < 1
-    uint16_t k(uint16_t v) { m_hsbk.kelvin = v; return v; }         //!< Sets and returns the K from the HSBK
+    uint16_t b(float v);
+    /**
+     * \fn uint16_t k(uint16_t v)
+     * \param v The K value of the HSBK as a uint16_t
+     * \return Returns the newly set value
+     * 
+     * Sets the K value to the range 0 to 65535
+     */
+    uint16_t k(uint16_t v) { m_hsbk.kelvin = v; return v; }
     
-    uint16_t h() const { return m_hsbk.hue; }                   //!< Returns the H from the HSBK
-    uint16_t s() const { return m_hsbk.saturation; }            //!< Returns the S from the HSBK
-    uint16_t b() const { return m_hsbk.brightness; }            //!< Returns the B from the HSBK
-    uint16_t k() const { return m_hsbk.kelvin; }                //!< Returns the K from the HSBK
+    /**
+     * \fn uint16_t h()
+     * \return Returns the newly set value
+     * 
+     * Returns the current H value of the HSBK
+     */
+    uint16_t h() const { return m_hsbk.hue; }
+    /**
+     * \fn uint16_t s()
+     * \return Returns the newly set value
+     * 
+     * Returns the current S value of the HSBK
+     */
+    uint16_t s() const { return m_hsbk.saturation; }
+    /**
+     * \fn uint16_t b() 
+     * \return Returns the newly set value
+     * 
+     * Returns the current B value of the HSBK
+     */
+    uint16_t b() const { return m_hsbk.brightness; }
+    /**
+     * \fn uint16_t k()
+     * \return Returns the newly set value
+     * 
+     * Returns the current K value of the HSBK
+     */
+    uint16_t k() const { return m_hsbk.kelvin; }
     
-    lx_dev_color_t getHSBK() const { return m_hsbk; }           //!< Returns the HSBK structure used by the LIFX protocol
+    /**
+     * \fn lx_dev_color_t getHSBK()
+     * \return Returns the contained struct this class wraps
+     * 
+     * This class just contains the lx_dev_color_t structure, and
+     * provides some work to make it useful. This function
+     * returns the raw data directly.
+     */
+    lx_dev_color_t getHSBK() const { return m_hsbk; }
     QColor getQColor();
     void setColor(QString color);
     static QStringList colors();
