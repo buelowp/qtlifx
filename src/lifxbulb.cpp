@@ -381,7 +381,7 @@ lx_dev_color_t* LifxBulb::toDeviceColor() const
 }
 
 /**
- * \fn void LifxBulb::addGroupName(QString group)
+ * \fn void LifxBulb::setGroup(QString group)
  * \param group A QString with a valid group name as returned by the groups get message
  * \brief Add a group name to the bulb for reference
  */

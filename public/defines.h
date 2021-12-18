@@ -114,7 +114,7 @@ typedef struct {
     uint8_t r1[2];          /**< Reserved bytes, not used by this library */
     uint16_t power;         /**< Power the bulb is currently operating at, either 65535 (on) or 0 (off) */
     uint8_t label[32];      /**< Bulb name */
-    uint8_t r2[8];          /** Reserved bytes, not used by this library */
+    uint8_t r2[8];          /**< Reserved bytes, not used by this library */
 } lx_dev_lightstate_t;
 
 /**
@@ -179,7 +179,7 @@ typedef struct {
  * as the payload to send color data to a bulb
  */
 typedef struct {
-    uint8_t reserved;
+    uint8_t reserved;       /**< Reserved bytes, not used by this class */
     uint16_t hue;           /**< Hue value to be set on the light */
     uint16_t saturation;    /**< Saturation value to be set on the light */
     uint16_t brightness;    /**< Brightness value to be set on the light */

@@ -72,7 +72,7 @@ public:
     int size() const { return m_bulbs.size(); }
     /**
      * \fn bool contains(LifxBulb *bulb)
-     * \param LifxBulb pointer to a bulb
+     * \param bulb pointer to a bulb
      * \return A bool indicating whether a bulb is in the vector
      * \brief Checks the group for a bulb, returns true if the bulb is in the group, false otherwise
      */

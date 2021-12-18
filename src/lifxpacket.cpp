@@ -19,7 +19,7 @@
 
 #include "lifxpacket.h"
 
-LifxPacket::LifxPacket::LifxPacket()
+LifxPacket::LifxPacket()
 {
     m_headerSize = sizeof(lx_protocol_header_t);
 }

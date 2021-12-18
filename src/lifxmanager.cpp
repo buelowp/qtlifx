@@ -258,7 +258,7 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t durati
 }
 
 /**
- * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
+ * \fn void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duration)
  * \param bulb Pointer to LifxBulb object
  * \param color QColor object containing the new color to set the bulb to
  * \param duration The uint32_t value in millis to slow the transition down
@@ -308,9 +308,9 @@ void LifxManager::changeBulbColor(uint64_t target, HSBK color, uint32_t duration
 }
 
 /**
- * \fn void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
+ * \fn void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration)
  * \param bulb Pointer to LifxBulb object
- * \param color QColor object containing the new color to set the bulb to
+ * \param color HSBK object containing the new color to set the bulb to
  * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
