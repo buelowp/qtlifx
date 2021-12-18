@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['newpacket_120',['newPacket',['../classLifxManager.html#a0ffced614a6d49e9bffab104b2a6a968',1,'LifxManager']]]
+  ['mactostring_134',['macToString',['../classLifxBulb.html#a59707f82725f2b536071bde06c19ab58',1,'LifxBulb']]]
 ];

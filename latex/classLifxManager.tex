@@ -34,13 +34,28 @@ void \mbox{\hyperlink{classLifxManager_aee8cbfbd666e757a865138a8ccd7878b}{discov
 \begin{DoxyCompactList}\small\item\em S\+L\+OT that is called when the discovery operation times out. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLifxManager_a0ffced614a6d49e9bffab104b2a6a968}{new\+Packet}} (\mbox{\hyperlink{classLifxPacket}{Lifx\+Packet}} $\ast$packet)
 \begin{DoxyCompactList}\small\item\em S\+L\+OT called when a new packet arrives from the protocol manager. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classLifxManager_ab91722cd44106d9f19bf5487e4ae03aa}{change\+Bulb\+Color}} (Q\+String \&name, Q\+Color color)
+void \mbox{\hyperlink{classLifxManager_ac21c834cc96c049ab258f34671ac5675}{change\+Bulb\+Color}} (Q\+String \&name, Q\+Color color, uint32\+\_\+t duration=400)
 \begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classLifxManager_aa196ecf223922cae55cf47c2c23f5f39}{change\+Bulb\+Color}} (uint64\+\_\+t target, Q\+Color color)
+void \mbox{\hyperlink{classLifxManager_ad8dcda7202f11a1ed844e89cc8da32c3}{change\+Bulb\+Color}} (uint64\+\_\+t target, Q\+Color color, uint32\+\_\+t duration=400)
 \begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classLifxManager_a12907250f9190c60cec8f5b031a94cf8}\label{classLifxManager_a12907250f9190c60cec8f5b031a94cf8}} 
-void {\bfseries change\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, Q\+Color color)
+\mbox{\Hypertarget{classLifxManager_a236586ed43df19d39c45e83aad68a671}\label{classLifxManager_a236586ed43df19d39c45e83aad68a671}} 
+void {\bfseries change\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, Q\+Color color, uint32\+\_\+t duration=400)
 \item 
+\mbox{\Hypertarget{classLifxManager_aadceee48de4123d9b6809eef3ab7f315}\label{classLifxManager_aadceee48de4123d9b6809eef3ab7f315}} 
+void {\bfseries change\+Bulb\+Color} (Q\+String \&name, \mbox{\hyperlink{classHSBK}{H\+S\+BK}} color, uint32\+\_\+t duration=400)
+\item 
+\mbox{\Hypertarget{classLifxManager_af81805940dbaeadee42bf508caecd72b}\label{classLifxManager_af81805940dbaeadee42bf508caecd72b}} 
+void {\bfseries change\+Bulb\+Color} (uint64\+\_\+t target, \mbox{\hyperlink{classHSBK}{H\+S\+BK}} color, uint32\+\_\+t duration=400)
+\item 
+\mbox{\Hypertarget{classLifxManager_a6782a54b4ec277e5cb25e1166c1af967}\label{classLifxManager_a6782a54b4ec277e5cb25e1166c1af967}} 
+void {\bfseries change\+Bulb\+Color} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, \mbox{\hyperlink{classHSBK}{H\+S\+BK}} color, uint32\+\_\+t duration=400)
+\item 
+void \mbox{\hyperlink{classLifxManager_aabaab93e2a6992b0baaa9144c31725c2}{change\+Bulb\+Brightness}} (Q\+String \&name, uint16\+\_\+t brightness)
+\begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_afc66584a8a5c17f90bb2575e17a9cf29}{change\+Bulb\+Brightness}} (uint64\+\_\+t target, uint16\+\_\+t brightness)
+\begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxManager_ad9587b425128f652454adbd782241861}{change\+Bulb\+Brightness}} (\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$bulb, uint16\+\_\+t brightness)
+\begin{DoxyCompactList}\small\item\em Sets the color of a single bulb to color. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLifxManager_acd8b165209b66dafd155aa5c9ca56812}{change\+Group\+Color}} (Q\+Byte\+Array \&uuid, Q\+Color color)
 \begin{DoxyCompactList}\small\item\em Sets the color of all bulbs in the group identified by uuid to color. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLifxManager_a5ec0da359c86f31cc466206177034ce1}{change\+Group\+State}} (Q\+Byte\+Array \&uuid, bool state)
@@ -104,7 +119,10 @@ void \mbox{\hyperlink{classLifxManager_a925e2e2b2d00fab3c6bd73034eaaa934}{initia
 \mbox{\hyperlink{classLifxGroup}{Lifx\+Group}} $\ast$ \mbox{\hyperlink{classLifxManager_ac9a35cad25a28b9329fbc79bf9349865}{get\+Group\+By\+U\+U\+ID}} (Q\+Byte\+Array \&uuid)
 \begin{DoxyCompactList}\small\item\em Will look through the group map and if uuid exists, return that group container. \end{DoxyCompactList}\item 
 Q\+List$<$ \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$ $>$ \mbox{\hyperlink{classLifxManager_acd71e9e2a159fc9591c5cf8cdf1338e8}{get\+Bulbs\+By\+P\+ID}} (int pid)
-\begin{DoxyCompactList}\small\item\em Get a list of bulbs that have the same product ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get a list of bulbs that have the same product ID. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLifxManager_a00dcaf6e6fd2b0885bc4e5b015caec88}\label{classLifxManager_a00dcaf6e6fd2b0885bc4e5b015caec88}} 
+void {\bfseries enable\+Debug} (bool debug)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -117,11 +135,62 @@ Note, there is no state management here. Because the A\+PI is functionally state
 There will be several signals sent over the course of discovery, and once complete, a complete message will be sent for each bulb. Note, there will be no overall complete message as it\textquotesingle{}s possible for bulbs to take longer to respond, and as such, it\textquotesingle{}s difficutl to determine if discovery is complete without a timeout. No such timeout will be done in the library, but it is possible to manage state in the application. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classLifxManager_ab91722cd44106d9f19bf5487e4ae03aa}\label{classLifxManager_ab91722cd44106d9f19bf5487e4ae03aa}} 
+\mbox{\Hypertarget{classLifxManager_ad9587b425128f652454adbd782241861}\label{classLifxManager_ad9587b425128f652454adbd782241861}} 
+\index{LifxManager@{LifxManager}!changeBulbBrightness@{changeBulbBrightness}}
+\index{changeBulbBrightness@{changeBulbBrightness}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeBulbBrightness}{changeBulbBrightness}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Brightness (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} $\ast$}]{bulb,  }\item[{uint16\+\_\+t}]{brightness }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Sets the color of a single bulb to color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bulb} & Pointer to \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} object \\
+\hline
+{\em brightness} & New brightness to set the bulb to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_aabaab93e2a6992b0baaa9144c31725c2}\label{classLifxManager_aabaab93e2a6992b0baaa9144c31725c2}} 
+\index{LifxManager@{LifxManager}!changeBulbBrightness@{changeBulbBrightness}}
+\index{changeBulbBrightness@{changeBulbBrightness}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeBulbBrightness}{changeBulbBrightness}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Brightness (\begin{DoxyParamCaption}\item[{Q\+String \&}]{name,  }\item[{uint16\+\_\+t}]{brightness }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Sets the color of a single bulb to color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Q\+String name of the bulb being changed \\
+\hline
+{\em brightness} & New brightness to set the bulb to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_afc66584a8a5c17f90bb2575e17a9cf29}\label{classLifxManager_afc66584a8a5c17f90bb2575e17a9cf29}} 
+\index{LifxManager@{LifxManager}!changeBulbBrightness@{changeBulbBrightness}}
+\index{changeBulbBrightness@{changeBulbBrightness}!LifxManager@{LifxManager}}
+\doxysubsubsection{\texorpdfstring{changeBulbBrightness}{changeBulbBrightness}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Brightness (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{target,  }\item[{uint16\+\_\+t}]{brightness }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+
+
+
+Sets the color of a single bulb to color. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em target} & 64bit integer which has an encoded version of the M\+AC address \\
+\hline
+{\em brightness} & New brightness to set the bulb to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLifxManager_ac21c834cc96c049ab258f34671ac5675}\label{classLifxManager_ac21c834cc96c049ab258f34671ac5675}} 
 \index{LifxManager@{LifxManager}!changeBulbColor@{changeBulbColor}}
 \index{changeBulbColor@{changeBulbColor}!LifxManager@{LifxManager}}
 \doxysubsubsection{\texorpdfstring{changeBulbColor}{changeBulbColor}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Color (\begin{DoxyParamCaption}\item[{Q\+String \&}]{name,  }\item[{Q\+Color}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Color (\begin{DoxyParamCaption}\item[{Q\+String \&}]{name,  }\item[{Q\+Color}]{color,  }\item[{uint32\+\_\+t}]{duration = {\ttfamily 400} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
 
 
 
@@ -133,12 +202,14 @@ Sets the color of a single bulb to color.
 \hline
 {\em color} & New color to set the bulb to \\
 \hline
+{\em duration} & The uint32\+\_\+t value in millis to slow the transition down \\
+\hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classLifxManager_aa196ecf223922cae55cf47c2c23f5f39}\label{classLifxManager_aa196ecf223922cae55cf47c2c23f5f39}} 
+\mbox{\Hypertarget{classLifxManager_ad8dcda7202f11a1ed844e89cc8da32c3}\label{classLifxManager_ad8dcda7202f11a1ed844e89cc8da32c3}} 
 \index{LifxManager@{LifxManager}!changeBulbColor@{changeBulbColor}}
 \index{changeBulbColor@{changeBulbColor}!LifxManager@{LifxManager}}
 \doxysubsubsection{\texorpdfstring{changeBulbColor}{changeBulbColor}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Color (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{target,  }\item[{Q\+Color}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
+{\footnotesize\ttfamily void Lifx\+Manager\+::change\+Bulb\+Color (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{target,  }\item[{Q\+Color}]{color,  }\item[{uint32\+\_\+t}]{duration = {\ttfamily 400} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [slot]}}
 
 
 
@@ -148,11 +219,15 @@ Sets the color of a single bulb to color.
 \begin{DoxyParams}{Parameters}
 {\em target} & 64bit integer which has an encoded version of the M\+AC address \\
 \hline
-{\em color} & Q\+Color object containing the new color to set the bulb to\\
+{\em color} & Q\+Color object containing the new color to set the bulb to \\
+\hline
+{\em duration} & The uint32\+\_\+t value in millis to slow the transition down\\
 \hline
 {\em bulb} & Pointer to \mbox{\hyperlink{classLifxBulb}{Lifx\+Bulb}} object \\
 \hline
 {\em color} & Q\+Color object containing the new color to set the bulb to \\
+\hline
+{\em duration} & The uint32\+\_\+t value in millis to slow the transition down \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classLifxManager_acd8b165209b66dafd155aa5c9ca56812}\label{classLifxManager_acd8b165209b66dafd155aa5c9ca56812}} 

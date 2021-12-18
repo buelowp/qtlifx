@@ -40,6 +40,10 @@ void \mbox{\hyperlink{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}{set\+Dev\
 \item 
 void \mbox{\hyperlink{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}{set\+Color}} (Q\+Color \&color)
 \item 
+void \mbox{\hyperlink{classLifxBulb_a0a43e58990a2c2a43f9a986ddd32d14a}{set\+Color}} (\mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} \&color)
+\item 
+void \mbox{\hyperlink{classLifxBulb_a98930971deaf099b6c46f154cd88b3e6}{set\+Color}} (\mbox{\hyperlink{classHSBK}{H\+S\+BK}} \&color)
+\item 
 void \mbox{\hyperlink{classLifxBulb_a546ccb478af2c2cb8f2c7de44309d5bd}{set\+Kelvin}} (uint16\+\_\+t kelvin)
 \begin{DoxyCompactList}\small\item\em Sets the kelvin value this bulb will use when a new command is sent. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classLifxBulb_a9010bebd9d12e527289a3960442715b4}{set\+Duration}} (uint32\+\_\+t duration)
@@ -55,6 +59,8 @@ void \mbox{\hyperlink{classLifxBulb_a58afe0d3d8692d69b180aa4f953ab75e}{set\+Prod
 \item 
 void \mbox{\hyperlink{classLifxBulb_a0156aac75b4d939a2ce59032bbc6ce18}{set\+Discovery\+Active}} (bool discovery)
 \begin{DoxyCompactList}\small\item\em True if we are in discovery, false if the bulb is ready to use. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLifxBulb_ac15137a8adf6dd7d39964a77adfe1a43}{set\+Brightness}} (uint16\+\_\+t brightness)
+\item 
 uint64\+\_\+t \mbox{\hyperlink{classLifxBulb_a58112abeb62bf23334373e3badd8d589}{target\+As\+Long}} ()
 \begin{DoxyCompactList}\small\item\em Convienence function which turns the M\+AC into a number for indexing. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classLifxBulb_a8b071df5d5772c96a1bb810373317e8f}\label{classLifxBulb_a8b071df5d5772c96a1bb810373317e8f}} 
@@ -97,7 +103,7 @@ Q\+String \mbox{\hyperlink{classLifxBulb_a30513739e4686b2ee9b33e7056ce8dad}{addr
 
 This class is just a container. It keeps all the details about a bulb that is returned from the physical device in one place. It is referenced for every command that may be sent to the physical bulb. Updating data here does not send that data to the physical bulb. That is done by the manager directly.
 
-L\+I\+FX defins colors to be H\+S\+BK, not H\+SV or R\+GB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature
+L\+I\+FX defins colors to be \mbox{\hyperlink{classHSBK}{H\+S\+BK}}, not H\+SV or R\+GB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature
 
 The K value is generally retrieved from the bulb and not used otherwise as it\textquotesingle{}s not clear how to interpret it using Qt5. The higher the K value, the bluer the color.
 
@@ -206,10 +212,43 @@ Returns True if the M\+AC addresses are equal
 {\em port} & The Port encoded in the S\+T\+A\+T\+E\+\_\+\+S\+E\+R\+V\+I\+CE reply\\
 \hline
 \end{DoxyParams}
-This will encode the IP address we use when communicating with this bulb individually. \mbox{\Hypertarget{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}\label{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}} 
+This will encode the IP address we use when communicating with this bulb individually. \mbox{\Hypertarget{classLifxBulb_ac15137a8adf6dd7d39964a77adfe1a43}\label{classLifxBulb_ac15137a8adf6dd7d39964a77adfe1a43}} 
+\index{LifxBulb@{LifxBulb}!setBrightness@{setBrightness}}
+\index{setBrightness@{setBrightness}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setBrightness()}{setBrightness()}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Brightness (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{brightness }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em brightness} & The new uint16\+\_\+t value for how bright the color is\\
+\hline
+\end{DoxyParams}
+This just sets the V value of the \mbox{\hyperlink{classHSBK}{H\+S\+BK}} color scheme. \mbox{\Hypertarget{classLifxBulb_a98930971deaf099b6c46f154cd88b3e6}\label{classLifxBulb_a98930971deaf099b6c46f154cd88b3e6}} 
 \index{LifxBulb@{LifxBulb}!setColor@{setColor}}
 \index{setColor@{setColor}!LifxBulb@{LifxBulb}}
-\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHSBK}{H\+S\+BK}} \&}]{color }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & A reference to the \mbox{\hyperlink{classHSBK}{H\+S\+BK}} class which contains the color we want to show\\
+\hline
+\end{DoxyParams}
+This will copy an \mbox{\hyperlink{classHSBK}{H\+S\+BK}} set of values which int a Q\+Color and the device color member. \mbox{\Hypertarget{classLifxBulb_a0a43e58990a2c2a43f9a986ddd32d14a}\label{classLifxBulb_a0a43e58990a2c2a43f9a986ddd32d14a}} 
+\index{LifxBulb@{LifxBulb}!setColor@{setColor}}
+\index{setColor@{setColor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} \&}]{color }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & A reference to a \mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} struct which contains the color we want to show\\
+\hline
+\end{DoxyParams}
+This will copy an \mbox{\hyperlink{structlx__dev__color__t}{lx\+\_\+dev\+\_\+color\+\_\+t}} set of values which int a Q\+Color and the device color member. \mbox{\Hypertarget{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}\label{classLifxBulb_af88c4436b555c53cbdde6bba3bd7e5a0}} 
+\index{LifxBulb@{LifxBulb}!setColor@{setColor}}
+\index{setColor@{setColor}!LifxBulb@{LifxBulb}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily void Lifx\+Bulb\+::set\+Color (\begin{DoxyParamCaption}\item[{Q\+Color \&}]{color }\end{DoxyParamCaption})}
 
 
@@ -217,7 +256,7 @@ This will encode the IP address we use when communicating with this bulb individ
 {\em color} & A reference to a Q\+Color which contains the color we want to show\\
 \hline
 \end{DoxyParams}
-This will translate the Q\+Color values which are qreal between 0 and 1 as a percentage into a uint16\+\_\+t where the value is the percentage of the max uint16\+\_\+t range. Lifx bulbs use brightness, or H\+S\+BK (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn\textquotesingle{}t map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 $\ast$ .15\%) and then store that value into bulb color struct to be used when a command is sent. \mbox{\Hypertarget{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}\label{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}} 
+This will translate the Q\+Color values which are qreal between 0 and 1 as a percentage into a uint16\+\_\+t where the value is the percentage of the max uint16\+\_\+t range. Lifx bulbs use brightness, or \mbox{\hyperlink{classHSBK}{H\+S\+BK}} (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn\textquotesingle{}t map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 $\ast$ .15\%) and then store that value into bulb color struct to be used when a command is sent. \mbox{\Hypertarget{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}\label{classLifxBulb_ab521524ab95e68c35850f070e4d6cf7c}} 
 \index{LifxBulb@{LifxBulb}!setDevColor@{setDevColor}}
 \index{setDevColor@{setDevColor}!LifxBulb@{LifxBulb}}
 \doxysubsubsection{\texorpdfstring{setDevColor()}{setDevColor()}}

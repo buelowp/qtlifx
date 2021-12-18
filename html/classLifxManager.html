@@ -102,15 +102,33 @@ Public Slots</h2></td></tr>
 <tr class="memitem:a0ffced614a6d49e9bffab104b2a6a968"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#a0ffced614a6d49e9bffab104b2a6a968">newPacket</a> (<a class="el" href="classLifxPacket.html">LifxPacket</a> *packet)</td></tr>
 <tr class="memdesc:a0ffced614a6d49e9bffab104b2a6a968"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLOT called when a new packet arrives from the protocol manager.  <a href="classLifxManager.html#a0ffced614a6d49e9bffab104b2a6a968">More...</a><br /></td></tr>
 <tr class="separator:a0ffced614a6d49e9bffab104b2a6a968"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab91722cd44106d9f19bf5487e4ae03aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#ab91722cd44106d9f19bf5487e4ae03aa">changeBulbColor</a> (QString &amp;name, QColor color)</td></tr>
-<tr class="memdesc:ab91722cd44106d9f19bf5487e4ae03aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#ab91722cd44106d9f19bf5487e4ae03aa">More...</a><br /></td></tr>
-<tr class="separator:ab91722cd44106d9f19bf5487e4ae03aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa196ecf223922cae55cf47c2c23f5f39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#aa196ecf223922cae55cf47c2c23f5f39">changeBulbColor</a> (uint64_t target, QColor color)</td></tr>
-<tr class="memdesc:aa196ecf223922cae55cf47c2c23f5f39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#aa196ecf223922cae55cf47c2c23f5f39">More...</a><br /></td></tr>
-<tr class="separator:aa196ecf223922cae55cf47c2c23f5f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12907250f9190c60cec8f5b031a94cf8"><td class="memItemLeft" align="right" valign="top"><a id="a12907250f9190c60cec8f5b031a94cf8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>changeBulbColor</b> (<a class="el" href="classLifxBulb.html">LifxBulb</a> *bulb, QColor color)</td></tr>
-<tr class="separator:a12907250f9190c60cec8f5b031a94cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac21c834cc96c049ab258f34671ac5675"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#ac21c834cc96c049ab258f34671ac5675">changeBulbColor</a> (QString &amp;name, QColor color, uint32_t duration=400)</td></tr>
+<tr class="memdesc:ac21c834cc96c049ab258f34671ac5675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#ac21c834cc96c049ab258f34671ac5675">More...</a><br /></td></tr>
+<tr class="separator:ac21c834cc96c049ab258f34671ac5675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8dcda7202f11a1ed844e89cc8da32c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#ad8dcda7202f11a1ed844e89cc8da32c3">changeBulbColor</a> (uint64_t target, QColor color, uint32_t duration=400)</td></tr>
+<tr class="memdesc:ad8dcda7202f11a1ed844e89cc8da32c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#ad8dcda7202f11a1ed844e89cc8da32c3">More...</a><br /></td></tr>
+<tr class="separator:ad8dcda7202f11a1ed844e89cc8da32c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a236586ed43df19d39c45e83aad68a671"><td class="memItemLeft" align="right" valign="top"><a id="a236586ed43df19d39c45e83aad68a671"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>changeBulbColor</b> (<a class="el" href="classLifxBulb.html">LifxBulb</a> *bulb, QColor color, uint32_t duration=400)</td></tr>
+<tr class="separator:a236586ed43df19d39c45e83aad68a671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadceee48de4123d9b6809eef3ab7f315"><td class="memItemLeft" align="right" valign="top"><a id="aadceee48de4123d9b6809eef3ab7f315"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>changeBulbColor</b> (QString &amp;name, <a class="el" href="classHSBK.html">HSBK</a> color, uint32_t duration=400)</td></tr>
+<tr class="separator:aadceee48de4123d9b6809eef3ab7f315"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af81805940dbaeadee42bf508caecd72b"><td class="memItemLeft" align="right" valign="top"><a id="af81805940dbaeadee42bf508caecd72b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>changeBulbColor</b> (uint64_t target, <a class="el" href="classHSBK.html">HSBK</a> color, uint32_t duration=400)</td></tr>
+<tr class="separator:af81805940dbaeadee42bf508caecd72b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6782a54b4ec277e5cb25e1166c1af967"><td class="memItemLeft" align="right" valign="top"><a id="a6782a54b4ec277e5cb25e1166c1af967"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>changeBulbColor</b> (<a class="el" href="classLifxBulb.html">LifxBulb</a> *bulb, <a class="el" href="classHSBK.html">HSBK</a> color, uint32_t duration=400)</td></tr>
+<tr class="separator:a6782a54b4ec277e5cb25e1166c1af967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabaab93e2a6992b0baaa9144c31725c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#aabaab93e2a6992b0baaa9144c31725c2">changeBulbBrightness</a> (QString &amp;name, uint16_t brightness)</td></tr>
+<tr class="memdesc:aabaab93e2a6992b0baaa9144c31725c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#aabaab93e2a6992b0baaa9144c31725c2">More...</a><br /></td></tr>
+<tr class="separator:aabaab93e2a6992b0baaa9144c31725c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc66584a8a5c17f90bb2575e17a9cf29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#afc66584a8a5c17f90bb2575e17a9cf29">changeBulbBrightness</a> (uint64_t target, uint16_t brightness)</td></tr>
+<tr class="memdesc:afc66584a8a5c17f90bb2575e17a9cf29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#afc66584a8a5c17f90bb2575e17a9cf29">More...</a><br /></td></tr>
+<tr class="separator:afc66584a8a5c17f90bb2575e17a9cf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9587b425128f652454adbd782241861"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#ad9587b425128f652454adbd782241861">changeBulbBrightness</a> (<a class="el" href="classLifxBulb.html">LifxBulb</a> *bulb, uint16_t brightness)</td></tr>
+<tr class="memdesc:ad9587b425128f652454adbd782241861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of a single bulb to color.  <a href="classLifxManager.html#ad9587b425128f652454adbd782241861">More...</a><br /></td></tr>
+<tr class="separator:ad9587b425128f652454adbd782241861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd8b165209b66dafd155aa5c9ca56812"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#acd8b165209b66dafd155aa5c9ca56812">changeGroupColor</a> (QByteArray &amp;uuid, QColor color)</td></tr>
 <tr class="memdesc:acd8b165209b66dafd155aa5c9ca56812"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the color of all bulbs in the group identified by uuid to color.  <a href="classLifxManager.html#acd8b165209b66dafd155aa5c9ca56812">More...</a><br /></td></tr>
 <tr class="separator:acd8b165209b66dafd155aa5c9ca56812"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,6 +200,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:acd71e9e2a159fc9591c5cf8cdf1338e8"><td class="memItemLeft" align="right" valign="top">QList&lt; <a class="el" href="classLifxBulb.html">LifxBulb</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxManager.html#acd71e9e2a159fc9591c5cf8cdf1338e8">getBulbsByPID</a> (int pid)</td></tr>
 <tr class="memdesc:acd71e9e2a159fc9591c5cf8cdf1338e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a list of bulbs that have the same product ID.  <a href="classLifxManager.html#acd71e9e2a159fc9591c5cf8cdf1338e8">More...</a><br /></td></tr>
 <tr class="separator:acd71e9e2a159fc9591c5cf8cdf1338e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00dcaf6e6fd2b0885bc4e5b015caec88"><td class="memItemLeft" align="right" valign="top"><a id="a00dcaf6e6fd2b0885bc4e5b015caec88"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enableDebug</b> (bool debug)</td></tr>
+<tr class="separator:a00dcaf6e6fd2b0885bc4e5b015caec88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>(PUBLIC) Primary interface to the LIFX bulbs </p>
@@ -189,8 +210,143 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Note, there is no state management here. Because the API is functionally stateless, it's possible to ask a bulb to do something even if discovery is still going on. The first signal indicating a bulb is available is not sent until there is enough information to indicate that bulb can do something (label, version, firmware).</p>
 <p>There will be several signals sent over the course of discovery, and once complete, a complete message will be sent for each bulb. Note, there will be no overall complete message as it's possible for bulbs to take longer to respond, and as such, it's difficutl to determine if discovery is complete without a timeout. No such timeout will be done in the library, but it is possible to manage state in the application. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab91722cd44106d9f19bf5487e4ae03aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab91722cd44106d9f19bf5487e4ae03aa">&#9670;&nbsp;</a></span>changeBulbColor <span class="overload">[1/2]</span></h2>
+<a id="ad9587b425128f652454adbd782241861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9587b425128f652454adbd782241861">&#9670;&nbsp;</a></span>changeBulbBrightness <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxManager::changeBulbBrightness </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classLifxBulb.html">LifxBulb</a> *&#160;</td>
+          <td class="paramname"><em>bulb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>brightness</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the color of a single bulb to color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bulb</td><td>Pointer to <a class="el" href="classLifxBulb.html" title="(PUBLIC) Container/controller class for a LIFX bulb">LifxBulb</a> object </td></tr>
+    <tr><td class="paramname">brightness</td><td>New brightness to set the bulb to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aabaab93e2a6992b0baaa9144c31725c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabaab93e2a6992b0baaa9144c31725c2">&#9670;&nbsp;</a></span>changeBulbBrightness <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxManager::changeBulbBrightness </td>
+          <td>(</td>
+          <td class="paramtype">QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>brightness</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the color of a single bulb to color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>QString name of the bulb being changed </td></tr>
+    <tr><td class="paramname">brightness</td><td>New brightness to set the bulb to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="afc66584a8a5c17f90bb2575e17a9cf29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc66584a8a5c17f90bb2575e17a9cf29">&#9670;&nbsp;</a></span>changeBulbBrightness <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxManager::changeBulbBrightness </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>brightness</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the color of a single bulb to color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target</td><td>64bit integer which has an encoded version of the MAC address </td></tr>
+    <tr><td class="paramname">brightness</td><td>New brightness to set the bulb to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac21c834cc96c049ab258f34671ac5675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac21c834cc96c049ab258f34671ac5675">&#9670;&nbsp;</a></span>changeBulbColor <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -208,7 +364,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">QColor&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>duration</em> = <code>400</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -228,14 +390,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <table class="params">
     <tr><td class="paramname">name</td><td>QString name of the bulb being changed </td></tr>
     <tr><td class="paramname">color</td><td>New color to set the bulb to </td></tr>
+    <tr><td class="paramname">duration</td><td>The uint32_t value in millis to slow the transition down </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="aa196ecf223922cae55cf47c2c23f5f39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa196ecf223922cae55cf47c2c23f5f39">&#9670;&nbsp;</a></span>changeBulbColor <span class="overload">[2/2]</span></h2>
+<a id="ad8dcda7202f11a1ed844e89cc8da32c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8dcda7202f11a1ed844e89cc8da32c3">&#9670;&nbsp;</a></span>changeBulbColor <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +416,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">QColor&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
+          <td class="paramname"><em>color</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>duration</em> = <code>400</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -272,9 +441,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">target</td><td>64bit integer which has an encoded version of the MAC address </td></tr>
-    <tr><td class="paramname">color</td><td>QColor object containing the new color to set the bulb to</td></tr>
+    <tr><td class="paramname">color</td><td>QColor object containing the new color to set the bulb to </td></tr>
+    <tr><td class="paramname">duration</td><td>The uint32_t value in millis to slow the transition down</td></tr>
     <tr><td class="paramname">bulb</td><td>Pointer to <a class="el" href="classLifxBulb.html" title="(PUBLIC) Container/controller class for a LIFX bulb">LifxBulb</a> object </td></tr>
     <tr><td class="paramname">color</td><td>QColor object containing the new color to set the bulb to </td></tr>
+    <tr><td class="paramname">duration</td><td>The uint32_t value in millis to slow the transition down </td></tr>
   </table>
   </dd>
 </dl>

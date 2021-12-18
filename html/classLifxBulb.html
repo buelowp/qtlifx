@@ -107,6 +107,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab521524ab95e68c35850f070e4d6cf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af88c4436b555c53cbdde6bba3bd7e5a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#af88c4436b555c53cbdde6bba3bd7e5a0">setColor</a> (QColor &amp;color)</td></tr>
 <tr class="separator:af88c4436b555c53cbdde6bba3bd7e5a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a43e58990a2c2a43f9a986ddd32d14a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a0a43e58990a2c2a43f9a986ddd32d14a">setColor</a> (<a class="el" href="structlx__dev__color__t.html">lx_dev_color_t</a> &amp;color)</td></tr>
+<tr class="separator:a0a43e58990a2c2a43f9a986ddd32d14a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98930971deaf099b6c46f154cd88b3e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a98930971deaf099b6c46f154cd88b3e6">setColor</a> (<a class="el" href="classHSBK.html">HSBK</a> &amp;color)</td></tr>
+<tr class="separator:a98930971deaf099b6c46f154cd88b3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a546ccb478af2c2cb8f2c7de44309d5bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a546ccb478af2c2cb8f2c7de44309d5bd">setKelvin</a> (uint16_t kelvin)</td></tr>
 <tr class="memdesc:a546ccb478af2c2cb8f2c7de44309d5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the kelvin value this bulb will use when a new command is sent.  <a href="classLifxBulb.html#a546ccb478af2c2cb8f2c7de44309d5bd">More...</a><br /></td></tr>
 <tr class="separator:a546ccb478af2c2cb8f2c7de44309d5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,6 +129,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setGroup</b> (QString
 <tr class="memitem:a0156aac75b4d939a2ce59032bbc6ce18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a0156aac75b4d939a2ce59032bbc6ce18">setDiscoveryActive</a> (bool discovery)</td></tr>
 <tr class="memdesc:a0156aac75b4d939a2ce59032bbc6ce18"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if we are in discovery, false if the bulb is ready to use.  <a href="classLifxBulb.html#a0156aac75b4d939a2ce59032bbc6ce18">More...</a><br /></td></tr>
 <tr class="separator:a0156aac75b4d939a2ce59032bbc6ce18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac15137a8adf6dd7d39964a77adfe1a43"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#ac15137a8adf6dd7d39964a77adfe1a43">setBrightness</a> (uint16_t brightness)</td></tr>
+<tr class="separator:ac15137a8adf6dd7d39964a77adfe1a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58112abeb62bf23334373e3badd8d589"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLifxBulb.html#a58112abeb62bf23334373e3badd8d589">targetAsLong</a> ()</td></tr>
 <tr class="memdesc:a58112abeb62bf23334373e3badd8d589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convienence function which turns the MAC into a number for indexing.  <a href="classLifxBulb.html#a58112abeb62bf23334373e3badd8d589">More...</a><br /></td></tr>
 <tr class="separator:a58112abeb62bf23334373e3badd8d589"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,7 +172,7 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>(PUBLIC) Container/controller class for a LIFX bulb </p>
 <p>This class is just a container. It keeps all the details about a bulb that is returned from the physical device in one place. It is referenced for every command that may be sent to the physical bulb. Updating data here does not send that data to the physical bulb. That is done by the manager directly.</p>
-<p>LIFX defins colors to be HSBK, not HSV or RGB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature</p>
+<p>LIFX defins colors to be <a class="el" href="classHSBK.html">HSBK</a>, not HSV or RGB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature</p>
 <p>The K value is generally retrieved from the bulb and not used otherwise as it's not clear how to interpret it using Qt5. The higher the K value, the bluer the color.</p>
 <p>This library substitutes B with V in the QColor object and uses it directly as a replacement. At this time, I can't find a difference, but it may change if I find a need.</p>
 <p>The color is maintained in two places.</p><ol type="1">
@@ -349,8 +355,83 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
 
 </div>
 </div>
+<a id="ac15137a8adf6dd7d39964a77adfe1a43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac15137a8adf6dd7d39964a77adfe1a43">&#9670;&nbsp;</a></span>setBrightness()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxBulb::setBrightness </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>brightness</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">brightness</td><td>The new uint16_t value for how bright the color is</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This just sets the V value of the <a class="el" href="classHSBK.html">HSBK</a> color scheme. </p>
+
+</div>
+</div>
+<a id="a98930971deaf099b6c46f154cd88b3e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98930971deaf099b6c46f154cd88b3e6">&#9670;&nbsp;</a></span>setColor() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxBulb::setColor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classHSBK.html">HSBK</a> &amp;&#160;</td>
+          <td class="paramname"><em>color</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">color</td><td>A reference to the <a class="el" href="classHSBK.html">HSBK</a> class which contains the color we want to show</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This will copy an <a class="el" href="classHSBK.html">HSBK</a> set of values which int a QColor and the device color member. </p>
+
+</div>
+</div>
+<a id="a0a43e58990a2c2a43f9a986ddd32d14a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a43e58990a2c2a43f9a986ddd32d14a">&#9670;&nbsp;</a></span>setColor() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LifxBulb::setColor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structlx__dev__color__t.html">lx_dev_color_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>color</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">color</td><td>A reference to a <a class="el" href="structlx__dev__color__t.html" title="(PRIVATE) The struct used to send color data to a bulb">lx_dev_color_t</a> struct which contains the color we want to show</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This will copy an <a class="el" href="structlx__dev__color__t.html" title="(PRIVATE) The struct used to send color data to a bulb">lx_dev_color_t</a> set of values which int a QColor and the device color member. </p>
+
+</div>
+</div>
 <a id="af88c4436b555c53cbdde6bba3bd7e5a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af88c4436b555c53cbdde6bba3bd7e5a0">&#9670;&nbsp;</a></span>setColor()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af88c4436b555c53cbdde6bba3bd7e5a0">&#9670;&nbsp;</a></span>setColor() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -370,7 +451,7 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
   </table>
   </dd>
 </dl>
-<p>This will translate the QColor values which are qreal between 0 and 1 as a percentage into a uint16_t where the value is the percentage of the max uint16_t range. Lifx bulbs use brightness, or HSBK (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn't map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 * .15%) and then store that value into bulb color struct to be used when a command is sent. </p>
+<p>This will translate the QColor values which are qreal between 0 and 1 as a percentage into a uint16_t where the value is the percentage of the max uint16_t range. Lifx bulbs use brightness, or <a class="el" href="classHSBK.html">HSBK</a> (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn't map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 * .15%) and then store that value into bulb color struct to be used when a command is sent. </p>
 
 </div>
 </div>

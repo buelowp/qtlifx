@@ -97,63 +97,73 @@ $(function() {
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;lifxbulb.h&quot;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;lifxpacket.h&quot;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;lifxgroup.h&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classLifxManager.html">   55</a></span>&#160;<span class="keyword">class </span>Q_DECL_EXPORT <a class="code" href="classLifxManager.html">LifxManager</a> : <span class="keyword">public</span> QObject</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classLifxManager.html">LifxManager</a>(QObject *parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ~<a class="code" href="classLifxManager.html">LifxManager</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="classLifxManager.html">LifxManager</a>(<span class="keyword">const</span> <a class="code" href="classLifxManager.html">LifxManager</a> &amp;<span class="keywordtype">object</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> initialize();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="classLifxBulb.html">LifxBulb</a>* getBulbByName(QString &amp;name);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classLifxBulb.html">LifxBulb</a>* getBulbByMac(uint64_t target);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="classLifxGroup.html">LifxGroup</a>* getGroupByName(QString &amp;name);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="classLifxGroup.html">LifxGroup</a>* getGroupByUUID(QByteArray &amp;uuid);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    QList&lt;LifxBulb*&gt; getBulbsByPID(<span class="keywordtype">int</span> pid);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span> slots:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> discoveryFailed();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> newPacket(<a class="code" href="classLifxPacket.html">LifxPacket</a> *packet);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(QString &amp;name, QColor color);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(uint64_t target, QColor color);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a>* bulb, QColor color);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> changeGroupColor(QByteArray &amp;uuid, QColor color);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> changeGroupState(QByteArray &amp;uuid, <span class="keywordtype">bool</span> state);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> setProductCapabilities(QJsonDocument &amp;doc);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> changeBulbState(QString &amp;name, <span class="keywordtype">bool</span> state);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> changeBulbState(uint64_t target, <span class="keywordtype">bool</span> state);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> changeBulbState(<a class="code" href="classLifxBulb.html">LifxBulb</a>* bulb, <span class="keywordtype">bool</span> state);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> rebootBulb(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> rebootBulb(QString &amp;name);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> rebootBulb(uint64_t target);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> rebootGroup(QByteArray &amp;uuid);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;signals:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> bulbDiscoveryFinished(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">void</span> newBulbAvailable(QString, uint64_t);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> bulbStateChanged(QString, uint64_t);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> newGroupFound(QString, QByteArray);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="classLifxProtocol.html">LifxProtocol</a> *m_protocol;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    QMap&lt;uint64_t, LifxBulb*&gt; m_bulbs;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    QMap&lt;QString, LifxBulb*&gt; m_bulbsByName;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    QMap&lt;QByteArray, LifxGroup*&gt; m_groups;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    QMultiMap&lt;int, LifxBulb*&gt; m_bulbsByPID;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    QMap&lt;int, QJsonObject&gt; m_productObjects;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;Q_DECLARE_METATYPE(<a class="code" href="classLifxManager.html">LifxManager</a>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#endif // LIGHTMANAGER_H</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;hsbk.h&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classLifxManager.html">   56</a></span>&#160;<span class="keyword">class </span>Q_DECL_EXPORT <a class="code" href="classLifxManager.html">LifxManager</a> : <span class="keyword">public</span> QObject</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classLifxManager.html">LifxManager</a>(QObject *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ~<a class="code" href="classLifxManager.html">LifxManager</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classLifxManager.html">LifxManager</a>(<span class="keyword">const</span> <a class="code" href="classLifxManager.html">LifxManager</a> &amp;<span class="keywordtype">object</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> initialize();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classLifxBulb.html">LifxBulb</a>* getBulbByName(QString &amp;name);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="classLifxBulb.html">LifxBulb</a>* getBulbByMac(uint64_t target);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="classLifxGroup.html">LifxGroup</a>* getGroupByName(QString &amp;name);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="classLifxGroup.html">LifxGroup</a>* getGroupByUUID(QByteArray &amp;uuid);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    QList&lt;LifxBulb*&gt; getBulbsByPID(<span class="keywordtype">int</span> pid);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> enableDebug(<span class="keywordtype">bool</span> debug) { m_debug = debug; }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> discoveryFailed();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> newPacket(<a class="code" href="classLifxPacket.html">LifxPacket</a> *packet);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(QString &amp;name, QColor color, uint32_t duration = 400);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a>* bulb, QColor color, uint32_t duration = 400);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(QString &amp;name, <a class="code" href="classHSBK.html">HSBK</a> color, uint32_t duration = 400);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(uint64_t target, <a class="code" href="classHSBK.html">HSBK</a> color, uint32_t duration = 400);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> changeBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a>* bulb, <a class="code" href="classHSBK.html">HSBK</a> color, uint32_t duration = 400);    </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">void</span> changeBulbBrightness(QString &amp;name, uint16_t brightness);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> changeBulbBrightness(uint64_t target, uint16_t brightness);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> changeBulbBrightness(<a class="code" href="classLifxBulb.html">LifxBulb</a>* bulb, uint16_t brightness);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> changeGroupColor(QByteArray &amp;uuid, QColor color);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> changeGroupState(QByteArray &amp;uuid, <span class="keywordtype">bool</span> state);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> setProductCapabilities(QJsonDocument &amp;doc);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> changeBulbState(QString &amp;name, <span class="keywordtype">bool</span> state);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> changeBulbState(uint64_t target, <span class="keywordtype">bool</span> state);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">void</span> changeBulbState(<a class="code" href="classLifxBulb.html">LifxBulb</a>* bulb, <span class="keywordtype">bool</span> state);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> rebootBulb(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> rebootBulb(QString &amp;name);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> rebootBulb(uint64_t target);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> rebootGroup(QByteArray &amp;uuid);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;signals:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> bulbDiscoveryFinished(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> newBulbAvailable(QString, uint64_t);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> bulbStateChanged(QString, uint64_t);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> newGroupFound(QString, QByteArray);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="classLifxProtocol.html">LifxProtocol</a> *m_protocol;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    QMap&lt;uint64_t, LifxBulb*&gt; m_bulbs;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    QMap&lt;QString, LifxBulb*&gt; m_bulbsByName;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    QMap&lt;QByteArray, LifxGroup*&gt; m_groups;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    QMultiMap&lt;int, LifxBulb*&gt; m_bulbsByPID;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    QMap&lt;int, QJsonObject&gt; m_productObjects;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">bool</span> m_debug;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;};</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;Q_DECLARE_METATYPE(<a class="code" href="classLifxManager.html">LifxManager</a>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#endif // LIGHTMANAGER_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassLifxPacket_html"><div class="ttname"><a href="classLifxPacket.html">LifxPacket</a></div><div class="ttdoc">(PRIVATE) This is an internal class to the library and should not be used by apps</div><div class="ttdef"><b>Definition:</b> lifxpacket.h:36</div></div>
 <div class="ttc" id="aclassLifxProtocol_html"><div class="ttname"><a href="classLifxProtocol.html">LifxProtocol</a></div><div class="ttdoc">(PRIVATE) The UDP protocol manager for sending/receiving bulb data</div><div class="ttdef"><b>Definition:</b> lifxprotocol.h:39</div></div>
-<div class="ttc" id="aclassLifxManager_html"><div class="ttname"><a href="classLifxManager.html">LifxManager</a></div><div class="ttdoc">(PUBLIC) Primary interface to the LIFX bulbs</div><div class="ttdef"><b>Definition:</b> lifxmanager.h:55</div></div>
-<div class="ttc" id="aclassLifxBulb_html"><div class="ttname"><a href="classLifxBulb.html">LifxBulb</a></div><div class="ttdoc">(PUBLIC) Container/controller class for a LIFX bulb</div><div class="ttdef"><b>Definition:</b> lifxbulb.h:62</div></div>
+<div class="ttc" id="aclassLifxManager_html"><div class="ttname"><a href="classLifxManager.html">LifxManager</a></div><div class="ttdoc">(PUBLIC) Primary interface to the LIFX bulbs</div><div class="ttdef"><b>Definition:</b> lifxmanager.h:56</div></div>
+<div class="ttc" id="aclassLifxBulb_html"><div class="ttname"><a href="classLifxBulb.html">LifxBulb</a></div><div class="ttdoc">(PUBLIC) Container/controller class for a LIFX bulb</div><div class="ttdef"><b>Definition:</b> lifxbulb.h:63</div></div>
 <div class="ttc" id="aclassLifxGroup_html"><div class="ttname"><a href="classLifxGroup.html">LifxGroup</a></div><div class="ttdoc">(PUBLIC) Lifx Group container</div><div class="ttdef"><b>Definition:</b> lifxgroup.h:36</div></div>
+<div class="ttc" id="aclassHSBK_html"><div class="ttname"><a href="classHSBK.html">HSBK</a></div><div class="ttdef"><b>Definition:</b> hsbk.h:36</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

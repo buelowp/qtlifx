@@ -114,48 +114,51 @@ $(function() {
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    uint16_t type() { <span class="keywordflow">return</span> m_type; }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    QHostAddress address() { <span class="keywordflow">return</span> m_address; }</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    QByteArray datagram();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    QByteArray payload() { <span class="keywordflow">return</span> m_payload; }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uint16_t port() { <span class="keywordflow">return</span> m_port; }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uint8_t* target() { <span class="keywordflow">return</span> m_target; }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    uint64_t targetAsLong();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> getBulbPower(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> getBulbFirmware(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> getBulbLabel(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> getBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> getBulbGroup(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> getBulbVersion(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> setBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> setBulbPower(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> rebootBulb(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">int</span> HEADER_SIZE = 36;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> createHeader(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb, <span class="keywordtype">bool</span> blankTarget = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    QByteArray m_payload;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    QByteArray m_hdr;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    QByteArray m_datagram;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    QHostAddress m_address;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    uint8_t m_tagged;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">bool</span> m_ackRequired;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">bool</span> m_resRequired;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    uint16_t m_type;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    uint32_t m_source;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    uint32_t m_port;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    uint8_t m_target[8];</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    uint16_t m_protocol;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    uint16_t m_size;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    uint8_t m_addressable;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    uint8_t m_headerSize;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="structlx__protocol__header__t.html">lx_protocol_header_t</a> m_header;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif // LIFXPACKET_H</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    QByteArray payload()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_payload; }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    QByteArray header()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_hdr; }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    uint16_t port() { <span class="keywordflow">return</span> m_port; }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    uint8_t* target() { <span class="keywordflow">return</span> m_target; }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    uint64_t targetAsLong();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> getBulbPower(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> getBulbFirmware(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> getBulbLabel(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> getBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> getBulbGroup(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> getBulbVersion(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> setBulbColor(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> setBulbPower(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> rebootBulb(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">int</span> HEADER_SIZE = 36;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> createHeader(<a class="code" href="classLifxBulb.html">LifxBulb</a> *bulb, <span class="keywordtype">bool</span> blankTarget = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    QByteArray m_payload;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    QByteArray m_hdr;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    QByteArray m_datagram;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    QHostAddress m_address;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    uint8_t m_tagged;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">bool</span> m_ackRequired;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">bool</span> m_resRequired;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    uint16_t m_type;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    uint32_t m_source;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    uint32_t m_port;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    uint8_t m_target[8];</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    uint16_t m_protocol;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    uint16_t m_size;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    uint8_t m_addressable;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    uint8_t m_headerSize;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="structlx__protocol__header__t.html">lx_protocol_header_t</a> m_header;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;QDebug operator&lt;&lt;(QDebug debug, <span class="keyword">const</span> <a class="code" href="classLifxPacket.html">LifxPacket</a> &amp;packet);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;QDebug operator&lt;&lt;(QDebug debug, <span class="keyword">const</span> <a class="code" href="classLifxPacket.html">LifxPacket</a> *packet);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#endif // LIFXPACKET_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassLifxPacket_html"><div class="ttname"><a href="classLifxPacket.html">LifxPacket</a></div><div class="ttdoc">(PRIVATE) This is an internal class to the library and should not be used by apps</div><div class="ttdef"><b>Definition:</b> lifxpacket.h:36</div></div>
-<div class="ttc" id="aclassLifxBulb_html"><div class="ttname"><a href="classLifxBulb.html">LifxBulb</a></div><div class="ttdoc">(PUBLIC) Container/controller class for a LIFX bulb</div><div class="ttdef"><b>Definition:</b> lifxbulb.h:62</div></div>
+<div class="ttc" id="aclassLifxBulb_html"><div class="ttname"><a href="classLifxBulb.html">LifxBulb</a></div><div class="ttdoc">(PUBLIC) Container/controller class for a LIFX bulb</div><div class="ttdef"><b>Definition:</b> lifxbulb.h:63</div></div>
 <div class="ttc" id="aclassLifxPacket_html_ade2c4ad4b6f509ee4da9cd1b7b6fc3bb"><div class="ttname"><a href="classLifxPacket.html#ade2c4ad4b6f509ee4da9cd1b7b6fc3bb">LifxPacket::setDatagram</a></div><div class="ttdeci">void setDatagram(char *data, int len, QHostAddress &amp;addr, quint16 port)</div><div class="ttdef"><b>Definition:</b> lifxpacket.cpp:134</div></div>
 <div class="ttc" id="astructlx__protocol__header__t_html"><div class="ttname"><a href="structlx__protocol__header__t.html">lx_protocol_header_t</a></div><div class="ttdoc">(PRIVATE) The header for all packets sent to/from a bulb.</div><div class="ttdef"><b>Definition:</b> defines.h:50</div></div>
 <!-- start footer part -->

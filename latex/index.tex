@@ -58,7 +58,7 @@ L\+I\+FX provides a J\+S\+ON document with all of their products identified by V
 It is possible to set product capabilities prior to running initialize() or after. However, if done after, you will need to accept that getting a new\+Bulb\+Available() signal does not mean the bulb is ready to use. It {\itshape can} be used, but it will be lacking it\textquotesingle{}s full potential capabilities.
 
 You can get the products.\+json file from \href{https://github.com/LIFX/products}{\texttt{ https\+://github.\+com/\+L\+I\+F\+X/products}}\hypertarget{index_autotoc_md4}{}\doxysection{C\+O\+DE}\label{index_autotoc_md4}
-The headers are split between public and private, and only the public are installed. This is to avoid the potential of misusing the private A\+PI\textquotesingle{}s which don\textquotesingle{}t have a function outside of the manager class.
+I did as much as possible to provide helpers where that made sense to me at least. There is an \mbox{\hyperlink{classHSBK}{H\+S\+BK}} object which allows for easy set and go for a set of colors, or to create a color in the native L\+I\+FX format. Things like Red (360), Yellow (120), etc are based on the color wheel precentages. Orange is approximiation. The white values included are roughly tuned to the app, as I got them from the app directly. So, neutral here is the same as neutral in the app.
 
 It is possible to write your own manager, this code does nothing to stop that. But it\textquotesingle{}s structured to provide a simple clean solution, and avoid having to do the lifting on your own.\hypertarget{index_autotoc_md5}{}\doxysection{R\+E\+L\+E\+A\+SE}\label{index_autotoc_md5}
 
@@ -67,8 +67,7 @@ It is possible to write your own manager, this code does nothing to stop that. B
 \end{DoxyItemize}\hypertarget{index_autotoc_md6}{}\doxysection{N\+O\+T\+ES}\label{index_autotoc_md6}
 
 \begin{DoxyItemize}
-\item The L\+I\+FX A\+PI is little endian (LE) or network byte order. This library currently assumes a LE C\+PU.
-\item This library will not work on R\+Pi or BE C\+PU for the above assumption. There is a plan to fix for all endianness, just not today.
+\item It does work on the Pi just fine, I\textquotesingle{}m using it that way now
 \item The A\+PI is still very early in development. It works for me, I don\textquotesingle{}t know that it will work for anyone else A\+TM. I\textquotesingle{}ll publish a release when I think it\textquotesingle{}s ready.
 \item This is a L\+AN library, and only works when local to the bulbs. It cannot be used outside the home network the bulbs are on.
 \item This library does not support zones or tiles yet. That may come in the future, but for now, I don\textquotesingle{}t have any to test against.

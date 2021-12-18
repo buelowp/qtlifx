@@ -1,0 +1,147 @@
+\hypertarget{classHSBK}{}\doxysection{H\+S\+BK Class Reference}
+\label{classHSBK}\index{HSBK@{HSBK}}
+
+
+{\ttfamily \#include $<$hsbk.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classHSBK_aea8d352ed760bb058956723754c32cc8}{H\+S\+BK}} (uint16\+\_\+t hue=6242, uint16\+\_\+t saturation=0, uint16\+\_\+t brightness=65535, uint16\+\_\+t kelvin=3000)
+\item 
+\mbox{\hyperlink{classHSBK_aa3c76c2e165b93e625e04ef35b411906}{H\+S\+BK}} (Q\+String color)
+\item 
+\mbox{\hyperlink{classHSBK_a037ae6e3e5b8dc03090b9af51355ea88}{H\+S\+BK}} (const \mbox{\hyperlink{classHSBK}{H\+S\+BK}} \&color)
+\item 
+\mbox{\hyperlink{classHSBK}{H\+S\+BK}} \& \mbox{\hyperlink{classHSBK_a4a2849c42bc74df883789b30e7d9ffab}{operator=}} (\mbox{\hyperlink{classHSBK}{H\+S\+BK}} \&color)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{classHSBK_a5cb624c35307bd8bf4e49c2f100a3449}{h}} (float v)
+\begin{DoxyCompactList}\small\item\em Sets H to a percentage of the 360 color wheel. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{classHSBK_a507657651e4a47d6d117168319302128}{b}} (float v)
+\begin{DoxyCompactList}\small\item\em Sets brightness by percent, where v $>$ 0 \&\& v $<$ 1. \end{DoxyCompactList}\item 
+Q\+Color \mbox{\hyperlink{classHSBK_ab5b9a0636dbbc6955cf5523ec7ea6a42}{get\+Q\+Color}} ()
+\item 
+void \mbox{\hyperlink{classHSBK_a9f3e749721df1f776f48cfe6748a2cb3}{set\+Color}} (Q\+String color)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Q\+String\+List \mbox{\hyperlink{classHSBK_ae41c3db0fe1548b085d816413790e847}{colors}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Attempts to abstract the \mbox{\hyperlink{classHSBK}{H\+S\+BK}} concept, and allow for easy assignment and management of L\+I\+FX specific \mbox{\hyperlink{classHSBK}{H\+S\+BK}} colors.
+
+\mbox{\hyperlink{classHSBK}{H\+S\+BK}} is Hue, Saturation, Brightness, and Kelvin. It roughly maps to H\+SV, but includes the Kelvin argument. When assigning the \mbox{\hyperlink{classHSBK}{H\+S\+BK}} to a Q\+Color, Kelving is ignored unfortunately. Therefore, it\textquotesingle{}s not possible to map 1-\/1. I\textquotesingle{}m still looking into how to \char`\"{}fix\char`\"{} this. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classHSBK_aea8d352ed760bb058956723754c32cc8}\label{classHSBK_aea8d352ed760bb058956723754c32cc8}} 
+\index{HSBK@{HSBK}!HSBK@{HSBK}}
+\index{HSBK@{HSBK}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{HSBK()}{HSBK()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily H\+S\+B\+K\+::\+H\+S\+BK (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{hue = {\ttfamily 6242},  }\item[{uint16\+\_\+t}]{saturation = {\ttfamily 0},  }\item[{uint16\+\_\+t}]{brightness = {\ttfamily 65535},  }\item[{uint16\+\_\+t}]{kelvin = {\ttfamily 3000} }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em hue} & The H for the hsbk value \\
+\hline
+{\em saturation} & The S for the hsbk value \\
+\hline
+{\em brightness} & The B for the hsbk value \\
+\hline
+{\em kelvin} & The K for the hsbk value\\
+\hline
+\end{DoxyParams}
+Constructs a new \mbox{\hyperlink{classHSBK}{H\+S\+BK}} object with the given values. It will default to a warm white if no parameters are sent \mbox{\Hypertarget{classHSBK_aa3c76c2e165b93e625e04ef35b411906}\label{classHSBK_aa3c76c2e165b93e625e04ef35b411906}} 
+\index{HSBK@{HSBK}!HSBK@{HSBK}}
+\index{HSBK@{HSBK}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{HSBK()}{HSBK()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily H\+S\+B\+K\+::\+H\+S\+BK (\begin{DoxyParamCaption}\item[{Q\+String}]{color }\end{DoxyParamCaption})}
+
+Constructs an \mbox{\hyperlink{classHSBK}{H\+S\+BK}} based on a color name \mbox{\Hypertarget{classHSBK_a037ae6e3e5b8dc03090b9af51355ea88}\label{classHSBK_a037ae6e3e5b8dc03090b9af51355ea88}} 
+\index{HSBK@{HSBK}!HSBK@{HSBK}}
+\index{HSBK@{HSBK}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{HSBK()}{HSBK()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily H\+S\+B\+K\+::\+H\+S\+BK (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classHSBK}{H\+S\+BK}} \&}]{color }\end{DoxyParamCaption})}
+
+Copy constructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classHSBK_a507657651e4a47d6d117168319302128}\label{classHSBK_a507657651e4a47d6d117168319302128}} 
+\index{HSBK@{HSBK}!b@{b}}
+\index{b@{b}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{b()}{b()}}
+{\footnotesize\ttfamily uint16\+\_\+t H\+S\+B\+K\+::b (\begin{DoxyParamCaption}\item[{float}]{v }\end{DoxyParamCaption})}
+
+
+
+Sets brightness by percent, where v $>$ 0 \&\& v $<$ 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The brightness expressed as a percentage, between 0 and 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the newly assigned brightness
+\end{DoxyReturn}
+Will calculate the uint16\+\_\+t value for brightness based on the percentage of max brightness. \mbox{\Hypertarget{classHSBK_ae41c3db0fe1548b085d816413790e847}\label{classHSBK_ae41c3db0fe1548b085d816413790e847}} 
+\index{HSBK@{HSBK}!colors@{colors}}
+\index{colors@{colors}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{colors()}{colors()}}
+{\footnotesize\ttfamily Q\+String\+List H\+S\+B\+K\+::colors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyReturn}{Returns}
+Returns a Q\+String\+List
+\end{DoxyReturn}
+A static function. This is the list of color names the class supports \mbox{\Hypertarget{classHSBK_ab5b9a0636dbbc6955cf5523ec7ea6a42}\label{classHSBK_ab5b9a0636dbbc6955cf5523ec7ea6a42}} 
+\index{HSBK@{HSBK}!getQColor@{getQColor}}
+\index{getQColor@{getQColor}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{getQColor()}{getQColor()}}
+{\footnotesize\ttfamily Q\+Color H\+S\+B\+K\+::get\+Q\+Color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+Returns a Q\+Color representation of this object
+\end{DoxyReturn}
+Attempts to map an \mbox{\hyperlink{classHSBK}{H\+S\+BK}} to a Q\+Color \mbox{\Hypertarget{classHSBK_a5cb624c35307bd8bf4e49c2f100a3449}\label{classHSBK_a5cb624c35307bd8bf4e49c2f100a3449}} 
+\index{HSBK@{HSBK}!h@{h}}
+\index{h@{h}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{h()}{h()}}
+{\footnotesize\ttfamily uint16\+\_\+t H\+S\+B\+K\+::h (\begin{DoxyParamCaption}\item[{float}]{v }\end{DoxyParamCaption})}
+
+
+
+Sets H to a percentage of the 360 color wheel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The 360 degree color wheel to convert from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the new uint16\+\_\+t h value after conversion
+\end{DoxyReturn}
+This takes the 360 degree color wheel and converts it to a full uint16\+\_\+t. I cheated and precalc\textquotesingle{}d the multiplier to make it easier though it\textquotesingle{}s to some extent an approximation. \mbox{\Hypertarget{classHSBK_a4a2849c42bc74df883789b30e7d9ffab}\label{classHSBK_a4a2849c42bc74df883789b30e7d9ffab}} 
+\index{HSBK@{HSBK}!operator=@{operator=}}
+\index{operator=@{operator=}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classHSBK}{H\+S\+BK}} \& H\+S\+B\+K\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHSBK}{H\+S\+BK}} \&}]{color }\end{DoxyParamCaption})}
+
+Assignment constructor \mbox{\Hypertarget{classHSBK_a9f3e749721df1f776f48cfe6748a2cb3}\label{classHSBK_a9f3e749721df1f776f48cfe6748a2cb3}} 
+\index{HSBK@{HSBK}!setColor@{setColor}}
+\index{setColor@{setColor}!HSBK@{HSBK}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily void H\+S\+B\+K\+::set\+Color (\begin{DoxyParamCaption}\item[{Q\+String}]{color }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & Sets this \mbox{\hyperlink{classHSBK}{H\+S\+BK}} object to the color identified by \char`\"{}color\char`\"{} \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peter/\+Projects/qtlifx/public/hsbk.\+h\item 
+/home/peter/\+Projects/qtlifx/src/hsbk.\+cpp\end{DoxyCompactItemize}

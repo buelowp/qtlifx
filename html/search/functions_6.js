@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['label_117',['label',['../classLifxGroup.html#a97b6d6104cd66272fe4cf5b8c90780bc',1,'LifxGroup']]],
-  ['lifxbulb_118',['LifxBulb',['../classLifxBulb.html#a48ab2778b385fe465aac7ba7c6f54df0',1,'LifxBulb']]]
+  ['initialize_130',['initialize',['../classLifxManager.html#a925e2e2b2d00fab3c6bd73034eaaa934',1,'LifxManager']]],
+  ['ison_131',['isOn',['../classLifxBulb.html#a8d8634ae9d5e7289cc934e48130809f1',1,'LifxBulb']]]
 ];
