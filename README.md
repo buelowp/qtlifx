@@ -32,6 +32,8 @@ To use this in your library, simple add qtlifx to your link step
 
 ## HOWTO
 
+Find the Doxygen documentation at https://buelowp.github.io/qtlifx/
+
 See the example main.cpp in the examples directory, but it's pretty simple to use.
 
 ```
