@@ -42,10 +42,12 @@ public:
     HSBK(const HSBK &color);
     HSBK& operator=(HSBK& color);
 
-    uint16_t h(float v) { m_hsbk.hue = v; return v; }           //!< Sets and returns the H from the HSBK
-    uint16_t s(float v) { m_hsbk.saturation = v; return v; }    //!< Sets and returns the S from the HSBK
-    uint16_t b(float v) { m_hsbk.brightness = v; return v; }    //!< Sets and returns the B from the HSBK
-    uint16_t k(float v) { m_hsbk.kelvin = v; return v; }        //!< Sets and returns the K from the HSBK
+    uint16_t h(uint16_t v) { m_hsbk.hue = v; return v; }            //!< Sets and returns the H from the HSBK
+    uint16_t h(float v);                                            //!< Sets H to a percentage of the 360 color wheel
+    uint16_t s(uint16_t v) { m_hsbk.saturation = v; return v; }     //!< Sets and returns the S from the HSBK
+    uint16_t b(uint16_t v) { m_hsbk.brightness = v; return v; }     //!< Sets and returns the B from the HSBK
+    uint16_t b(float v);                                            //!< Sets brightness by percent, where v > 0 && v < 1
+    uint16_t k(uint16_t v) { m_hsbk.kelvin = v; return v; }         //!< Sets and returns the K from the HSBK
     
     uint16_t h() const { return m_hsbk.hue; }                   //!< Returns the H from the HSBK
     uint16_t s() const { return m_hsbk.saturation; }            //!< Returns the S from the HSBK

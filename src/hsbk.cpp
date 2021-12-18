@@ -112,36 +112,36 @@ void HSBK::setColor(QString color)
     }
     else if (color.toLower() == "orange") {
         m_hsbk.kelvin = 1500;
-        m_hsbk.hue = 4631;
+        m_hsbk.hue = 4550;
         m_hsbk.saturation = 65535;
         m_hsbk.brightness = 65535;
     }
     else if (color.toLower() == "red") {
-        m_hsbk.kelvin = 1500;
-        m_hsbk.hue = 63963;
+        m_hsbk.kelvin = 3000;
+        m_hsbk.hue = 65535;
         m_hsbk.saturation = 65535;
         m_hsbk.brightness = 65535;
     }
     else if (color.toLower() == "green") {
-        m_hsbk.kelvin = 1500;
-        m_hsbk.hue = 23398;
+        m_hsbk.kelvin = 3000;
+        m_hsbk.hue = 21840;
         m_hsbk.saturation = 65535;
         m_hsbk.brightness = 65535;
     }
     else if (color.toLower() == "yellow") {
-        m_hsbk.kelvin = 1500;
-        m_hsbk.hue = 11002;
+        m_hsbk.kelvin = 3000;
+        m_hsbk.hue = 10920;
         m_hsbk.saturation = 65535;
         m_hsbk.brightness = 65535;
     }
     else if (color.toLower() == "blue") {
-        m_hsbk.kelvin = 1500;
-        m_hsbk.hue = 44392;
+        m_hsbk.kelvin = 3000;
+        m_hsbk.hue = 43680;
         m_hsbk.saturation = 65535;
         m_hsbk.brightness = 65535;
     }
     else if (color.toLower() == "purple") {
-        m_hsbk.kelvin = 1500;
+        m_hsbk.kelvin = 3000;
         m_hsbk.hue = 50870;
         m_hsbk.saturation = 65535;
         m_hsbk.brightness = 65535;
@@ -179,6 +179,50 @@ QColor HSBK::getQColor()
     c.setHsvF(m_hsbk.hue / max, m_hsbk.saturation / max, m_hsbk.brightness / max);
     return c;
 }
+
+/**
+ * \fn uint16_t HSBK::b(float v)
+ * \param v The brightness expressed as a percentage, between 0 and 1
+ * \return Returns the newly assigned brightness
+ * 
+ * Will calculate the uint16_t value for brightness based on the percentage
+ * of max brightness.
+ */
+uint16_t HSBK::b(float v)
+{
+    uint16_t max = std::numeric_limits<uint16_t>::max();
+    
+    if (v > 1)
+        v = 1;
+    if (v < 0)
+        v = .01;
+    
+    m_hsbk.brightness = max * v;
+    return m_hsbk.brightness;
+}
+
+/**
+ * \fn uint16_t HSBK::h(float v)
+ * \param v The 360 degree color wheel to convert from
+ * \return Returns the new uint16_t h value after conversion
+ * 
+ * This takes the 360 degree color wheel and converts it to a full
+ * uint16_t. I cheated and precalc'd the multiplier to make it easier
+ * though it's to some extent an approximation.
+ */
+uint16_t HSBK::h(float v)
+{
+    float multiplier = 182.042;
+    
+    if (v > 360.0)
+        v = 0;
+    if (v < 0.0)
+        v = 0;
+    
+    m_hsbk.hue = v * multiplier;
+    return m_hsbk.hue;
+}
+
 
 /**
  * \fn QStringList HSBK::colors()

@@ -86,8 +86,11 @@ You can get the products.json file from https://github.com/LIFX/products
 
 ## CODE
 
-The headers are split between public and private, and only the public are installed. This is to avoid
-the potential of misusing the private API's which don't have a function outside of the manager class.
+I did as much as possible to provide helpers where that made sense to me at least. There is an HSBK
+object which allows for easy set and go for a set of colors, or to create a color in the native
+LIFX format. Things like Red (360), Yellow (120), etc are based on the color wheel precentages. Orange is approximiation.
+The white values included are roughly tuned to the app, as I got them from the app directly. So, neutral
+here is the same as neutral in the app.
 
 It is possible to write your own manager, this code does nothing to stop that. But it's structured
 to provide a simple clean solution, and avoid having to do the lifting on your own.
@@ -98,8 +101,7 @@ to provide a simple clean solution, and avoid having to do the lifting on your o
 
 ## NOTES
 
-* The LIFX API is little endian (LE) or network byte order. This library currently assumes a LE CPU. 
-* This library will not work on RPi or BE CPU for the above assumption. There is a plan to fix for all endianness, just not today.
+* It does work on the Pi just fine, I'm using it that way now
 * The API is still very early in development. It works for me, I don't know that it will work for anyone else ATM. I'll publish a release when I think it's ready.
 * This is a LAN library, and only works when local to the bulbs. It cannot be used outside the home network the bulbs are on.
 * This library does not support zones or tiles yet. That may come in the future, but for now, I don't have any to test against.
