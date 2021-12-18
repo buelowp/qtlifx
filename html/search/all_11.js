@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['updated_5fat_95',['updated_at',['../structlx__group__info__t.html#a7b5f58737e4607976e14b14010cf79a9',1,'lx_group_info_t']]],
-  ['uuid_96',['uuid',['../classLifxGroup.html#a29eca78ef8f33c40c0c5ba2551cc85bd',1,'LifxGroup']]]
+  ['updated_5fat_98',['updated_at',['../structlx__group__info__t.html#a7b5f58737e4607976e14b14010cf79a9',1,'lx_group_info_t']]],
+  ['uuid_99',['uuid',['../classLifxGroup.html#a29eca78ef8f33c40c0c5ba2551cc85bd',1,'LifxGroup']]]
 ];

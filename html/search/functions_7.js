@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['label_134',['label',['../classLifxGroup.html#a97b6d6104cd66272fe4cf5b8c90780bc',1,'LifxGroup']]],
-  ['lifxbulb_135',['LifxBulb',['../classLifxBulb.html#a48ab2778b385fe465aac7ba7c6f54df0',1,'LifxBulb']]]
+  ['k_138',['k',['../classHSBK.html#a66f96f64208af7b64cabd6979493fb51',1,'HSBK::k(uint16_t v)'],['../classHSBK.html#a1419cd6092433670fe04f4b7ea8942d3',1,'HSBK::k() const']]]
 ];

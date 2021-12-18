@@ -172,7 +172,7 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>(PUBLIC) Container/controller class for a LIFX bulb </p>
 <p>This class is just a container. It keeps all the details about a bulb that is returned from the physical device in one place. It is referenced for every command that may be sent to the physical bulb. Updating data here does not send that data to the physical bulb. That is done by the manager directly.</p>
-<p>LIFX defins colors to be <a class="el" href="classHSBK.html">HSBK</a>, not HSV or RGB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature</p>
+<p>LIFX defins colors to be <a class="el" href="classHSBK.html" title="An HSBK container class with helper functions for direct use of the LIFX color scheme.">HSBK</a>, not HSV or RGB (or any other). This means H = Hue S = Saturation B = Brightness (reasonably still value which is how this library interprets) K = Kelvin (color temperature</p>
 <p>The K value is generally retrieved from the bulb and not used otherwise as it's not clear how to interpret it using Qt5. The higher the K value, the bluer the color.</p>
 <p>This library substitutes B with V in the QColor object and uses it directly as a replacement. At this time, I can't find a difference, but it may change if I find a need.</p>
 <p>The color is maintained in two places.</p><ol type="1">
@@ -376,7 +376,7 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
   </table>
   </dd>
 </dl>
-<p>This just sets the V value of the <a class="el" href="classHSBK.html">HSBK</a> color scheme. </p>
+<p>This just sets the V value of the <a class="el" href="classHSBK.html" title="An HSBK container class with helper functions for direct use of the LIFX color scheme.">HSBK</a> color scheme. </p>
 
 </div>
 </div>
@@ -397,11 +397,11 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">color</td><td>A reference to the <a class="el" href="classHSBK.html">HSBK</a> class which contains the color we want to show</td></tr>
+    <tr><td class="paramname">color</td><td>A reference to the <a class="el" href="classHSBK.html" title="An HSBK container class with helper functions for direct use of the LIFX color scheme.">HSBK</a> class which contains the color we want to show</td></tr>
   </table>
   </dd>
 </dl>
-<p>This will copy an <a class="el" href="classHSBK.html">HSBK</a> set of values which int a QColor and the device color member. </p>
+<p>This will copy an <a class="el" href="classHSBK.html" title="An HSBK container class with helper functions for direct use of the LIFX color scheme.">HSBK</a> set of values which int a QColor and the device color member. </p>
 
 </div>
 </div>
@@ -451,7 +451,7 @@ QColor&#160;</td><td class="memItemRight" valign="bottom"><b>color</b> () const<
   </table>
   </dd>
 </dl>
-<p>This will translate the QColor values which are qreal between 0 and 1 as a percentage into a uint16_t where the value is the percentage of the max uint16_t range. Lifx bulbs use brightness, or <a class="el" href="classHSBK.html">HSBK</a> (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn't map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 * .15%) and then store that value into bulb color struct to be used when a command is sent. </p>
+<p>This will translate the QColor values which are qreal between 0 and 1 as a percentage into a uint16_t where the value is the percentage of the max uint16_t range. Lifx bulbs use brightness, or <a class="el" href="classHSBK.html" title="An HSBK container class with helper functions for direct use of the LIFX color scheme.">HSBK</a> (Hue, Saturation, Brightness, Kelvin) for setting a color. This doesn't map so well to other color containers, so I do it the following way. The 16 bit color is changed to a percentage by multiplying the qreal by max (45000 * .15%) and then store that value into bulb color struct to be used when a command is sent. </p>
 
 </div>
 </div>

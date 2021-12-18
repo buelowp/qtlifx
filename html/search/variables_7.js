@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['major_174',['major',['../structlx__dev__firmware__t.html#a6c852dda58cd8dcc5886d9a8bcdf53c3',1,'lx_dev_firmware_t']]],
-  ['minor_175',['minor',['../structlx__dev__firmware__t.html#aba409ab36b5c1a1ccf4749b73cdf4bd1',1,'lx_dev_firmware_t']]]
+  ['major_180',['major',['../structlx__dev__firmware__t.html#a6c852dda58cd8dcc5886d9a8bcdf53c3',1,'lx_dev_firmware_t']]],
+  ['minor_181',['minor',['../structlx__dev__firmware__t.html#aba409ab36b5c1a1ccf4749b73cdf4bd1',1,'lx_dev_firmware_t']]]
 ];

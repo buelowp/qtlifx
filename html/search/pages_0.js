@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qt_20lifx_20library_199',['Qt LIFX Library',['../index.html',1,'']]]
+  ['qt_20lifx_20library_205',['Qt LIFX Library',['../index.html',1,'']]]
 ];
