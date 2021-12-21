@@ -178,7 +178,7 @@ void HSBK::setColor(QString color)
  * 
  * Assignment constructor
  */
-HSBK & HSBK::operator=(HSBK& color)
+HSBK & HSBK::operator=(const HSBK& color)
 {
     memcpy(&m_hsbk, &color.m_hsbk, sizeof(lx_dev_color_t));
     return *this;

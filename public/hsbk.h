@@ -42,7 +42,7 @@ public:
     HSBK(QString color);
     ~HSBK();
     HSBK(const HSBK &color);
-    HSBK& operator=(HSBK& color);
+    HSBK& operator=(const HSBK& color);
 
     /**
      * \fn uint16_t h(uint16_t v)
