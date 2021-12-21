@@ -242,6 +242,32 @@ uint16_t HSBK::h(float v)
     return m_hsbk.hue;
 }
 
+/**
+ * \fn void HSBK::hsvColorWheel(uint16_t degrees, uint8_t spct, uint8_t vpct)
+ * \param degrees From the HSV color wheel, this is the degrees value on the circle (0 to 360 where 0 == 360)
+ * \param spct Saturation percentage
+ * \param vpct Value percentage
+ * 
+ * This will take a color wheel value, and create a new HSBK to represent it. This may
+ * be useful where the values presented aren't exactly HSB but can be mapped
+ * directly, with an assumed K of 3000. Percentages here are 0 to 100.
+ */
+void HSBK::hsvColorWheel(uint16_t degrees, uint8_t spct, uint8_t vpct)
+{
+    if (degrees > 360)
+        degrees = 0;
+    
+    if (spct > 100)
+        spct = 100;
+    
+    if (vpct > 100)
+        vpct = 100;
+    
+    m_hsbk.kelvin = 3000;
+    h((float)degrees);
+    s((float)(spct / 100));
+    b((float)(vpct / 100));
+}
 
 /**
  * \fn QStringList HSBK::colors()

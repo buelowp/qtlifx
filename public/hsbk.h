@@ -25,7 +25,7 @@
 
 /**
  * \class HSBK
- * \brief An HSBK container class with helper functions for direct use of the LIFX color scheme
+ * \brief (PUBLIC) A container class with helper functions for direct use of the LIFX hsb color scheme
  * 
  * Attempts to abstract the HSBK concept, and allow for easy assignment and management
  * of LIFX specific HSBK colors. LIFX uses HSV, but replaces V with B for brightness. 
@@ -68,7 +68,7 @@ public:
      * 
      * Sets the B value to the range 0 to 65535
      */
-    uint16_t b(uint16_t v) { m_hsbk.brightness = v; return v; }     //!< Sets and returns the B from the HSBK
+    uint16_t b(uint16_t v) { m_hsbk.brightness = v; return v; }
     uint16_t b(float v);
     /**
      * \fn uint16_t k(uint16_t v)
@@ -119,6 +119,7 @@ public:
     lx_dev_color_t getHSBK() const { return m_hsbk; }
     QColor getQColor();
     void setColor(QString color);
+    void hsvColorWheel(uint16_t degrees, uint8_t spct, uint8_t vpct);
     static QStringList colors();
     
 private:
