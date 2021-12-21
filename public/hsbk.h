@@ -119,7 +119,7 @@ public:
     lx_dev_color_t getHSBK() const { return m_hsbk; }
     QColor getQColor();
     void setColor(QString color);
-    void hsvColorWheel(uint16_t degrees, uint8_t spct, uint8_t vpct);
+    void hsvColorWheel(uint16_t degrees, float spct, float vpct);
     static QStringList colors();
     
 private:

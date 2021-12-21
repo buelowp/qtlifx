@@ -252,15 +252,15 @@ uint16_t HSBK::h(float v)
  * be useful where the values presented aren't exactly HSB but can be mapped
  * directly, with an assumed K of 3000. Percentages here are 0 to 100.
  */
-void HSBK::hsvColorWheel(uint16_t degrees, uint8_t spct, uint8_t vpct)
+void HSBK::hsvColorWheel(uint16_t degrees, float spct, float vpct)
 {
     if (degrees > 360)
         degrees = 0;
     
-    if (spct > 100)
+    if (spct > 100.0)
         spct = 100;
     
-    if (vpct > 100)
+    if (vpct > 100.0)
         vpct = 100;
     
     m_hsbk.kelvin = 3000;
