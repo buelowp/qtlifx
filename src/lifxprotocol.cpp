@@ -21,6 +21,7 @@
 
 LifxProtocol::LifxProtocol(QObject *parent) : QObject(parent)
 {
+    m_socket = nullptr;
 }
 
 LifxProtocol::~LifxProtocol()
@@ -62,11 +63,21 @@ bool LifxProtocol::newPacketAvailable()
     return m_socket->hasPendingDatagrams();
 }
 
+/**
+ * If this is just starting up, then we need to create the new socket
+ * but if we are trying again, say after a while, then we should
+ * end the comms and restart them, but not recreate the socket
+ */
 void LifxProtocol::initialize()
 {
-    m_socket = new QUdpSocket();
-    m_socket->bind(LIFX_PORT);
-    connect(m_socket, &QUdpSocket::readyRead, this, &LifxProtocol::readDatagram);
+    if (!m_socket) {
+        m_socket = new QUdpSocket();
+        m_socket->bind(LIFX_PORT);
+        connect(m_socket, &QUdpSocket::readyRead, this, &LifxProtocol::readDatagram);
+    }
+    else {
+        m_socket->abort();
+    }
 }
 
 void LifxProtocol::getPowerForBulb(LifxBulb* bulb)

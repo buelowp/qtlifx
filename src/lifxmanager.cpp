@@ -473,7 +473,7 @@ void LifxManager::setProductCapabilities(QJsonDocument& doc)
                         }
                         else {
                             if (m_bulbsByPID.contains(pid)) {
-                                QList<LifxBulb*> bulbs = m_bulbs.values(pid);
+                                QList<LifxBulb*> bulbs = m_bulbsByPID.values(pid);
                                 for (auto bulb : bulbs) {
                                     bulb->setProduct(obj);
                                 }
