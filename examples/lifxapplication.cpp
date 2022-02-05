@@ -23,10 +23,15 @@ LifxApplication::LifxApplication() : QMainWindow()
 {
     m_manager = new LifxManager();
     connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscovered);
+    connect(m_manager, &LifxManager::bulbStateChanged, this, &LifxApplication::bulbStateChanged);
     
     m_x = 0;
     m_y = 0;
     
+    m_interval = new QTimer();
+    connect(m_interval, &QTimer::timeout, this, &LifxApplication::timeout);
+    m_interval->setInterval(5000);
+    m_interval->start();
     m_layout = new QGridLayout();
     QWidget *central = new QWidget();
     central->setLayout(m_layout);
@@ -43,6 +48,21 @@ LifxApplication::LifxApplication() : QMainWindow()
 LifxApplication::~LifxApplication()
 {
 
+}
+
+void LifxApplication::bulbStateChanged ( LifxBulb* bulb )
+{
+    LightBulb *lb = m_widgets[bulb->label()];
+    if (lb != nullptr) {
+        lb->setColor(bulb->color());
+        lb->setPower(bulb->power());
+        lb->setText(bulb->label());
+    }
+}
+
+void LifxApplication::timeout()
+{
+    m_manager->updateState();
 }
 
 void LifxApplication::setProductsJsonFile(QString path)
@@ -64,7 +84,7 @@ void LifxApplication::setProductsJsonFile(QString path)
 
 void LifxApplication::showEvent(QShowEvent *e)
 {
-    qDebug() << __PRETTY_FUNCTION__;
+    Q_UNUSED(e)
 }
 
 void LifxApplication::go()
@@ -74,11 +94,13 @@ void LifxApplication::go()
 
 void LifxApplication::bulbDiscovered(LifxBulb *bulb)
 {
+    qDebug().nospace().noquote() << "Found new bulb: " << bulb->label() << " [" << bulb->macToString() << "]";
     LightBulb *widget = new LightBulb();
     widget->setText(bulb->label());
     widget->setColor(bulb->color());
     widget->setPower(bulb->power());
     m_layout->addWidget(widget, m_x, m_y);
+    m_widgets.insert(bulb->label(), widget);
     m_y++;
     if (m_y > 2) {
         m_x++;

@@ -121,6 +121,7 @@ void LifxPacket::setHeader(const char* data)
     for (int i = 0; i < 8; i++) {
         m_target[i] = m_header.target[i];
     }
+    m_hdr = QByteArray::fromRawData(data, m_headerSize);
 }
 
 void LifxPacket::setPayload(QByteArray ba)
@@ -148,6 +149,17 @@ uint64_t LifxPacket::targetAsLong()
     uint64_t target;
     memcpy(&target, m_target, sizeof(uint64_t));
     return target;
+}
+
+void LifxPacket::echoBulb ( LifxBulb* bulb )
+{
+    m_tagged = 0;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::ECHO_REQUEST;
+    m_source = 919882;
+    
+    createHeader(bulb, false);
 }
 
 void LifxPacket::getBulbFirmware(LifxBulb *bulb)
@@ -272,7 +284,11 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
 QDebug operator<<(QDebug debug, const LifxPacket &packet)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << "Packet: " << packet.header().toHex() << ":" << packet.payload().toHex();
+    debug.nospace().noquote() << "HOST: " << packet.address() << Qt::endl;
+    debug.nospace().noquote() << "Packet: " << packet.header().toHex() << Qt::endl;
+    if (packet.payload().size()) {
+        debug.nospace().noquote() << "Payload: " << packet.payload().toHex() << Qt::endl;
+    }
     return debug;
 }
 
@@ -287,6 +303,10 @@ QDebug operator<<(QDebug debug, const LifxPacket &packet)
 QDebug operator<<(QDebug debug, const LifxPacket *packet)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << "Packet: " << packet->header().toHex() << ":" << packet->payload().toHex();
+    debug.nospace().noquote() << "HOST: " << packet->address() << Qt::endl;
+    debug.nospace().noquote() << "Packet: " << packet->header().toHex() << Qt::endl;
+    if (packet->payload().size()) {
+        debug.nospace().noquote() << "Payload: " << packet->payload().toHex() << Qt::endl;
+    }
     return debug;
 }

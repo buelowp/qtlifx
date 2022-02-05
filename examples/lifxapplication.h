@@ -43,6 +43,8 @@ public:
 
 public slots:
     void bulbDiscovered(LifxBulb *bulb);
+    void bulbStateChanged(LifxBulb *bulb);
+    void timeout();
     
 protected:
     void showEvent(QShowEvent *e);
@@ -53,6 +55,8 @@ private:
     
     LifxManager *m_manager;
     QGridLayout *m_layout;
+    QTimer *m_interval;
+    QMap<QString, LightBulb*> m_widgets;
     int m_x;
     int m_y;
 };

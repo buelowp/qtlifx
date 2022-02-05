@@ -93,12 +93,16 @@ public slots:
     void rebootBulb(QString &name);
     void rebootBulb(uint64_t target);
     void rebootGroup(QByteArray &uuid);
+    void updateState();
 
 signals:
     void bulbDiscoveryFinished(LifxBulb *bulb);
     void newBulbAvailable(QString, uint64_t);
-    void bulbStateChanged(QString, uint64_t);
+    void bulbStateChanged(LifxBulb *bulb);
     void newGroupFound(QString, QByteArray);
+    void echoReply(LifxBulb *bulb);
+    void bulbLabelChange(LifxBulb *bulb);
+    void bulbGroupChange(LifxGroup *group);
 
 private:
     LifxProtocol *m_protocol;

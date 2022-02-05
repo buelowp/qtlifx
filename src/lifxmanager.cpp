@@ -65,6 +65,15 @@ void LifxManager::initialize()
     m_protocol->discover();
 }
 
+void LifxManager::updateState()
+{
+    QMapIterator<uint64_t, LifxBulb*> i(m_bulbs);
+    while (i.hasNext()) {
+        i.next();
+        m_protocol->getColorForBulb(i.value());
+    }    
+}
+
 /**
  * \fn void LifxManager::newPacket(LifxPacket* packet)
  * \param packet Pointer to a LifxPacket container
@@ -91,6 +100,11 @@ void LifxManager::newPacket(LifxPacket* packet)
                 m_bulbs[target] = bulb;
                 m_protocol->getLabelForBulb(bulb);
             }
+            else {
+                bulb = m_bulbs[target];
+                bulb->setAddress(packet->address(), packet->port());
+                m_protocol->getColorForBulb(bulb);
+            }
             break;
         case LIFX_DEFINES::STATE_LABEL:
             if (m_bulbs.contains(target)) {
@@ -99,8 +113,10 @@ void LifxManager::newPacket(LifxPacket* packet)
                 m_bulbsByName[bulb->label()] = bulb;
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
-                emit newBulbAvailable(bulb->label(), target);
-                m_protocol->getFirmwareForBulb(bulb);
+                if (bulb->inDiscovery())
+                    m_protocol->getFirmwareForBulb(bulb);
+                else
+                    emit bulbLabelChange(bulb);
             }
             else {
                 if (m_debug)
@@ -155,10 +171,12 @@ void LifxManager::newPacket(LifxPacket* packet)
                 if (m_groups.contains(uuid)) {
                     LifxGroup *g = m_groups[uuid];
                     if (g != nullptr) {
-                        if (!g->contains(bulb))
+                        if (!g->contains(bulb)) {
                             g->addBulb(bulb);
-                            if (m_debug)
-                                qDebug() << __PRETTY_FUNCTION__ << ": GROUP (add):" << g;
+                            emit bulbGroupChange(g);
+                        }
+                        if (m_debug)
+                            qDebug() << __PRETTY_FUNCTION__ << ": GROUP (add):" << g;
                     }
                 }
                 else {
@@ -166,10 +184,12 @@ void LifxManager::newPacket(LifxPacket* packet)
                     g->addBulb(bulb);
                     m_groups[uuid] = g;
                     emit newGroupFound(label, uuid);
+                    emit bulbGroupChange(g);
                     if (m_debug)
                         qDebug() << __PRETTY_FUNCTION__ << ": GROUP (new):" << g;
                 }
-                m_protocol->getColorForBulb(bulb);
+                if (bulb->inDiscovery())
+                    m_protocol->getColorForBulb(bulb);
             }
             break;
         case LIFX_DEFINES::LIGHT_STATE:
@@ -182,15 +202,27 @@ void LifxManager::newPacket(LifxPacket* packet)
                     bulb->setDiscoveryActive(false);
                     emit bulbDiscoveryFinished(bulb);
                 }
-                emit bulbStateChanged(bulb->label(), target);
+                else
+                    emit bulbStateChanged(bulb);
+                
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
             }
             else {
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
             }
-            break;            
+            break;
+        case LIFX_DEFINES::ECHO_REPLY:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                emit echoReply(bulb);
+            }
+            else {
+                qWarning() << "Got an echo reply to a bulb we dno't seem to know about [" << target << "]";
+            }
         default:
+            if (packet->type() != 2)
+                qWarning() << "Unknown packet type" << packet->type();
             break;
     }
     

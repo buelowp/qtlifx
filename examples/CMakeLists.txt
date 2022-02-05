@@ -15,7 +15,7 @@ find_package (Qt5Network CONFIG REQUIRED)
 find_package (Qt5Gui CONFIG REQUIRED)
 find_package (Qt5Widgets CONFIG REQUIRED)
 
-link_directories(${CMAKE_SOURCE_DIR}/../build2)
+link_directories(${CMAKE_SOURCE_DIR}/../build)
 
 # Tell CMake to create the helloworld executable
 add_executable (${PROJECT_NAME} ${SOURCES} ${HEADERS})

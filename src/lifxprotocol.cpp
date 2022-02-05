@@ -68,6 +68,7 @@ bool LifxProtocol::newPacketAvailable()
 
 void LifxProtocol::initialize()
 {
+    qDebug() << __PRETTY_FUNCTION__;
 }
 
 void LifxProtocol::getPowerForBulb(LifxBulb* bulb)

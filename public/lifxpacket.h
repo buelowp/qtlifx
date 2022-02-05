@@ -49,7 +49,7 @@ public:
 
     uint16_t size() { return m_size; }
     uint16_t type() { return m_type; }
-    QHostAddress address() { return m_address; }
+    QHostAddress address() const { return m_address; }
     QByteArray datagram();
     QByteArray payload() const { return m_payload; }
     QByteArray header() const { return m_hdr; }
@@ -66,6 +66,7 @@ public:
     void setBulbColor(LifxBulb *bulb);
     void setBulbPower(LifxBulb *bulb);
     void rebootBulb(LifxBulb *bulb);
+    void echoBulb(LifxBulb *bulb);
 
     static constexpr int HEADER_SIZE = 36;
     

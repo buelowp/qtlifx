@@ -30,7 +30,7 @@ public:
 
     void setText(QString text) { m_text = text; update(); }
     void setColor(QColor c) { m_color = c; update(); }
-    void setPower(uint16_t p) { m_state = (p == 65535) ? true : false; }
+    void setPower(uint16_t p) { m_state = (p != 0); }
     
 protected:
     void paintEvent(QPaintEvent *e) override;
