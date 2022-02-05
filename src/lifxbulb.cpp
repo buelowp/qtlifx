@@ -498,7 +498,7 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "] (" << bulb.group() << ") (" << bulb.vid() << "," << bulb.pid() <<") " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
     if (bulb.isOn()) {
-        debug.nospace().noquote() << " Power: " << p << "%" << " Kelvin " << bulb.kelvin();
+        debug.nospace().noquote() << " Power: " << bulb.power() << " Kelvin " << bulb.kelvin();
         debug.nospace().noquote() << " Color(" << bulb.toDeviceColor()->hue << "," <<  bulb.toDeviceColor()->saturation << "," << bulb.toDeviceColor()->brightness << ")";
     }
     else {
@@ -525,7 +525,7 @@ QDebug operator<<(QDebug debug, const LifxBulb *bulb)
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "] (" << bulb->group() << ") (" << bulb->vid() << "," << bulb->pid() <<") " << bulb->addressToString(false) << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
     if (bulb->isOn()) {
-        debug.nospace().noquote() << " Power: " << p << "%" << " Kelvin " << bulb->kelvin();
+        debug.nospace().noquote() << " Power: " << bulb->power() << " Kelvin " << bulb->kelvin();
         debug.nospace().noquote() << " Color(" << bulb->toDeviceColor()->hue << "," <<  bulb->toDeviceColor()->saturation << "," << bulb->toDeviceColor()->brightness << ")";
     }
     else {

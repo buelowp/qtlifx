@@ -252,13 +252,11 @@ void LifxPacket::setBulbPower(LifxBulb* bulb)
     m_source = 919827;
     
     createHeader(bulb, false);
-    m_payload.clear();
     if (bulb->power() == 0) {
-        m_payload[0] = 0;
-        m_payload[1] = 0;
+        m_payload = QByteArrayLiteral("\x00\x00");
     }
     else {
-        m_payload.setNum(65535);
+        m_payload = QByteArrayLiteral("\xff\xff");
     }
 }
 

@@ -74,23 +74,19 @@ public:
 public slots:
     void discoveryFailed();
     void newPacket(LifxPacket *packet);
-    void changeBulbColor(QString &name, QColor color, uint32_t duration = 400);
     void changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400);
     void changeBulbColor(LifxBulb* bulb, QColor color, uint32_t duration = 400);
-    void changeBulbColor(QString &name, HSBK color, uint32_t duration = 400);
     void changeBulbColor(uint64_t target, HSBK color, uint32_t duration = 400);
     void changeBulbColor(LifxBulb* bulb, HSBK color, uint32_t duration = 400);    
-    void changeBulbBrightness(QString &name, uint16_t brightness);
     void changeBulbBrightness(uint64_t target, uint16_t brightness);
     void changeBulbBrightness(LifxBulb* bulb, uint16_t brightness);
     void changeGroupColor(QByteArray &uuid, QColor color);
+    void changeGroupColor(QByteArray &uuid, HSBK color);
     void changeGroupState(QByteArray &uuid, bool state);
     void setProductCapabilities(QJsonDocument &doc);
-    void changeBulbState(QString &name, bool state);
     void changeBulbState(uint64_t target, bool state);
     void changeBulbState(LifxBulb* bulb, bool state);
     void rebootBulb(LifxBulb *bulb);
-    void rebootBulb(QString &name);
     void rebootBulb(uint64_t target);
     void rebootGroup(QByteArray &uuid);
     void updateState();
@@ -107,7 +103,6 @@ signals:
 private:
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
-    QMap<QString, LifxBulb*> m_bulbsByName;
     QMap<QByteArray, LifxGroup*> m_groups;
     QMultiMap<int, LifxBulb*> m_bulbsByPID;
     QMap<int, QJsonObject> m_productObjects;

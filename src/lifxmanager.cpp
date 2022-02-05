@@ -30,7 +30,6 @@ LifxManager::LifxManager(const LifxManager& object) : QObject()
 {
     m_protocol = object.m_protocol;
     m_bulbs = object.m_bulbs;
-    m_bulbsByName =  object.m_bulbsByName;
     m_groups = object.m_groups;
     m_bulbsByPID = object.m_bulbsByPID;
     m_productObjects = object.m_productObjects;
@@ -103,14 +102,13 @@ void LifxManager::newPacket(LifxPacket* packet)
             else {
                 bulb = m_bulbs[target];
                 bulb->setAddress(packet->address(), packet->port());
-                m_protocol->getColorForBulb(bulb);
+                emit bulbStateChanged(bulb);
             }
             break;
         case LIFX_DEFINES::STATE_LABEL:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
                 bulb->setLabel(QString::fromUtf8(packet->payload()));
-                m_bulbsByName[bulb->label()] = bulb;
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
                 if (bulb->inDiscovery())
@@ -120,7 +118,7 @@ void LifxManager::newPacket(LifxPacket* packet)
             }
             else {
                 if (m_debug)
-                    qDebug() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
+                    qWarning() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
             }
             break;
         case LIFX_DEFINES::STATE_HOST_FIRMWARE:
@@ -212,6 +210,17 @@ void LifxManager::newPacket(LifxPacket* packet)
                 qWarning() << __PRETTY_FUNCTION__ << ": Got a LIGHT_STATE for a bulb (" << target << ") which isn't in the map";
             }
             break;
+        case LIFX_DEFINES::STATE_POWER:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                uint16_t power = 0;
+                memcpy(&power, packet->payload().data(), 2);
+                
+                bulb->setPower(power);
+//                if (m_debug)
+                qDebug() << "POWER: " << bulb;
+            }
+            break;
         case LIFX_DEFINES::ECHO_REPLY:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
@@ -249,27 +258,14 @@ LifxBulb * LifxManager::getBulbByMac(uint64_t target)
  */
 LifxBulb * LifxManager::getBulbByName(QString& name)
 {
-    if (m_bulbsByName.contains(name))
-        return m_bulbsByName[name];
-    
-    return nullptr;
-}
-
-/**
- * \fn void LifxManager::changeBulbColor(QString& name, QColor color, uint32_t duration)
- * \param name QString name of the bulb being changed
- * \param color New color to set the bulb to
- * \param duration The uint32_t value in millis to slow the transition down
- * \brief Sets the color of a single bulb to color
- */
-void LifxManager::changeBulbColor(QString& name, QColor color, uint32_t duration)
-{
-    if (m_bulbsByName.contains(name)) {
-        LifxBulb *bulb = m_bulbsByName[name];
-        bulb->setColor(color);
-        bulb->setDuration(duration);
-        m_protocol->setBulbColor(bulb);
+    QMapIterator<uint64_t, LifxBulb*> i(m_bulbs);
+    while (i.hasNext()) {
+        i.next();
+        if (i.value()->label() == name)
+            return i.value();
     }
+
+    return nullptr;
 }
 
 /**
@@ -299,23 +295,6 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t durati
 void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duration)
 {
     if (bulb) {
-        bulb->setColor(color);
-        bulb->setDuration(duration);
-        m_protocol->setBulbColor(bulb);
-    }
-}
-
-/**
- * \fn void LifxManager::changeBulbColor(QString& name, QColor color, uint32_t duration)
- * \param name QString name of the bulb being changed
- * \param color New color to set the bulb to
- * \param duration The uint32_t value in millis to slow the transition down
- * \brief Sets the color of a single bulb to color
- */
-void LifxManager::changeBulbColor(QString& name, HSBK color, uint32_t duration)
-{
-    if (m_bulbsByName.contains(name)) {
-        LifxBulb *bulb = m_bulbsByName[name];
         bulb->setColor(color);
         bulb->setDuration(duration);
         m_protocol->setBulbColor(bulb);
@@ -356,21 +335,6 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration)
 }
 
 /**
- * \fn void LifxManager::changeBulbBrightness(QString& name, uint16_t brightness)
- * \param name QString name of the bulb being changed
- * \param brightness New brightness to set the bulb to
- * \brief Sets the color of a single bulb to color
- */
-void LifxManager::changeBulbBrightness(QString& name, uint16_t brightness)
-{
-    if (m_bulbsByName.contains(name)) {
-        LifxBulb *bulb = m_bulbsByName[name];
-        bulb->setBrightness(brightness);
-        m_protocol->setBulbColor(bulb);
-    }
-}
-
-/**
  * \fn void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness)
  * \param target 64bit integer which has an encoded version of the MAC address
  * \param brightness New brightness to set the bulb to
@@ -406,6 +370,23 @@ void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness)
  * \brief Sets the color of all bulbs in the group identified by uuid to color
  */
 void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
+{
+    if (m_groups.contains(uuid)) {
+        LifxGroup *group = m_groups[uuid];
+        QVector<LifxBulb*> bulbs = group->bulbs();
+        for (auto bulb : bulbs) {
+            changeBulbColor(bulb->targetAsLong(), color);
+        }
+    }
+}
+
+/**
+ * \fn void LifxManager::changeGroupColor(QByteArray& uuid, HSBK color)
+ * \param uuid The group UUID to query for bulbs
+ * \param color The HSBK color to assign to the group
+ * \brief Sets the color of all bulbs in the group identified by uuid to color
+ */
+void LifxManager::changeGroupColor(QByteArray& uuid, HSBK color)
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
@@ -520,17 +501,12 @@ void LifxManager::setProductCapabilities(QJsonDocument& doc)
 
 void LifxManager::changeBulbState(LifxBulb* bulb, bool state)
 {
-    if (m_debug)
+    
+    if (bulb != nullptr) {
+        if (m_debug)
         qDebug() << __PRETTY_FUNCTION__ << ": Setting" << bulb->label() << "to" << state;
-    if (bulb != nullptr)
+        
         m_protocol->setBulbState(bulb, state);
-}
-
-void LifxManager::changeBulbState(QString& name, bool state)
-{
-    if (m_bulbsByName.contains(name)) {
-        LifxBulb *bulb = m_bulbsByName[name];
-        changeBulbState(bulb, state);
     }
 }
 
@@ -546,14 +522,6 @@ void LifxManager::rebootBulb(LifxBulb* bulb)
 {
     if (bulb != nullptr)
         m_protocol->rebootBulb(bulb);
-}
-
-void LifxManager::rebootBulb(QString& name)
-{
-    if (m_bulbsByName.contains(name)) {
-        LifxBulb *bulb = m_bulbsByName[name];
-        rebootBulb(bulb);
-    }    
 }
 
 void LifxManager::rebootBulb(uint64_t target)
