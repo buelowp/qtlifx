@@ -94,11 +94,12 @@ public slots:
 signals:
     void bulbDiscoveryFinished(LifxBulb *bulb);
     void newBulbAvailable(QString, uint64_t);
-    void bulbStateChanged(LifxBulb *bulb);
+    void bulbStateChange(LifxBulb *bulb);
     void newGroupFound(QString, QByteArray);
     void echoReply(LifxBulb *bulb);
     void bulbLabelChange(LifxBulb *bulb);
     void bulbGroupChange(LifxGroup *group);
+    void bulbPowerChange(LifxBulb *bulb);
 
 private:
     LifxProtocol *m_protocol;

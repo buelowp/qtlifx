@@ -102,7 +102,7 @@ void LifxManager::newPacket(LifxPacket* packet)
             else {
                 bulb = m_bulbs[target];
                 bulb->setAddress(packet->address(), packet->port());
-                emit bulbStateChanged(bulb);
+                emit bulbStateChange(bulb);
             }
             break;
         case LIFX_DEFINES::STATE_LABEL:
@@ -201,7 +201,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                     emit bulbDiscoveryFinished(bulb);
                 }
                 else
-                    emit bulbStateChanged(bulb);
+                    emit bulbStateChange(bulb);
                 
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": COLOR:" << bulb;
@@ -217,8 +217,11 @@ void LifxManager::newPacket(LifxPacket* packet)
                 memcpy(&power, packet->payload().data(), 2);
                 
                 bulb->setPower(power);
-//                if (m_debug)
-                qDebug() << "POWER: " << bulb;
+                if (!bulb->inDiscovery())
+                    emit bulbPowerChange(bulb);
+                
+                if (m_debug)
+                    qDebug().nospace() << "POWER: bulb returned " << packet->payload() << " [" << power << "]" << " from bulb " << bulb->label();
             }
             break;
         case LIFX_DEFINES::ECHO_REPLY:
