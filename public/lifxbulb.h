@@ -73,6 +73,7 @@ public:
     bool isOn() const;
 
     void setAddress(QHostAddress address, uint32_t port);
+    void setAddress(QHostAddress address);
     void setService(uint8_t service);
     void setPort(uint32_t port);
     void setTarget(uint8_t *target);
@@ -92,6 +93,9 @@ public:
     void setProduct(QJsonObject &obj);
     void setDiscoveryActive(bool discovery);
     void setBrightness(uint16_t brightness);
+    uint64_t echoRequest(bool generate);
+    bool echoPending(bool state) { m_pendingEcho = state; return m_pendingEcho; }   //!< Set the flag that says we sent an echo request to the bulb
+    bool echoPending() { return m_pendingEcho; }                                    //!< Get the flag indicating whether we are waiting for an echo
     
     QHostAddress& address() { return m_address; }   //!< Returns the IP address associated with this bulb
     uint8_t service() const { return m_service; }   //!< Returns the service which was set by STATE_SERVICE
@@ -132,6 +136,8 @@ private:
     lx_dev_color_t *m_deviceColor;  //!< The color structure as returned from the bulb
     LifxProduct *m_product;         //!< A container class with static product details from LIFX
     bool m_inDiscovery;             //!< Flag indicating whether the bulb has been completely discovered yet
+    bool m_pendingEcho;             //!< An echo request for this bulb has been sent
+    uint64_t m_echoSemaphore;       //!< This is the random value we will use to validate the echo did what we needed it to
 };
 
 QDebug operator<<(QDebug debug, const LifxBulb &bulb);

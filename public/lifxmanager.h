@@ -70,6 +70,10 @@ public:
     LifxGroup* getGroupByUUID(QByteArray &uuid);
     QList<LifxBulb*> getBulbsByPID(int pid);
     void enableDebug(bool debug) { m_debug = debug; }
+    void enableBulbEcho(QString &name, int timeout);
+    void enableBulbEcho(uint64_t target, int timeout);
+    void disableEcho(QString name);
+    void disableEcho(uint64_t target);
     
 public slots:
     void discoveryFailed();
@@ -102,11 +106,14 @@ signals:
     void bulbPowerChange(LifxBulb *bulb);
 
 private:
+    void echoFunction(LifxBulb *bulb, int timeout);
+    
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
     QMap<QByteArray, LifxGroup*> m_groups;
     QMultiMap<int, LifxBulb*> m_bulbsByPID;
     QMap<int, QJsonObject> m_productObjects;
+    QMap<uint64_t, QTimer*> m_echoTimers;
     bool m_debug;
 };
 

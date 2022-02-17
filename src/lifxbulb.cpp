@@ -64,6 +64,22 @@ void LifxBulb::setAddress(QHostAddress address, uint32_t port)
 }
 
 /**
+ * \fn void LifxBulb::setAddress(QHostAddress address)
+ * \param address The QHostAddress container with the IP that the bulb sent data from
+ * \param port The Port encoded in the STATE_SERVICE reply
+ * 
+ * This will encode the IP address we use when communicating with this
+ * bulb individually.
+ */
+void LifxBulb::setAddress(QHostAddress address)
+{
+    if (address != m_address) {
+        qWarning() << "Got a new address for " << m_label;
+        m_address = address;
+    }
+}
+
+/**
  * \fn void LifxBulb::setPort(uint32_t port)
  * \param port The IP port value used when communicating with this device
  * 
@@ -478,6 +494,14 @@ void LifxBulb::setProduct(QJsonObject& obj)
             qDebug() << __PRETTY_FUNCTION__ << ": Bulb" << m_label << ":" << product;
         }
     }
+}
+
+uint64_t LifxBulb::echoRequest(bool generate)
+{
+    if (generate)
+        m_echoSemaphore = QRandomGenerator::global()->generate64();
+    
+    return m_echoSemaphore;
 }
 
 /**

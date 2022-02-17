@@ -187,6 +187,10 @@ typedef struct {
     uint32_t duration;      /**< Duration in millis for how long the next transition will take */
 } lx_dev_color_t;
 
+typedef struct {
+    uint64_t value;
+} lx_dev_echo_t;
+
 #pragma pack(pop)
 
 namespace LIFX_DEFINES {

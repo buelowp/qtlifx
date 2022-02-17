@@ -66,6 +66,8 @@ public:
     void getFirmwareForBulb(LifxBulb *bulb);
     void getColorForBulb(LifxBulb *bulb);
     void getGroupForBulb(LifxBulb *bulb);
+    
+    void echoRequest(LifxBulb *bulb);
 
 protected slots:
     void readDatagram();

@@ -160,6 +160,10 @@ void LifxPacket::echoBulb ( LifxBulb* bulb )
     m_source = 919882;
     
     createHeader(bulb, false);
+    QBuffer buffer(&m_payload);
+    buffer.open(QIODevice::WriteOnly);
+    uint64_t num = bulb->echoRequest(true);
+    buffer.write((char*)&num, sizeof(uint64_t));
 }
 
 void LifxPacket::getBulbFirmware(LifxBulb *bulb)

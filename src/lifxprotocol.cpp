@@ -158,3 +158,12 @@ void LifxProtocol::setGroupState(LifxGroup* group, bool state)
     }
 }
 
+void LifxProtocol::echoRequest ( LifxBulb* bulb )
+{
+    if (bulb) {
+        LifxPacket packet;
+        packet.echoBulb(bulb);
+        m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    }
+}
+

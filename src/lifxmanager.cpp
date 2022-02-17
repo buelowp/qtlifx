@@ -227,7 +227,15 @@ void LifxManager::newPacket(LifxPacket* packet)
         case LIFX_DEFINES::ECHO_REPLY:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
-                emit echoReply(bulb);
+                bulb->setAddress(packet->address());
+                lx_dev_echo_t *echo = (lx_dev_echo_t*)packet->payload().data(); 
+                if (echo->value == bulb->echoRequest(false)) {
+                    bulb->echoPending(false);
+                    emit echoReply(bulb);
+                }
+                else {
+                    qDebug() << "Got an echo response value of " << echo->value << ", but was expecting" << bulb->echoRequest(false);
+                }
             }
             else {
                 qWarning() << "Got an echo reply to a bulb we dno't seem to know about [" << target << "]";
@@ -544,5 +552,59 @@ void LifxManager::rebootGroup(QByteArray& uuid)
         for (auto bulb : bulbs) {
             rebootBulb(bulb);
         }
+    }
+}
+
+void LifxManager::enableBulbEcho ( QString& name, int timeout )
+{
+    if (timeout >= 1000) {
+        LifxBulb *bulb = getBulbByName(name);
+        if (bulb) {
+            echoFunction(bulb, timeout);
+        }
+    }
+}
+
+void LifxManager::enableBulbEcho ( uint64_t target, int timeout )
+{
+    if (timeout >= 1000) {
+        LifxBulb *bulb = getBulbByMac(target);
+        if (bulb)
+            echoFunction(bulb, timeout);
+    }
+}
+
+
+void LifxManager::echoFunction ( LifxBulb* bulb, int timeout )
+{
+    QTimer *timer = new QTimer();
+    m_echoTimers.insert(bulb->targetAsLong(), timer);
+    connect(timer, &QTimer::timeout, [this,bulb]() {
+        if (bulb->echoPending()) {
+            qDebug() << "Bulb " << bulb->label() << " did not respond to it's last echo request";
+        }
+        m_protocol->echoRequest(bulb);
+        bulb->echoPending(true);
+    });
+    timer->setInterval(timeout);
+    timer->start();
+}
+
+void LifxManager::disableEcho ( QString name )
+{
+    LifxBulb *bulb = getBulbByName(name);
+    if (bulb) {
+        if (m_echoTimers.contains(bulb->targetAsLong())) {
+            m_echoTimers[bulb->targetAsLong()]->stop();
+            m_echoTimers[bulb->targetAsLong()]->deleteLater();
+        }
+    }
+}
+
+void LifxManager::disableEcho ( uint64_t target )
+{
+    if (m_echoTimers.contains(target)) {
+        m_echoTimers[target]->stop();
+        m_echoTimers[target]->deleteLater();
     }
 }
