@@ -29,6 +29,18 @@ LightBulb::~LightBulb()
 
 }
 
+QSize LightBulb::minimumSizeHint() const
+{
+    int min = qMin(width(), height());
+    return QSize(min, min);
+}
+
+QSize LightBulb::sizeHint() const
+{
+    int min = qMin(width(), height());
+    return QSize(min, min);
+}
+
 void LightBulb::paintEvent(QPaintEvent* e)
 {
     Q_UNUSED(e)
@@ -40,7 +52,7 @@ void LightBulb::paintEvent(QPaintEvent* e)
         m_color = QColor("black");
         
     painter.setBrush(m_color);
-    painter.setPen(m_color);
+    painter.setPen(QColor("black"));
     painter.drawEllipse(circleX, 0, height(), height());
     if (m_text.size()) {
         if (!m_state)

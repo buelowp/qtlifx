@@ -40,6 +40,7 @@ qint64 LifxProtocol::discover()
 {
     LifxPacket packet;
     packet.makeDiscoveryPacket();
+    qDebug() << packet;
     return m_socket->writeDatagram(packet.datagram(), QHostAddress::Broadcast, LIFX_PORT);
 }
 

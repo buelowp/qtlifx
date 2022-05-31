@@ -84,8 +84,8 @@ void LifxPacket::makeDiscoveryPacket()
     m_port = BROADCAST_PORT;
     
     m_tagged = 1;
-    m_ackRequired = 0;
-    m_resRequired = 0;
+    m_ackRequired = 1;
+    m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_SERVICE;
     m_source = 919827;
     

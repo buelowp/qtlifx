@@ -55,7 +55,8 @@ private:
     
     LifxManager *m_manager;
     QGridLayout *m_layout;
-    QTimer *m_interval;
+    QTimer *m_stateCheckInterval;
+    QTimer *m_discoverInterval;
     QMap<QString, LightBulb*> m_widgets;
     int m_x;
     int m_y;

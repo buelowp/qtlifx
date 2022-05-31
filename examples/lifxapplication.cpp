@@ -23,15 +23,15 @@ LifxApplication::LifxApplication() : QMainWindow()
 {
     m_manager = new LifxManager();
     connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscovered);
-    connect(m_manager, &LifxManager::bulbStateChanged, this, &LifxApplication::bulbStateChanged);
+    connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChanged);
     
     m_x = 0;
     m_y = 0;
     
-    m_interval = new QTimer();
-    connect(m_interval, &QTimer::timeout, this, &LifxApplication::timeout);
-    m_interval->setInterval(5000);
-    m_interval->start();
+    m_stateCheckInterval = new QTimer();
+    connect(m_stateCheckInterval, &QTimer::timeout, this, &LifxApplication::timeout);
+    m_stateCheckInterval->setInterval(5000);
+    m_stateCheckInterval->start();
     m_layout = new QGridLayout();
     QWidget *central = new QWidget();
     central->setLayout(m_layout);
@@ -50,7 +50,7 @@ LifxApplication::~LifxApplication()
 
 }
 
-void LifxApplication::bulbStateChanged ( LifxBulb* bulb )
+void LifxApplication::bulbStateChanged(LifxBulb* bulb)
 {
     LightBulb *lb = m_widgets[bulb->label()];
     if (lb != nullptr) {
@@ -94,7 +94,7 @@ void LifxApplication::go()
 
 void LifxApplication::bulbDiscovered(LifxBulb *bulb)
 {
-    qDebug().nospace().noquote() << "Found new bulb: " << bulb->label() << " [" << bulb->macToString() << "]";
+    qDebug().nospace().noquote() << "Found new bulb: " << bulb;
     LightBulb *widget = new LightBulb();
     widget->setText(bulb->label());
     widget->setColor(bulb->color());

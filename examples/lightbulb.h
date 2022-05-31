@@ -31,7 +31,9 @@ public:
     void setText(QString text) { m_text = text; update(); }
     void setColor(QColor c) { m_color = c; update(); }
     void setPower(uint16_t p) { m_state = (p != 0); }
-    
+    QSize minimumSizeHint() const override;
+    QSize sizeHint() const override;
+
 protected:
     void paintEvent(QPaintEvent *e) override;
     
