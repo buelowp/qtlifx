@@ -46,6 +46,7 @@ public:
     void setHeader(const char *data);
     void setPayload(QByteArray ba);
     void setDatagram(char *data, int len, QHostAddress &addr, quint16 port);
+    void setDatagram(QNetworkDatagram &datagram);
 
     uint16_t size() { return m_size; }
     uint16_t type() { return m_type; }
@@ -53,7 +54,8 @@ public:
     QByteArray datagram();
     QByteArray payload() const { return m_payload; }
     QByteArray header() const { return m_hdr; }
-    uint16_t port() { return m_port; }
+    lx_protocol_header_t protocolHeader() const { return m_header; }
+    uint16_t port() const { return m_port; }
     uint8_t* target() { return m_target; }
     uint64_t targetAsLong();
     
@@ -63,6 +65,7 @@ public:
     void getBulbColor(LifxBulb *bulb);
     void getBulbGroup(LifxBulb *bulb);
     void getBulbVersion(LifxBulb *bulb);
+    void getWifiInfoForBulb(LifxBulb *bulb);
     void setBulbColor(LifxBulb *bulb);
     void setBulbPower(LifxBulb *bulb);
     void rebootBulb(LifxBulb *bulb);
@@ -91,6 +94,6 @@ private:
     lx_protocol_header_t m_header;
 };
 
-QDebug operator<<(QDebug debug, const LifxPacket &packet);
-QDebug operator<<(QDebug debug, const LifxPacket *packet);
+QDebug operator<<(QDebug debug, LifxPacket &packet);
+QDebug operator<<(QDebug debug, LifxPacket *packet);
 #endif // LIFXPACKET_H

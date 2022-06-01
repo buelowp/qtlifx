@@ -129,7 +129,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setMinor(firmware->minor);
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
-                m_protocol->getVersionForBulb(bulb);
+//
+                m_protocol->getWifiInfoForBulb(bulb);
             }
             else {
                 if (m_debug)
@@ -240,9 +241,27 @@ void LifxManager::newPacket(LifxPacket* packet)
             else {
                 qWarning() << "Got an echo reply to a bulb we dno't seem to know about [" << target << "]";
             }
+            break;
+        case LIFX_DEFINES::STATE_WIFI_INFO:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                float signal = 0;
+                memcpy(&signal, packet->payload().data(), 4);
+                bulb->setRSSI(signal);
+                if (!bulb->inDiscovery())
+                    emit bulbRSSIChange(bulb);
+                else
+                    m_protocol->getVersionForBulb(bulb);
+            }
+            break;
+        case LIFX_DEFINES::ACKNOWLEDGEMENT:
+            qDebug() << __PRETTY_FUNCTION__ << ": Acknowledgment sent from" << packet->address().toString();
+            break;
         default:
-            if (packet->type() != 2)
-                qWarning() << "Unknown packet type" << packet->type();
+            if (packet->type() != 2) {
+                qWarning() << __PRETTY_FUNCTION__ << ": Unknown packet type" << packet->type();
+                qWarning() << packet;
+            }
             break;
     }
     

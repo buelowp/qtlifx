@@ -198,6 +198,7 @@ namespace LIFX_DEFINES {
     static constexpr uint16_t GET_SERVICE = 2;
     static constexpr uint16_t STATE_SERVICE = 3;
 
+    static constexpr uint16_t ACKNOWLEDGEMENT = 45;
     // Device Queries
     static constexpr uint16_t GET_HOST_FIRMWARE = 14;
     static constexpr uint16_t STATE_HOST_FIRMWARE = 15;

@@ -32,13 +32,19 @@ LifxApplication::LifxApplication() : QMainWindow()
     connect(m_stateCheckInterval, &QTimer::timeout, this, &LifxApplication::timeout);
     m_stateCheckInterval->setInterval(5000);
     m_stateCheckInterval->start();
+
+    m_discoverInterval = new QTimer();
+    connect(m_discoverInterval, &QTimer::timeout, this, &LifxApplication::discoverTimeout);
+    m_discoverInterval->setInterval(60000);
+    m_discoverInterval->start();
+
     m_layout = new QGridLayout();
     QWidget *central = new QWidget();
     central->setLayout(m_layout);
     
     QPalette pal(QColor(0,0,0));
     setBackgroundRole(QPalette::Window);
-    pal.setColor(QPalette::Window, Qt::white);
+    pal.setColor(QPalette::Window, QColor(0xe8, 0xe8, 0xe8));
     setAutoFillBackground(true);
     setPalette(pal);
     
@@ -63,6 +69,11 @@ void LifxApplication::bulbStateChanged(LifxBulb* bulb)
 void LifxApplication::timeout()
 {
     m_manager->updateState();
+}
+
+void LifxApplication::discoverTimeout()
+{
+    m_manager->initialize();
 }
 
 void LifxApplication::setProductsJsonFile(QString path)

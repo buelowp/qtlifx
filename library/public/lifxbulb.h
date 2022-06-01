@@ -93,6 +93,7 @@ public:
     void setProduct(QJsonObject &obj);
     void setDiscoveryActive(bool discovery);
     void setBrightness(uint16_t brightness);
+    void setRSSI(float rssi);
     uint64_t echoRequest(bool generate);
     bool echoPending(bool state) { m_pendingEcho = state; return m_pendingEcho; }   //!< Set the flag that says we sent an echo request to the bulb
     bool echoPending() { return m_pendingEcho; }                                    //!< Get the flag indicating whether we are waiting for an echo
@@ -114,7 +115,8 @@ public:
     uint32_t vid() const { return m_vid; }
     bool inDiscovery() const { return m_inDiscovery; }
     QColor color() const { return m_color; }
-    
+    int rssi() const { return m_rssi; }
+
     QString macToString() const;
     QString addressToString(bool isIPV6) const;
     lx_dev_color_t* toDeviceColor() const;
@@ -138,6 +140,7 @@ private:
     bool m_inDiscovery;             //!< Flag indicating whether the bulb has been completely discovered yet
     bool m_pendingEcho;             //!< An echo request for this bulb has been sent
     uint64_t m_echoSemaphore;       //!< This is the random value we will use to validate the echo did what we needed it to
+    int m_rssi;                   //!< The returned RSSI value from the bulb. This converts from raw to a scale from 0 - 16
 };
 
 QDebug operator<<(QDebug debug, const LifxBulb &bulb);

@@ -104,6 +104,7 @@ signals:
     void bulbLabelChange(LifxBulb *bulb);
     void bulbGroupChange(LifxGroup *group);
     void bulbPowerChange(LifxBulb *bulb);
+    void bulbRSSIChange(LifxBulb *bulb);
 
 private:
     void echoFunction(LifxBulb *bulb, int timeout);

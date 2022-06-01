@@ -45,6 +45,7 @@ public slots:
     void bulbDiscovered(LifxBulb *bulb);
     void bulbStateChanged(LifxBulb *bulb);
     void timeout();
+    void discoverTimeout();
     
 protected:
     void showEvent(QShowEvent *e);

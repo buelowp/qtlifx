@@ -40,7 +40,6 @@ qint64 LifxProtocol::discover()
 {
     LifxPacket packet;
     packet.makeDiscoveryPacket();
-    qDebug() << packet;
     return m_socket->writeDatagram(packet.datagram(), QHostAddress::Broadcast, LIFX_PORT);
 }
 
@@ -49,14 +48,12 @@ void LifxProtocol::readDatagram()
     QByteArray datagram;
     QHostAddress address;
     quint16 port;
-    char data[1024];
-    quint64 received;
 
     while (m_socket->hasPendingDatagrams()) {
-        received = m_socket->readDatagram(data, 1024, &address, &port);
-        if (received != (quint64)(-1)) {
+        QNetworkDatagram datagram = m_socket->receiveDatagram();
+        if (datagram.isValid()) {
             LifxPacket *packet = new LifxPacket;
-            packet->setDatagram(data, received, address, port);
+            packet->setDatagram(datagram);
             emit newPacket(packet);
         }
     }
@@ -69,7 +66,6 @@ bool LifxProtocol::newPacketAvailable()
 
 void LifxProtocol::initialize()
 {
-    qDebug() << __PRETTY_FUNCTION__;
 }
 
 void LifxProtocol::getPowerForBulb(LifxBulb* bulb)
@@ -127,6 +123,13 @@ void LifxProtocol::getGroupForBulb(LifxBulb* bulb)
 {
     LifxPacket packet;
     packet.getBulbGroup(bulb);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+}
+
+void LifxProtocol::getWifiInfoForBulb(LifxBulb* bulb)
+{
+    LifxPacket packet;
+    packet.getWifiInfoForBulb(bulb);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 

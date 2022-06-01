@@ -66,6 +66,7 @@ public:
     void getFirmwareForBulb(LifxBulb *bulb);
     void getColorForBulb(LifxBulb *bulb);
     void getGroupForBulb(LifxBulb *bulb);
+    void getWifiInfoForBulb(LifxBulb *bulb);
     
     void echoRequest(LifxBulb *bulb);
 
