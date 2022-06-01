@@ -16,9 +16,11 @@ find_package (Qt5Gui CONFIG REQUIRED)
 find_package (Qt5Widgets CONFIG REQUIRED)
 
 # Tell CMake to create the helloworld executable
+include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/../library/public")
+
 add_executable (${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 # Use the Widgets module from Qt 5.
-target_link_libraries (${PROJECT_NAME} Qt5::Network Qt5::Gui Qt5::Widgets)
+target_link_libraries (${PROJECT_NAME} Qt5::Network Qt5::Gui Qt5::Widgets ${CMAKE_BINARY_DIR}/library/libqtlifx.so)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../public")
 

@@ -137,12 +137,12 @@ void LifxBulb::setPower(uint16_t power)
 QString LifxBulb::macToString() const
 {
     return QString("%1:%2:%3:%4:%5:%6")
-                    .arg(m_target[0], 2, 16)
-                    .arg(m_target[1], 2, 16)
-                    .arg(m_target[2], 2, 16)
-                    .arg(m_target[3], 2, 16)
-                    .arg(m_target[4], 2, 16)
-                    .arg(m_target[5], 2, 16);
+                    .arg(m_target[0], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[1], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[2], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[3], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[4], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[5], 2, 16, QLatin1Char('0'));
 }
 
 /**
