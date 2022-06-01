@@ -112,7 +112,22 @@ void LifxApplication::go()
         m_manager->discoverBulb(address, port);
         settings.endGroup();
     }
-//    m_manager->initialize();
+    QTimer::singleShot(10000, this, &LifxApplication::runDiscovery);
+}
+
+void LifxApplication::newColorForBulb(QString label, QColor color)
+{
+    if (label.size()) {
+        LifxBulb *bulb = m_manager->getBulbByName(label);
+        if (bulb) {
+            m_manager->changeBulbColor(bulb, color);
+        }
+    }
+}
+
+void LifxApplication::runDiscovery()
+{
+    m_manager->initialize();
 }
 
 void LifxApplication::bulbDiscovered(LifxBulb *bulb)
@@ -131,6 +146,8 @@ void LifxApplication::bulbDiscovered(LifxBulb *bulb)
 
     qDebug().nospace().noquote() << "Found new bulb: " << bulb;
     LightBulb *widget = new LightBulb();
+    connect(widget, &LightBulb::stateChangeEvent, this, &LifxApplication::widgetStateChange);
+    connect(widget, &LightBulb::newColorChosen, this, &LifxApplication::newColorForBulb);
     widget->setText(bulb->label());
     widget->setColor(bulb->color());
     widget->setPower(bulb->power());
@@ -140,5 +157,13 @@ void LifxApplication::bulbDiscovered(LifxBulb *bulb)
     if (m_y > 2) {
         m_x++;
         m_y = 0;
+    }
+}
+
+void LifxApplication::widgetStateChange(QString label, bool state)
+{
+    LifxBulb *bulb = m_manager->getBulbByName(label);
+    if (bulb) {
+        m_manager->changeBulbState(bulb, !state);
     }
 }

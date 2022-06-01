@@ -22,6 +22,7 @@
 LightBulb::LightBulb(QWidget *parent) : QWidget(parent)
 {
     m_state = false;
+    connect(this, &LightBulb::openColorDialog, this, &LightBulb::showColorDialog);
 }
 
 LightBulb::~LightBulb()
@@ -39,6 +40,20 @@ QSize LightBulb::sizeHint() const
 {
     int min = qMin(width(), height());
     return QSize(min, min);
+}
+
+void LightBulb::mousePressEvent(QMouseEvent* e)
+{
+    if (e->button() == Qt::LeftButton)
+        emit stateChangeEvent(m_label, m_state);
+    if (e->button() == Qt::RightButton)
+        emit openColorDialog();
+}
+
+void LightBulb::showColorDialog()
+{
+    const QColor color = QColorDialog::getColor(m_color, this, "Select Color");
+    emit newColorChosen(m_label, color);
 }
 
 void LightBulb::paintEvent(QPaintEvent* e)

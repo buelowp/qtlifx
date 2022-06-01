@@ -46,6 +46,9 @@ public slots:
     void bulbStateChanged(LifxBulb *bulb);
     void timeout();
     void discoverTimeout();
+    void widgetStateChange(QString label, bool state);
+    void newColorForBulb(QString label, QColor color);
+    void runDiscovery();
     
 protected:
     void showEvent(QShowEvent *e);

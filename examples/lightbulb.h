@@ -24,6 +24,8 @@
 
 class LightBulb : public QWidget
 {
+    Q_OBJECT
+
 public:
     LightBulb(QWidget *parent = nullptr);
     ~LightBulb();
@@ -35,9 +37,19 @@ public:
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
 
+protected slots:
+    void showColorDialog();
+
 protected:
     void paintEvent(QPaintEvent *e) override;
-    
+    void mousePressEvent(QMouseEvent *e) override;
+
+signals:
+    void stateChangeEvent(QString label, bool state);
+    void colorChangeEvent(QString label);
+    void openColorDialog();
+    void newColorChosen(QString label, QColor color);
+
 private:
     QString m_text;
     QString m_label;
