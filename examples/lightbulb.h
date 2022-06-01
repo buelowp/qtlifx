@@ -29,6 +29,7 @@ public:
     ~LightBulb();
 
     void setText(QString text) { m_text = text; update(); }
+    void setLabel(QString text) { m_label = text; }
     void setColor(QColor c) { m_color = c; update(); }
     void setPower(uint16_t p) { m_state = (p != 0); }
     QSize minimumSizeHint() const override;
@@ -39,6 +40,7 @@ protected:
     
 private:
     QString m_text;
+    QString m_label;
     QColor m_color;
     bool m_state;
 };

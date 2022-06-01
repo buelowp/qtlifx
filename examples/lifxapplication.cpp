@@ -59,10 +59,13 @@ LifxApplication::~LifxApplication()
 void LifxApplication::bulbStateChanged(LifxBulb* bulb)
 {
     LightBulb *lb = m_widgets[bulb->label()];
+    QHostAddress ip4(bulb->address().toIPv4Address());
+    QString label = QString("%1\n%2\nRSSI: %3\nr:%4 g:%5 b:%6").arg(bulb->label()).arg(ip4.toString()).arg(bulb->rssi()).arg(bulb->color().red()).arg(bulb->color().green()).arg(bulb->color().blue());
     if (lb != nullptr) {
         lb->setColor(bulb->color());
         lb->setPower(bulb->power());
-        lb->setText(bulb->label());
+        lb->setText(label);
+        lb->setLabel(bulb->label());
     }
 }
 

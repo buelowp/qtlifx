@@ -61,11 +61,13 @@ void LightBulb::paintEvent(QPaintEvent* e)
             painter.setPen(Qt::black);
         
         QFont font = painter.font();
-        font.setPixelSize(12);
+        font.setPixelSize(14);
         QFontMetrics fm(font);
         painter.setFont(font);
-        int xoffset = fm.boundingRect(m_text).width() / 2;
-        int yoffset = fm.boundingRect(m_text).height() / 2;
-        painter.drawText(width() / 2 - xoffset, (height() + yoffset) / 2, m_text);
+        QRect fontrect = fm.boundingRect(rect(), Qt::TextWordWrap, m_text);
+        int xoffset = width() / 2 - fontrect.width() / 2;
+        int yoffset = height() / 2 - fontrect.height() / 2;
+        QRect drect(xoffset, yoffset, width() / 2, height() / 2);
+        painter.drawText(drect, Qt::TextWordWrap, m_text);
     }    
 }
