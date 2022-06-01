@@ -43,6 +43,7 @@ public:
     LifxPacket(const LifxPacket &object);
 
     void makeDiscoveryPacket();
+    void makeDiscoveryPacketForBulb(QHostAddress address, int port);
     void setHeader(const char *data);
     void setPayload(QByteArray ba);
     void setDatagram(char *data, int len, QHostAddress &addr, quint16 port);

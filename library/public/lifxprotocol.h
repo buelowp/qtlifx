@@ -50,6 +50,7 @@ public:
 
     void initialize();
     qint64 discover();
+    qint64 discoverBulbByAddress(QHostAddress address, int port);
     LifxPacket* nextPacket();
     bool newPacketAvailable();
     LifxBulb *createNewBulb();

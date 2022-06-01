@@ -43,11 +43,17 @@ qint64 LifxProtocol::discover()
     return m_socket->writeDatagram(packet.datagram(), QHostAddress::Broadcast, LIFX_PORT);
 }
 
+qint64 LifxProtocol::discoverBulbByAddress(QHostAddress address, int port)
+{
+    LifxPacket packet;
+    packet.makeDiscoveryPacketForBulb(address, port);
+    return m_socket->writeDatagram(packet.datagram(), address, port);
+}
+
 void LifxProtocol::readDatagram()
 {
     QByteArray datagram;
     QHostAddress address;
-    quint16 port;
 
     while (m_socket->hasPendingDatagrams()) {
         QNetworkDatagram datagram = m_socket->receiveDatagram();

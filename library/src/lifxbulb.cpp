@@ -75,7 +75,9 @@ void LifxBulb::setAddress(QHostAddress address, uint32_t port)
 void LifxBulb::setAddress(QHostAddress address)
 {
     if (address != m_address) {
-        qWarning() << "Got a new address for " << m_label;
+        if (!m_address.isNull()) {
+            qWarning() << __PRETTY_FUNCTION__ << ":" << m_label << "replacing" << m_address << "with" << address;
+        }
         m_address = address;
     }
 }

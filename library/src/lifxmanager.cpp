@@ -73,6 +73,11 @@ void LifxManager::updateState()
     }    
 }
 
+void LifxManager::discoverBulb(QHostAddress address, int port)
+{
+    m_protocol->discoverBulbByAddress(address, port);
+}
+
 /**
  * \fn void LifxManager::newPacket(LifxPacket* packet)
  * \param packet Pointer to a LifxPacket container

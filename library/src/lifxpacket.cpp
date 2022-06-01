@@ -92,6 +92,22 @@ void LifxPacket::makeDiscoveryPacket()
     createHeader(&bulb);
 }
 
+void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
+{
+    LifxBulb bulb;
+    bulb.setService(1);
+    bulb.setPort(port);
+    bulb.setAddress(address);
+    m_port = port;
+    m_tagged = 1;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::GET_SERVICE;
+    m_source = 908082;
+
+    createHeader(&bulb);
+}
+
 QByteArray LifxPacket::datagram()
 {
     uint16_t size = m_headerSize + m_payload.size();

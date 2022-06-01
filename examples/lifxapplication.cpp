@@ -53,7 +53,6 @@ LifxApplication::LifxApplication() : QMainWindow()
 
 LifxApplication::~LifxApplication()
 {
-
 }
 
 void LifxApplication::bulbStateChanged(LifxBulb* bulb)
@@ -103,11 +102,33 @@ void LifxApplication::showEvent(QShowEvent *e)
 
 void LifxApplication::go()
 {
-    m_manager->initialize();
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
+    QStringList list = settings.childGroups();
+
+    for (const auto& group : list) {
+        settings.beginGroup(group);
+        QHostAddress address(settings.value("address").toString());
+        int port = settings.value("port").toInt();
+        m_manager->discoverBulb(address, port);
+        settings.endGroup();
+    }
+//    m_manager->initialize();
 }
 
 void LifxApplication::bulbDiscovered(LifxBulb *bulb)
 {
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
+    QStringList groups = settings.childGroups();
+
+    if (!groups.contains(bulb->label())) {
+        qDebug() << __PRETTY_FUNCTION__ << ": Adding" << bulb->label();
+        settings.beginGroup(bulb->label());
+        settings.setValue("label", bulb->label());
+        settings.setValue("address", bulb->address().toString());
+        settings.setValue("port", bulb->port());
+        settings.endGroup();
+    }
+
     qDebug().nospace().noquote() << "Found new bulb: " << bulb;
     LightBulb *widget = new LightBulb();
     widget->setText(bulb->label());
