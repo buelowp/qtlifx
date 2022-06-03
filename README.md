@@ -36,14 +36,45 @@ Find the Doxygen documentation at https://buelowp.github.io/qtlifx/
 
 See the example main.cpp in the examples directory, but it's pretty simple to use.
 
+It is faster and more reliable to keep a list of already discovered bulbs locally. This isn't
+foolproof, IP's can change, but overally, discovery happens over broadcast, and home network
+setups sometimes trip up on that. Also, directly talking to the bulb, at least in my testing,
+is faster than broadcast discovery.
+
+My latest app design checks for cached bulbs, and then starts a discovery process about 10 seconds
+later.
+
+First
 ```
 LifxManager *manager = new LifxManager();
 connect(manager, &LifxManager::newBulbAvailable, this, &Class::handleNewBulb);
-connect(manager, &LifxManager::bulbDiscoveryFinished, this, &Class::handleEndOfDiscovery);
+```
+
+Then, check for bulbs you already know about
+
+```
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
+    QStringList list = settings.childGroups();
+
+    for (const auto& group : list) {
+        settings.beginGroup(group);
+        QHostAddress address(settings.value("address").toString());
+        int port = settings.value("port").toInt();
+        m_manager->discoverBulb(address, port);
+        settings.endGroup();
+    }
+    QTimer::singleShot(10000, this, &LifxApplication::runDiscovery);
+```
+
+Where runDiscovery is a slot that calls
+```
 manager->initialize();
 ```
 
-Once you have received the bulbDiscoveryFinished(bulb) signal, that bulb has completed discovery
+I run a repeating timer to call discovery every 60 seconds just in case, but if you have all your bulbs,
+this may be overkill.
+
+Once you have received the handleNewBulb signal, that bulb has completed discovery
 and can be queried or set as needed. If you choose to provide the product definitions (see below), then
 each bulb includes all of the LIFX capabilities. Otherwise, some functions may not work as the lights
 are not assumed to support them by default.
@@ -99,7 +130,8 @@ to provide a simple clean solution, and avoid having to do the lifting on your o
 
 ## RELEASE
 
-* ALPHA: Currently at alpha quality, and not ready for normal usage
+* BETA: This works pretty well, and has been run though valgrind to prove it doesn't currently leak memory
+  * Testing done is still somewhat limited, but that will improve soon I hope
 
 ## NOTES
 
@@ -108,8 +140,8 @@ to provide a simple clean solution, and avoid having to do the lifting on your o
 * This is a LAN library, and only works when local to the bulbs. It cannot be used outside the home network the bulbs are on.
 * This library does not support zones or tiles yet. That may come in the future, but for now, I don't have any to test against.
 * The get/set API is incomplete still, and does not support a lot of the set functions provided by the LIFX API.
- * e.g. reboot/set label/set group.
+  * e.g. reboot/set label/set group.
 * There is no push notifications here, the lights won't tell us if someone else changes them.
- * One solution is to query the lights every now and then to ask what's going on.
+  * One solution is to query the lights every now and then to ask what's going on.
 
 
