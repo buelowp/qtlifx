@@ -93,7 +93,6 @@ void LifxPacket::makeDiscoveryPacket()
     m_source = 0;
     
     createHeader(&bulb);
-    qDebug() << this;
 }
 
 void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)

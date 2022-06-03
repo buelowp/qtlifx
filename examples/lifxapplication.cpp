@@ -105,15 +105,29 @@ void LifxApplication::go()
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
     QStringList list = settings.childGroups();
 
-    for (const auto& group : list) {
-        settings.beginGroup(group);
-        qDebug() << __PRETTY_FUNCTION__ << ": checking" << group;
-        QHostAddress address(settings.value("address").toString());
-        int port = settings.value("port").toInt();
-        m_manager->discoverBulb(address, port);
+    if (!list.contains("Bulbs")) {
+        settings.beginGroup("Bulbs");
+        settings.setValue("exists", true);
+        settings.endGroup();
+        qDebug() << __PRETTY_FUNCTION__ << "Created bulbs group";
+    }
+    else {
+        settings.beginGroup("Bulbs");
+        QStringList groups = settings.childGroups();
+        for (const auto &child : groups) {
+            settings.beginGroup(child);
+            qDebug() << __PRETTY_FUNCTION__ << ": checking" << child;
+            QHostAddress address(settings.value("address").toString());
+            int port = settings.value("port").toInt();
+            m_manager->discoverBulb(address, port);
+            settings.endGroup();
+        }
         settings.endGroup();
     }
-    QTimer::singleShot(10000, this, &LifxApplication::runDiscovery);
+    if (list.size())
+        QTimer::singleShot(10000, this, &LifxApplication::runDiscovery);
+    else
+        runDiscovery();
 }
 
 void LifxApplication::newColorForBulb(QString label, QColor color)
@@ -128,7 +142,6 @@ void LifxApplication::newColorForBulb(QString label, QColor color)
 
 void LifxApplication::runDiscovery()
 {
-    qDebug() << __PRETTY_FUNCTION__ << ": running discovery";
     m_manager->initialize();
 }
 
@@ -142,12 +155,10 @@ void LifxApplication::bulbDiscovered(LifxBulb *bulb)
         QStringList children = settings.childKeys();
 
         for (const auto &child : children) {
-            qDebug() << __PRETTY_FUNCTION__ << ": found" << child;
             QString label = QString("%1/label").arg(bulb->label());
             QString address = QString("%1/address").arg(bulb->label());
             QString port = QString("%1/port").arg(bulb->label());
             if (!child.contains(label)) {
-                qDebug() << __PRETTY_FUNCTION__ << ": Adding" << bulb->label();
                 settings.setValue(label, bulb->label());
                 settings.setValue(address, bulb->address().toString());
                 settings.setValue(port, bulb->port());
