@@ -22,10 +22,13 @@
 LifxPacket::LifxPacket()
 {
     m_headerSize = sizeof(lx_protocol_header_t);
+    m_packet = nullptr;
 }
 
 LifxPacket::~LifxPacket()
 {
+    if (m_packet)
+        free(m_packet);
 }
 
 LifxPacket::LifxPacket(const LifxPacket& object)
@@ -69,11 +72,10 @@ void LifxPacket::createHeader(LifxBulb* bulb, bool blankTarget)
     // protocol header
     m_header.type = m_type;
     
-    char *packet = static_cast<char*>(malloc(m_headerSize));
-    memcpy(packet, static_cast<void*>(&m_header), m_headerSize);
+    m_packet = static_cast<char*>(malloc(m_headerSize));
+    memcpy(m_packet, static_cast<void*>(&m_header), m_headerSize);
     m_hdr.clear();
-    m_hdr = QByteArray::fromRawData(packet, m_headerSize);
-    free(packet);
+    m_hdr = QByteArray::fromRawData(m_packet, m_headerSize);
 }
 
 void LifxPacket::makeDiscoveryPacket()
@@ -91,6 +93,7 @@ void LifxPacket::makeDiscoveryPacket()
     m_source = 0;
     
     createHeader(&bulb);
+    qDebug() << this;
 }
 
 void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
@@ -99,12 +102,13 @@ void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
     bulb.setService(1);
     bulb.setPort(port);
     bulb.setAddress(address);
+
     m_port = port;
     m_tagged = 1;
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_SERVICE;
-    m_source = 908082;
+    m_source = 0;
 
     createHeader(&bulb);
 }

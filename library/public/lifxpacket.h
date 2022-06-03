@@ -93,6 +93,7 @@ private:
     uint8_t m_addressable;
     uint8_t m_headerSize;
     lx_protocol_header_t m_header;
+    char *m_packet;
 };
 
 QDebug operator<<(QDebug debug, LifxPacket &packet);
