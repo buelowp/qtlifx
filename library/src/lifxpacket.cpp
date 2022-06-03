@@ -73,6 +73,7 @@ void LifxPacket::createHeader(LifxBulb* bulb, bool blankTarget)
     memcpy(packet, static_cast<void*>(&m_header), m_headerSize);
     m_hdr.clear();
     m_hdr = QByteArray::fromRawData(packet, m_headerSize);
+    free(packet);
 }
 
 void LifxPacket::makeDiscoveryPacket()
@@ -87,7 +88,7 @@ void LifxPacket::makeDiscoveryPacket()
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_SERVICE;
-    m_source = 919000;
+    m_source = 0;
     
     createHeader(&bulb);
 }

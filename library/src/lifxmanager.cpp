@@ -134,7 +134,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setMinor(firmware->minor);
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
-//
+
                 m_protocol->getWifiInfoForBulb(bulb);
             }
             else {
@@ -145,7 +145,7 @@ void LifxManager::newPacket(LifxPacket* packet)
         case LIFX_DEFINES::STATE_VERSION:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
-                lx_dev_version_t *version = (lx_dev_version_t*)malloc(sizeof(lx_dev_version_t));
+                lx_dev_version_t *version = (lx_dev_version_t*)packet->payload().data();
                 memcpy(version, packet->payload().data(), sizeof(lx_dev_version_t)); 
                 bulb->setVID(version->vendor);
                 bulb->setPID(version->product);
@@ -167,7 +167,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 QString label;
                 QByteArray uuid;
                 bulb = m_bulbs[target];
-                lx_group_info_t *group = (lx_group_info_t*)malloc(sizeof(lx_group_info_t));
+                lx_group_info_t *group = (lx_group_info_t*)packet->payload().data();
                 memcpy(group, packet->payload().data(), sizeof(lx_group_info_t));
                 label = QString(group->label);
                 uuid = QByteArray::fromRawData(group->group, 16);
@@ -199,7 +199,7 @@ void LifxManager::newPacket(LifxPacket* packet)
         case LIFX_DEFINES::LIGHT_STATE:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
-                lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(sizeof(lx_dev_lightstate_t));
+                lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)packet->payload().data();
                 memcpy(color, packet->payload().data(), sizeof(lx_dev_lightstate_t)); 
                 bulb->setDevColor(color);
                 if (bulb->inDiscovery()) {

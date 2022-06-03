@@ -44,7 +44,7 @@ LifxApplication::LifxApplication() : QMainWindow()
     
     QPalette pal(QColor(0,0,0));
     setBackgroundRole(QPalette::Window);
-    pal.setColor(QPalette::Window, QColor(0xe8, 0xe8, 0xe8));
+    pal.setColor(QPalette::Window, QColor(0xf0, 0xf0, 0xf0));
     setAutoFillBackground(true);
     setPalette(pal);
     
