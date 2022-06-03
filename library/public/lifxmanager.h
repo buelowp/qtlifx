@@ -64,6 +64,7 @@ public:
     LifxManager(const LifxManager &object);
     
     void initialize();
+    void discoverBulb(QHostAddress address, int port);
     LifxBulb* getBulbByName(QString &name);
     LifxBulb* getBulbByMac(uint64_t target);
     LifxGroup* getGroupByName(QString &name);
@@ -104,6 +105,7 @@ signals:
     void bulbLabelChange(LifxBulb *bulb);
     void bulbGroupChange(LifxGroup *group);
     void bulbPowerChange(LifxBulb *bulb);
+    void bulbRSSIChange(LifxBulb *bulb);
 
 private:
     void echoFunction(LifxBulb *bulb, int timeout);

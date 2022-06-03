@@ -22,11 +22,38 @@
 LightBulb::LightBulb(QWidget *parent) : QWidget(parent)
 {
     m_state = false;
+    connect(this, &LightBulb::openColorDialog, this, &LightBulb::showColorDialog);
 }
 
 LightBulb::~LightBulb()
 {
 
+}
+
+QSize LightBulb::minimumSizeHint() const
+{
+    int min = qMin(width(), height());
+    return QSize(min, min);
+}
+
+QSize LightBulb::sizeHint() const
+{
+    int min = qMin(width(), height());
+    return QSize(min, min);
+}
+
+void LightBulb::mousePressEvent(QMouseEvent* e)
+{
+    if (e->button() == Qt::LeftButton)
+        emit stateChangeEvent(m_label, m_state);
+    if (e->button() == Qt::RightButton)
+        emit openColorDialog();
+}
+
+void LightBulb::showColorDialog()
+{
+    const QColor color = QColorDialog::getColor(m_color, this, "Select Color");
+    emit newColorChosen(m_label, color);
 }
 
 void LightBulb::paintEvent(QPaintEvent* e)
@@ -40,7 +67,7 @@ void LightBulb::paintEvent(QPaintEvent* e)
         m_color = QColor("black");
         
     painter.setBrush(m_color);
-    painter.setPen(m_color);
+    painter.setPen(QColor("black"));
     painter.drawEllipse(circleX, 0, height(), height());
     if (m_text.size()) {
         if (!m_state)
@@ -49,11 +76,13 @@ void LightBulb::paintEvent(QPaintEvent* e)
             painter.setPen(Qt::black);
         
         QFont font = painter.font();
-        font.setPixelSize(12);
+        font.setPixelSize(14);
         QFontMetrics fm(font);
         painter.setFont(font);
-        int xoffset = fm.boundingRect(m_text).width() / 2;
-        int yoffset = fm.boundingRect(m_text).height() / 2;
-        painter.drawText(width() / 2 - xoffset, (height() + yoffset) / 2, m_text);
+        QRect fontrect = fm.boundingRect(rect(), Qt::TextWordWrap, m_text);
+        int xoffset = width() / 2 - fontrect.width() / 2;
+        int yoffset = height() / 2 - fontrect.height() / 2;
+        QRect drect(xoffset, yoffset, width() / 2, height() / 2);
+        painter.drawText(drect, Qt::TextWordWrap, m_text);
     }    
 }

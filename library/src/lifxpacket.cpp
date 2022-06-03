@@ -73,6 +73,7 @@ void LifxPacket::createHeader(LifxBulb* bulb, bool blankTarget)
     memcpy(packet, static_cast<void*>(&m_header), m_headerSize);
     m_hdr.clear();
     m_hdr = QByteArray::fromRawData(packet, m_headerSize);
+    free(packet);
 }
 
 void LifxPacket::makeDiscoveryPacket()
@@ -85,10 +86,26 @@ void LifxPacket::makeDiscoveryPacket()
     
     m_tagged = 1;
     m_ackRequired = 0;
-    m_resRequired = 0;
+    m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_SERVICE;
-    m_source = 919827;
+    m_source = 0;
     
+    createHeader(&bulb);
+}
+
+void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
+{
+    LifxBulb bulb;
+    bulb.setService(1);
+    bulb.setPort(port);
+    bulb.setAddress(address);
+    m_port = port;
+    m_tagged = 1;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::GET_SERVICE;
+    m_source = 908082;
+
     createHeader(&bulb);
 }
 
@@ -127,6 +144,18 @@ void LifxPacket::setHeader(const char* data)
 void LifxPacket::setPayload(QByteArray ba)
 {
     m_payload = ba;
+}
+
+void LifxPacket::setDatagram(QNetworkDatagram &datagram)
+{
+    m_address = datagram.senderAddress();
+    m_port = datagram.senderPort();
+    if (datagram.data().size() >= m_headerSize) {
+        setHeader(datagram.data());
+        if (datagram.data().size() > m_headerSize) {
+            setPayload(datagram.data().mid(m_headerSize));
+        }
+    }
 }
 
 /**
@@ -172,7 +201,7 @@ void LifxPacket::getBulbFirmware(LifxBulb *bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_HOST_FIRMWARE;
-    m_source = 919827;
+    m_source = 919820;
     
     createHeader(bulb, false);
 }
@@ -183,7 +212,7 @@ void LifxPacket::getBulbPower(LifxBulb *bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_POWER;
-    m_source = 919827;
+    m_source = 919821;
     
     createHeader(bulb, false);
 }
@@ -194,7 +223,7 @@ void LifxPacket::getBulbLabel(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 0;
     m_type = LIFX_DEFINES::GET_LABEL;
-    m_source = 919827;
+    m_source = 919822;
     
     createHeader(bulb);    
 }
@@ -205,7 +234,7 @@ void LifxPacket::getBulbColor(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_COLOR;
-    m_source = 919827;
+    m_source = 919823;
     
     createHeader(bulb, false);
 }
@@ -218,7 +247,7 @@ void LifxPacket::setBulbColor(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::SET_COLOR;
-    m_source = 919827;
+    m_source = 919824;
     
     createHeader(bulb, false);
     m_payload.clear();
@@ -231,7 +260,7 @@ void LifxPacket::getBulbGroup(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_GROUP;
-    m_source = 919827;
+    m_source = 919825;
     
     createHeader(bulb, false);    
 }
@@ -242,9 +271,20 @@ void LifxPacket::getBulbVersion(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::GET_VERSION;
-    m_source = 919827;
+    m_source = 919826;
     
     createHeader(bulb, false);        
+}
+
+void LifxPacket::getWifiInfoForBulb(LifxBulb* bulb)
+{
+    m_tagged = 0;
+    m_ackRequired = 0;
+    m_resRequired = 1;
+    m_type = LIFX_DEFINES::GET_WIFI_INFO;
+    m_source = 918345;
+
+    createHeader(bulb, false);
 }
 
 void LifxPacket::setBulbPower(LifxBulb* bulb)
@@ -253,7 +293,7 @@ void LifxPacket::setBulbPower(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::SET_POWER;
-    m_source = 919827;
+    m_source = 919844;
     
     createHeader(bulb, false);
     if (bulb->power() == 0) {
@@ -270,7 +310,7 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
     m_ackRequired = 0;
     m_resRequired = 1;
     m_type = LIFX_DEFINES::SET_REBOOT;
-    m_source = 919827;
+    m_source = 919828;
     
     createHeader(bulb, false);
 }
@@ -283,11 +323,38 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
  * 
  * Only prints the ipv4 address at this time
  */
-QDebug operator<<(QDebug debug, const LifxPacket &packet)
+QDebug operator<<(QDebug debug, LifxPacket &packet)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << "HOST: " << packet.address() << Qt::endl;
-    debug.nospace().noquote() << "Packet: " << packet.header().toHex() << Qt::endl;
+    uint8_t *rawmac = packet.target();
+    QString mac = QString("%1:%2:%3:%4:%5:%6")
+                    .arg(rawmac[0], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[1], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[2], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[3], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[4], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[5], 2, 16, QLatin1Char('0'));
+    QString reserved = QString("%1:%2:%3:%4:%5:%6")
+                    .arg(packet.protocolHeader().reserved[0], 2, 16, QLatin1Char('0'))
+                    .arg(packet.protocolHeader().reserved[1], 2, 16, QLatin1Char('0'))
+                    .arg(packet.protocolHeader().reserved[2], 2, 16, QLatin1Char('0'))
+                    .arg(packet.protocolHeader().reserved[3], 2, 16, QLatin1Char('0'))
+                    .arg(packet.protocolHeader().reserved[4], 2, 16, QLatin1Char('0'))
+                    .arg(packet.protocolHeader().reserved[5], 2, 16, QLatin1Char('0'));
+
+    debug.nospace().noquote() << "Packet From: " << packet.address().toString() << Qt::endl;
+    debug.nospace().noquote() << "Packet Raw: " << packet.header().toHex() << Qt::endl;
+    debug.nospace().noquote() << "\tsize: " << packet.protocolHeader().size << Qt::endl;
+    debug.nospace().noquote() << "\tprotocol: " << packet.protocolHeader().protocol << Qt::endl;
+    debug.nospace().noquote() << "\taddressable: " << packet.protocolHeader().addressable << Qt::endl;
+    debug.nospace().noquote() << "\ttagged: " << packet.protocolHeader().tagged << Qt::endl;
+    debug.nospace().noquote() << "\torigin: " << packet.protocolHeader().origin << Qt::endl;
+    debug.nospace().noquote() << "\tsource: " << packet.protocolHeader().source << Qt::endl;
+    debug.nospace().noquote() << "\ttarget: " << mac << Qt::endl;
+    debug.nospace().noquote() << "\treserved: " << reserved << Qt::endl;
+    debug.nospace().noquote() << "\tresponse required: " << packet.protocolHeader().res_required << Qt::endl;
+    debug.nospace().noquote() << "\tack required: " << packet.protocolHeader().ack_required << Qt::endl;
+
     if (packet.payload().size()) {
         debug.nospace().noquote() << "Payload: " << packet.payload().toHex() << Qt::endl;
     }
@@ -302,11 +369,37 @@ QDebug operator<<(QDebug debug, const LifxPacket &packet)
  * 
  * Only prints the ipv4 address at this time
  */
-QDebug operator<<(QDebug debug, const LifxPacket *packet)
+QDebug operator<<(QDebug debug, LifxPacket *packet)
 {
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << "HOST: " << packet->address() << Qt::endl;
-    debug.nospace().noquote() << "Packet: " << packet->header().toHex() << Qt::endl;
+    uint8_t *rawmac = packet->target();
+    QString mac = QString("%1:%2:%3:%4:%5:%6")
+                    .arg(rawmac[0], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[1], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[2], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[3], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[4], 2, 16, QLatin1Char('0'))
+                    .arg(rawmac[5], 2, 16, QLatin1Char('0'));
+    QString reserved = QString("%1:%2:%3:%4:%5:%6")
+                    .arg(packet->protocolHeader().reserved[0], 2, 16, QLatin1Char('0'))
+                    .arg(packet->protocolHeader().reserved[1], 2, 16, QLatin1Char('0'))
+                    .arg(packet->protocolHeader().reserved[2], 2, 16, QLatin1Char('0'))
+                    .arg(packet->protocolHeader().reserved[3], 2, 16, QLatin1Char('0'))
+                    .arg(packet->protocolHeader().reserved[4], 2, 16, QLatin1Char('0'))
+                    .arg(packet->protocolHeader().reserved[5], 2, 16, QLatin1Char('0'));
+
+    debug.nospace().noquote() << "Packet From: " << packet->address().toString() << Qt::endl;
+    debug.nospace().noquote() << "Packet Raw: " << packet->header().toHex() << Qt::endl;
+    debug.nospace().noquote() << "\tsize: " << packet->protocolHeader().size << Qt::endl;
+    debug.nospace().noquote() << "\tprotocol: " << packet->protocolHeader().protocol << Qt::endl;
+    debug.nospace().noquote() << "\taddressable: " << packet->protocolHeader().addressable << Qt::endl;
+    debug.nospace().noquote() << "\ttagged: " << packet->protocolHeader().tagged << Qt::endl;
+    debug.nospace().noquote() << "\torigin: " << packet->protocolHeader().origin << Qt::endl;
+    debug.nospace().noquote() << "\tsource: " << packet->protocolHeader().source << Qt::endl;
+    debug.nospace().noquote() << "\ttarget: " << mac << Qt::endl;
+    debug.nospace().noquote() << "\treserved: " << reserved << Qt::endl;
+    debug.nospace().noquote() << "\tresponse required: " << packet->protocolHeader().res_required << Qt::endl;
+    debug.nospace().noquote() << "\tack required: " << packet->protocolHeader().ack_required << Qt::endl;
     if (packet->payload().size()) {
         debug.nospace().noquote() << "Payload: " << packet->payload().toHex() << Qt::endl;
     }

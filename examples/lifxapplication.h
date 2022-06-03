@@ -45,6 +45,10 @@ public slots:
     void bulbDiscovered(LifxBulb *bulb);
     void bulbStateChanged(LifxBulb *bulb);
     void timeout();
+    void discoverTimeout();
+    void widgetStateChange(QString label, bool state);
+    void newColorForBulb(QString label, QColor color);
+    void runDiscovery();
     
 protected:
     void showEvent(QShowEvent *e);
@@ -55,7 +59,8 @@ private:
     
     LifxManager *m_manager;
     QGridLayout *m_layout;
-    QTimer *m_interval;
+    QTimer *m_stateCheckInterval;
+    QTimer *m_discoverInterval;
     QMap<QString, LightBulb*> m_widgets;
     int m_x;
     int m_y;

@@ -73,6 +73,11 @@ void LifxManager::updateState()
     }    
 }
 
+void LifxManager::discoverBulb(QHostAddress address, int port)
+{
+    m_protocol->discoverBulbByAddress(address, port);
+}
+
 /**
  * \fn void LifxManager::newPacket(LifxPacket* packet)
  * \param packet Pointer to a LifxPacket container
@@ -129,7 +134,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setMinor(firmware->minor);
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
-                m_protocol->getVersionForBulb(bulb);
+
+                m_protocol->getWifiInfoForBulb(bulb);
             }
             else {
                 if (m_debug)
@@ -139,7 +145,7 @@ void LifxManager::newPacket(LifxPacket* packet)
         case LIFX_DEFINES::STATE_VERSION:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
-                lx_dev_version_t *version = (lx_dev_version_t*)malloc(sizeof(lx_dev_version_t));
+                lx_dev_version_t *version = (lx_dev_version_t*)packet->payload().data();
                 memcpy(version, packet->payload().data(), sizeof(lx_dev_version_t)); 
                 bulb->setVID(version->vendor);
                 bulb->setPID(version->product);
@@ -161,7 +167,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 QString label;
                 QByteArray uuid;
                 bulb = m_bulbs[target];
-                lx_group_info_t *group = (lx_group_info_t*)malloc(sizeof(lx_group_info_t));
+                lx_group_info_t *group = (lx_group_info_t*)packet->payload().data();
                 memcpy(group, packet->payload().data(), sizeof(lx_group_info_t));
                 label = QString(group->label);
                 uuid = QByteArray::fromRawData(group->group, 16);
@@ -193,7 +199,7 @@ void LifxManager::newPacket(LifxPacket* packet)
         case LIFX_DEFINES::LIGHT_STATE:
             if (m_bulbs.contains(target)) {
                 bulb = m_bulbs[target];
-                lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(sizeof(lx_dev_lightstate_t));
+                lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)packet->payload().data();
                 memcpy(color, packet->payload().data(), sizeof(lx_dev_lightstate_t)); 
                 bulb->setDevColor(color);
                 if (bulb->inDiscovery()) {
@@ -240,9 +246,27 @@ void LifxManager::newPacket(LifxPacket* packet)
             else {
                 qWarning() << "Got an echo reply to a bulb we dno't seem to know about [" << target << "]";
             }
+            break;
+        case LIFX_DEFINES::STATE_WIFI_INFO:
+            if (m_bulbs.contains(target)) {
+                bulb = m_bulbs[target];
+                float signal = 0;
+                memcpy(&signal, packet->payload().data(), 4);
+                bulb->setRSSI(signal);
+                if (!bulb->inDiscovery())
+                    emit bulbRSSIChange(bulb);
+                else
+                    m_protocol->getVersionForBulb(bulb);
+            }
+            break;
+        case LIFX_DEFINES::ACKNOWLEDGEMENT:
+            qDebug() << __PRETTY_FUNCTION__ << ": Acknowledgment sent from" << packet->address().toString();
+            break;
         default:
-            if (packet->type() != 2)
-                qWarning() << "Unknown packet type" << packet->type();
+            if (packet->type() != 2) {
+                qWarning() << __PRETTY_FUNCTION__ << ": Unknown packet type" << packet->type();
+                qWarning() << packet;
+            }
             break;
     }
     

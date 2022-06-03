@@ -34,6 +34,7 @@ LifxBulb::LifxBulb()
     m_vid = 0;
     m_pid = 0;
     m_inDiscovery = true;
+    m_rssi = -100;
     m_deviceColor = (lx_dev_color_t*)malloc(sizeof(lx_dev_color_t));
     memset(m_deviceColor, 0, sizeof(lx_dev_color_t));
     memset(m_target, 0, 8);
@@ -74,7 +75,9 @@ void LifxBulb::setAddress(QHostAddress address, uint32_t port)
 void LifxBulb::setAddress(QHostAddress address)
 {
     if (address != m_address) {
-        qWarning() << "Got a new address for " << m_label;
+        if (!m_address.isNull()) {
+            qWarning() << __PRETTY_FUNCTION__ << ":" << m_label << "replacing" << m_address << "with" << address;
+        }
         m_address = address;
     }
 }
@@ -137,12 +140,12 @@ void LifxBulb::setPower(uint16_t power)
 QString LifxBulb::macToString() const
 {
     return QString("%1:%2:%3:%4:%5:%6")
-                    .arg(m_target[0], 2, 16)
-                    .arg(m_target[1], 2, 16)
-                    .arg(m_target[2], 2, 16)
-                    .arg(m_target[3], 2, 16)
-                    .arg(m_target[4], 2, 16)
-                    .arg(m_target[5], 2, 16);
+                    .arg(m_target[0], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[1], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[2], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[3], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[4], 2, 16, QLatin1Char('0'))
+                    .arg(m_target[5], 2, 16, QLatin1Char('0'));
 }
 
 /**
@@ -245,6 +248,53 @@ void LifxBulb::setMajor(uint16_t major)
 void LifxBulb::setMinor(uint16_t minor)
 {
     m_minor = minor;
+}
+
+/**
+ * \fn void LifxBulb::setRSSI(float signal)
+ * \param signal Raw float from bulb
+ *
+ * This takes the RSSI value as sent by a bulb which could be in two
+ * different unit sets, and converts to the more understandable
+ * negative values used by other tools
+ */
+void LifxBulb::setRSSI(float signal)
+{
+    int rssi = static_cast<int>(qFloor(10 * std::log10(signal) + 0.5));
+
+    if (rssi == 200) {
+        m_rssi = -100;
+    }
+
+    if (rssi > 0) {
+        switch (rssi) {
+            case 4:
+            case 5:
+            case 6:
+                m_rssi = -90;
+                break;
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+                m_rssi = -80;
+                break;
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                m_rssi = -70;
+                break;
+            default:
+                m_rssi = -60;
+                break;
+        }
+    }
+    else {
+        m_rssi = rssi;
+    }
 }
 
 /**
@@ -514,13 +564,14 @@ uint64_t LifxBulb::echoRequest(bool generate)
  */
 QDebug operator<<(QDebug debug, const LifxBulb &bulb)
 {
-    float p = 0;
-    
-    if (bulb.power() > 0)
-        p = ((float)bulb.power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
-
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << bulb.label() << ": [" << bulb.macToString() << "] (" << bulb.group() << ") (" << bulb.vid() << "," << bulb.pid() <<") " << bulb.addressToString(false) << ":" << bulb.port() << " Version: " << bulb.major() << "." << bulb.minor();
+    debug.nospace().noquote() << bulb.label()
+                << ": [" << bulb.macToString() << "] ("
+                << bulb.group() << ") ("
+                << bulb.vid() << "," << bulb.pid() << ") "
+                << bulb.addressToString(false) << ":" << bulb.port()
+                << ", Version: " << bulb.major() << "." << bulb.minor()
+                << ", RSSI: " << bulb.rssi();
     if (bulb.isOn()) {
         debug.nospace().noquote() << " Power: " << bulb.power() << " Kelvin " << bulb.kelvin();
         debug.nospace().noquote() << " Color(" << bulb.toDeviceColor()->hue << "," <<  bulb.toDeviceColor()->saturation << "," << bulb.toDeviceColor()->brightness << ")";
@@ -541,13 +592,14 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
  */
 QDebug operator<<(QDebug debug, const LifxBulb *bulb)
 {
-    float p = 0;
-    
-    if (bulb->power() > 0)
-        p = ((float)bulb->power() / (float)std::numeric_limits<uint16_t>::max()) * 100;
-        
     QDebugStateSaver saver(debug);
-    debug.nospace().noquote() << bulb->label() << ": [" << bulb->macToString() << "] (" << bulb->group() << ") (" << bulb->vid() << "," << bulb->pid() <<") " << bulb->addressToString(false) << ":" << bulb->port() << " Version: " << bulb->major() << "." << bulb->minor();
+    debug.nospace().noquote() << bulb->label()
+                    << ": [" << bulb->macToString() << "] ("
+                    << bulb->group() << ") ("
+                    << bulb->vid() << "," << bulb->pid() << ") "
+                    << bulb->addressToString(false) << ":" << bulb->port()
+                    << " Version: " << bulb->major() << "." << bulb->minor()
+                    << ", RSSI: " << bulb->rssi();
     if (bulb->isOn()) {
         debug.nospace().noquote() << " Power: " << bulb->power() << " Kelvin " << bulb->kelvin();
         debug.nospace().noquote() << " Color(" << bulb->toDeviceColor()->hue << "," <<  bulb->toDeviceColor()->saturation << "," << bulb->toDeviceColor()->brightness << ")";

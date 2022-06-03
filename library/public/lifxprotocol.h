@@ -50,6 +50,7 @@ public:
 
     void initialize();
     qint64 discover();
+    qint64 discoverBulbByAddress(QHostAddress address, int port);
     LifxPacket* nextPacket();
     bool newPacketAvailable();
     LifxBulb *createNewBulb();
@@ -66,6 +67,7 @@ public:
     void getFirmwareForBulb(LifxBulb *bulb);
     void getColorForBulb(LifxBulb *bulb);
     void getGroupForBulb(LifxBulb *bulb);
+    void getWifiInfoForBulb(LifxBulb *bulb);
     
     void echoRequest(LifxBulb *bulb);
 

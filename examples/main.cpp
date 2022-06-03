@@ -26,9 +26,10 @@ int main(int argc, char *argv[])
     LifxApplication manager;
     
 //    manager.setProductsJsonFile(QString(argv[1]));
-    manager.go();
     manager.setGeometry(100, 100, 800, 480);
+    manager.setFixedSize(800, 480);
     manager.show();
-    
+    manager.go();
+
     return app.exec();
 }
