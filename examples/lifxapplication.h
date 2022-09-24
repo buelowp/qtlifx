@@ -29,6 +29,7 @@
 #include <lifxmanager.h>
 
 #include "lightbulb.h"
+#include "bulbmessagehandler.h"
 
 class LifxApplication : public QMainWindow
 {
@@ -49,6 +50,8 @@ public slots:
     void widgetStateChange(QString label, bool state);
     void newColorForBulb(QString label, QColor color);
     void runDiscovery();
+    void bulbDiscoveryFinished(LifxBulb *bulb);
+    void bulbDiscoveryFailed();
     
 protected:
     void showEvent(QShowEvent *e);
@@ -56,7 +59,8 @@ protected:
 private:
     int xPosition();
     int yPosition();
-    
+    void createDisplayObject(LifxBulb *bulb);
+
     LifxManager *m_manager;
     QGridLayout *m_layout;
     QTimer *m_stateCheckInterval;

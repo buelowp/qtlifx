@@ -21,13 +21,13 @@
 
 LifxApplication::LifxApplication() : QMainWindow()
 {
-    m_manager = new LifxManager();
-    connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscovered);
-    connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChanged);
+//    m_manager = new LifxManager();
+//    connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscovered);
+//    connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChanged);
     
     m_x = 0;
     m_y = 0;
-    
+    /*
     m_stateCheckInterval = new QTimer();
     connect(m_stateCheckInterval, &QTimer::timeout, this, &LifxApplication::timeout);
     m_stateCheckInterval->setInterval(5000);
@@ -37,7 +37,7 @@ LifxApplication::LifxApplication() : QMainWindow()
     connect(m_discoverInterval, &QTimer::timeout, this, &LifxApplication::discoverTimeout);
     m_discoverInterval->setInterval(60000);
     m_discoverInterval->start();
-
+*/
     m_layout = new QGridLayout();
     QWidget *central = new QWidget();
     central->setLayout(m_layout);
@@ -70,16 +70,17 @@ void LifxApplication::bulbStateChanged(LifxBulb* bulb)
 
 void LifxApplication::timeout()
 {
-    m_manager->updateState();
+    //m_manager->updateState();
 }
 
 void LifxApplication::discoverTimeout()
 {
-    m_manager->initialize();
+    //m_manager->initialize();
 }
 
 void LifxApplication::setProductsJsonFile(QString path)
 {
+    /*
     QFile file(path);
     QJsonParseError error;
     
@@ -93,6 +94,7 @@ void LifxApplication::setProductsJsonFile(QString path)
             m_manager->setProductCapabilities(doc);
         }
     }
+    */
 }
 
 void LifxApplication::showEvent(QShowEvent *e)
@@ -119,30 +121,35 @@ void LifxApplication::go()
             qDebug() << __PRETTY_FUNCTION__ << ": checking" << child;
             QHostAddress address(settings.value("address").toString());
             int port = settings.value("port").toInt();
-            m_manager->discoverBulb(address, port);
+
+            BulbMessageHandler *handler = new BulbMessageHandler(address, port);
+            connect(handler, &BulbMessageHandler::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscoveryFinished);
+            connect(handler, &BulbMessageHandler::bulbDiscoveryFailure, this, &LifxApplication::bulbDiscoveryFailed);
+            handler->discover();
             settings.endGroup();
         }
         settings.endGroup();
     }
-    if (list.size())
-        QTimer::singleShot(10000, this, &LifxApplication::runDiscovery);
-    else
-        runDiscovery();
+}
+
+void LifxApplication::bulbDiscoveryFailed()
+{
+    qDebug() << __PRETTY_FUNCTION__;
+}
+
+void LifxApplication::bulbDiscoveryFinished(LifxBulb* bulb)
+{
+    createDisplayObject(bulb);
 }
 
 void LifxApplication::newColorForBulb(QString label, QColor color)
 {
-    if (label.size()) {
-        LifxBulb *bulb = m_manager->getBulbByName(label);
-        if (bulb) {
-            m_manager->changeBulbColor(bulb, color);
-        }
-    }
+    qDebug() << __PRETTY_FUNCTION__;
 }
 
 void LifxApplication::runDiscovery()
 {
-    m_manager->initialize();
+    //m_manager->initialize();
 }
 
 void LifxApplication::bulbDiscovered(LifxBulb *bulb)
@@ -168,6 +175,11 @@ void LifxApplication::bulbDiscovered(LifxBulb *bulb)
     }
 
     qDebug().nospace().noquote() << "Found new bulb: " << bulb;
+}
+
+void LifxApplication::createDisplayObject(LifxBulb* bulb)
+{
+    qDebug() << __PRETTY_FUNCTION__ << ": Creating new display object for" << bulb;
     LightBulb *widget = new LightBulb();
     connect(widget, &LightBulb::stateChangeEvent, this, &LifxApplication::widgetStateChange);
     connect(widget, &LightBulb::newColorChosen, this, &LifxApplication::newColorForBulb);
@@ -185,8 +197,11 @@ void LifxApplication::bulbDiscovered(LifxBulb *bulb)
 
 void LifxApplication::widgetStateChange(QString label, bool state)
 {
+    qDebug() << __PRETTY_FUNCTION__;
+    /*
     LifxBulb *bulb = m_manager->getBulbByName(label);
     if (bulb) {
         m_manager->changeBulbState(bulb, !state);
     }
+    */
 }

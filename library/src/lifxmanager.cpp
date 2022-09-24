@@ -24,6 +24,11 @@ LifxManager::LifxManager(QObject *parent) : QObject(parent), m_debug(false)
     m_protocol = new LifxProtocol();
     connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LifxManager::discoveryFailed);
     connect(m_protocol, &LifxProtocol::newPacket, this, &LifxManager::newPacket);
+    QByteArray debug = qgetenv("LIFX_DEBUG");
+    if (debug[0] == '1') {
+        qDebug() << __PRETTY_FUNCTION__ << ": LIFX debug enabled";
+        m_debug = true;
+    }
 }
 
 LifxManager::LifxManager(const LifxManager& object) : QObject()
@@ -134,8 +139,8 @@ void LifxManager::newPacket(LifxPacket* packet)
                 bulb->setMinor(firmware->minor);
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
-
-                m_protocol->getWifiInfoForBulb(bulb);
+                if (bulb->inDiscovery())
+                    m_protocol->getWifiInfoForBulb(bulb);
             }
             else {
                 if (m_debug)
@@ -155,7 +160,9 @@ void LifxManager::newPacket(LifxPacket* packet)
                 m_bulbsByPID.insert(version->product, bulb);
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
-                m_protocol->getGroupForBulb(bulb);
+
+                if (bulb->inDiscovery())
+                    m_protocol->getGroupForBulb(bulb);
             }
             else {
                 if (m_debug)
