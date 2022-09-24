@@ -244,7 +244,7 @@ void LifxManager::newPacket(LifxPacket* packet)
                 lx_dev_echo_t *echo = (lx_dev_echo_t*)packet->payload().data(); 
                 if (echo->value == bulb->echoRequest(false)) {
                     bulb->echoPending(false);
-                    emit echoReply(bulb);
+                    emit echoReply(bulb, QByteArray());
                 }
                 else {
                     qDebug() << "Got an echo response value of " << echo->value << ", but was expecting" << bulb->echoRequest(false);
@@ -317,7 +317,7 @@ LifxBulb * LifxManager::getBulbByName(QString& name)
  * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration)
+void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t duration, int source, bool ackRequired)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
@@ -334,7 +334,7 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t durati
  * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duration)
+void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duration, int source, bool ackRequired)
 {
     if (bulb) {
         bulb->setColor(color);
@@ -350,7 +350,7 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duratio
  * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(uint64_t target, HSBK color, uint32_t duration)
+void LifxManager::changeBulbColor(uint64_t target, HSBK color, uint32_t duration, int source, bool ackRequired)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
@@ -367,7 +367,7 @@ void LifxManager::changeBulbColor(uint64_t target, HSBK color, uint32_t duration
  * \param duration The uint32_t value in millis to slow the transition down
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration)
+void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration, int source, bool ackRequired)
 {
     if (bulb) {
         bulb->setColor(color);
@@ -382,7 +382,7 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration)
  * \param brightness New brightness to set the bulb to
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness)
+void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness, int source, bool ackRequired)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
@@ -397,7 +397,7 @@ void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness)
  * \param brightness New brightness to set the bulb to
  * \brief Sets the color of a single bulb to color
  */
-void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness)
+void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness, int source, bool ackRequired)
 {
     if (bulb) {
         bulb->setBrightness(brightness);
@@ -411,7 +411,7 @@ void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness)
  * \param color The QColor color to assign to the group
  * \brief Sets the color of all bulbs in the group identified by uuid to color
  */
-void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
+void LifxManager::changeGroupColor(QByteArray& uuid, QColor color, int source, bool ackRequired)
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
@@ -428,7 +428,7 @@ void LifxManager::changeGroupColor(QByteArray& uuid, QColor color)
  * \param color The HSBK color to assign to the group
  * \brief Sets the color of all bulbs in the group identified by uuid to color
  */
-void LifxManager::changeGroupColor(QByteArray& uuid, HSBK color)
+void LifxManager::changeGroupColor(QByteArray& uuid, HSBK color, int source, bool ackRequired)
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
@@ -481,7 +481,7 @@ LifxGroup * LifxManager::getGroupByUUID(QByteArray& uuid)
  * \param state Sets the bulbs in a group to ON/OFF based on state TRUE/FALSE
  * \brief Finds the group by uuid and attempts to either turn on or off each bulb
  */
-void LifxManager::changeGroupState(QByteArray& uuid, bool state)
+void LifxManager::changeGroupState(QByteArray& uuid, bool state, int source, bool ackRequired)
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
@@ -541,7 +541,7 @@ void LifxManager::setProductCapabilities(QJsonDocument& doc)
     }
 }
 
-void LifxManager::changeBulbState(LifxBulb* bulb, bool state)
+void LifxManager::changeBulbState(LifxBulb* bulb, bool state, int source, bool ackRequired)
 {
     
     if (bulb != nullptr) {
@@ -552,7 +552,7 @@ void LifxManager::changeBulbState(LifxBulb* bulb, bool state)
     }
 }
 
-void LifxManager::changeBulbState(uint64_t target, bool state)
+void LifxManager::changeBulbState(uint64_t target, bool state, int source, bool ackRequired)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
@@ -586,27 +586,27 @@ void LifxManager::rebootGroup(QByteArray& uuid)
     }
 }
 
-void LifxManager::enableBulbEcho ( QString& name, int timeout )
+void LifxManager::enableBulbEcho(QString& name, int timeout, QByteArray echoing)
 {
     if (timeout >= 1000) {
         LifxBulb *bulb = getBulbByName(name);
         if (bulb) {
-            echoFunction(bulb, timeout);
+            echoFunction(bulb, timeout, echoing);
         }
     }
 }
 
-void LifxManager::enableBulbEcho ( uint64_t target, int timeout )
+void LifxManager::enableBulbEcho(uint64_t target, int timeout, QByteArray echoing)
 {
     if (timeout >= 1000) {
         LifxBulb *bulb = getBulbByMac(target);
         if (bulb)
-            echoFunction(bulb, timeout);
+            echoFunction(bulb, timeout, echoing);
     }
 }
 
 
-void LifxManager::echoFunction ( LifxBulb* bulb, int timeout )
+void LifxManager::echoFunction(LifxBulb* bulb, int timeout, QByteArray echoing)
 {
     QTimer *timer = new QTimer();
     m_echoTimers.insert(bulb->targetAsLong(), timer);
@@ -614,7 +614,7 @@ void LifxManager::echoFunction ( LifxBulb* bulb, int timeout )
         if (bulb->echoPending()) {
             qDebug() << "Bulb " << bulb->label() << " did not respond to it's last echo request";
         }
-        m_protocol->echoRequest(bulb);
+        m_protocol->echoRequest(bulb, QByteArray());
         bulb->echoPending(true);
     });
     timer->setInterval(timeout);

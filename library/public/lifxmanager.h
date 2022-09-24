@@ -71,26 +71,26 @@ public:
     LifxGroup* getGroupByUUID(QByteArray &uuid);
     QList<LifxBulb*> getBulbsByPID(int pid);
     void enableDebug(bool debug) { m_debug = debug; }
-    void enableBulbEcho(QString &name, int timeout);
-    void enableBulbEcho(uint64_t target, int timeout);
+    void enableBulbEcho(QString &name, int timeout, QByteArray echoing);
+    void enableBulbEcho(uint64_t target, int timeout, QByteArray echoing);
     void disableEcho(QString name);
     void disableEcho(uint64_t target);
     
 public slots:
     void discoveryFailed();
     void newPacket(LifxPacket *packet);
-    void changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400);
-    void changeBulbColor(LifxBulb* bulb, QColor color, uint32_t duration = 400);
-    void changeBulbColor(uint64_t target, HSBK color, uint32_t duration = 400);
-    void changeBulbColor(LifxBulb* bulb, HSBK color, uint32_t duration = 400);    
-    void changeBulbBrightness(uint64_t target, uint16_t brightness);
-    void changeBulbBrightness(LifxBulb* bulb, uint16_t brightness);
-    void changeGroupColor(QByteArray &uuid, QColor color);
-    void changeGroupColor(QByteArray &uuid, HSBK color);
-    void changeGroupState(QByteArray &uuid, bool state);
+    void changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400, int source = 0, bool ackRequired = false);
+    void changeBulbColor(LifxBulb* bulb, QColor color, uint32_t duration = 400, int source = 0, bool ackRequired = false);
+    void changeBulbColor(uint64_t target, HSBK color, uint32_t duration = 400, int source = 0, bool ackRequired = false);
+    void changeBulbColor(LifxBulb* bulb, HSBK color, uint32_t duration = 400, int source = 0, bool ackRequired = false);
+    void changeBulbBrightness(uint64_t target, uint16_t brightness, int source = 0, bool ackRequired = false);
+    void changeBulbBrightness(LifxBulb* bulb, uint16_t brightness, int source = 0, bool ackRequired = false);
+    void changeGroupColor(QByteArray &uuid, QColor color, int source = 0, bool ackRequired = false);
+    void changeGroupColor(QByteArray &uuid, HSBK color, int source = 0, bool ackRequired = false);
+    void changeGroupState(QByteArray &uuid, bool state, int source = 0, bool ackRequired = false);
     void setProductCapabilities(QJsonDocument &doc);
-    void changeBulbState(uint64_t target, bool state);
-    void changeBulbState(LifxBulb* bulb, bool state);
+    void changeBulbState(uint64_t target, bool state, int source = 0, bool ackRequired = false);
+    void changeBulbState(LifxBulb* bulb, bool state, int source = 0, bool ackRequired = false);
     void rebootBulb(LifxBulb *bulb);
     void rebootBulb(uint64_t target);
     void rebootGroup(QByteArray &uuid);
@@ -101,14 +101,14 @@ signals:
     void newBulbAvailable(QString, uint64_t);
     void bulbStateChange(LifxBulb *bulb);
     void newGroupFound(QString, QByteArray);
-    void echoReply(LifxBulb *bulb);
+    void echoReply(LifxBulb *bulb, QByteArray echoing);
     void bulbLabelChange(LifxBulb *bulb);
     void bulbGroupChange(LifxGroup *group);
     void bulbPowerChange(LifxBulb *bulb);
     void bulbRSSIChange(LifxBulb *bulb);
 
 private:
-    void echoFunction(LifxBulb *bulb, int timeout);
+    void echoFunction(LifxBulb *bulb, int timeout, QByteArray echoing);
     
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;

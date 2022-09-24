@@ -87,8 +87,8 @@ void LifxPacket::makeDiscoveryPacket()
     m_port = BROADCAST_PORT;
     
     m_tagged = 1;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = false;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_SERVICE;
     m_source = 0;
     
@@ -104,8 +104,8 @@ void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
 
     m_port = port;
     m_tagged = 1;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = false;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_SERVICE;
     m_source = 0;
 
@@ -183,121 +183,126 @@ uint64_t LifxPacket::targetAsLong()
     return target;
 }
 
-void LifxPacket::echoBulb ( LifxBulb* bulb )
+void LifxPacket::echoBulb(LifxBulb* bulb, QByteArray bytes, int source)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = false;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::ECHO_REQUEST;
-    m_source = 919882;
+    m_source = source;
     
     createHeader(bulb, false);
     QBuffer buffer(&m_payload);
     buffer.open(QIODevice::WriteOnly);
-    uint64_t num = bulb->echoRequest(true);
-    buffer.write((char*)&num, sizeof(uint64_t));
+    if (bytes.size() == 0) {
+        uint64_t num = bulb->echoRequest(true);
+        buffer.write((char*)&num, sizeof(uint64_t));
+    }
+    else {
+        buffer.write(bytes.toStdString().data(), bytes.size());
+    }
 }
 
-void LifxPacket::getBulbFirmware(LifxBulb *bulb)
+void LifxPacket::getBulbFirmware(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_HOST_FIRMWARE;
-    m_source = 919820;
-    
+    m_source = source;
+
     createHeader(bulb, false);
 }
 
-void LifxPacket::getBulbPower(LifxBulb *bulb)
+void LifxPacket::getBulbPower(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_POWER;
-    m_source = 919821;
-    
+    m_source = source;
+
     createHeader(bulb, false);
 }
 
-void LifxPacket::getBulbLabel(LifxBulb* bulb)
+void LifxPacket::getBulbLabel(LifxBulb* bulb, int source, bool ackRequired)
 {
-    m_tagged = 1;
-    m_ackRequired = 0;
-    m_resRequired = 0;
+    m_tagged = 0;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_LABEL;
-    m_source = 919822;
-    
+    m_source = source;
+
     createHeader(bulb);    
 }
 
-void LifxPacket::getBulbColor(LifxBulb* bulb)
+void LifxPacket::getBulbColor(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_COLOR;
-    m_source = 919823;
-    
+    m_source = source;
+
     createHeader(bulb, false);
 }
 
-void LifxPacket::setBulbColor(LifxBulb* bulb)
+void LifxPacket::setBulbColor(LifxBulb* bulb, int source, bool ackRequired)
 {
     lx_dev_color_t *color = bulb->toDeviceColor();
     
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::SET_COLOR;
-    m_source = 919824;
-    
+    m_source = source;
+
     createHeader(bulb, false);
     m_payload.clear();
     m_payload = QByteArray::fromRawData((char*)color, sizeof(lx_dev_color_t));
 }
 
-void LifxPacket::getBulbGroup(LifxBulb* bulb)
+void LifxPacket::getBulbGroup(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_GROUP;
-    m_source = 919825;
-    
+    m_source = source;
+
     createHeader(bulb, false);    
 }
 
-void LifxPacket::getBulbVersion(LifxBulb* bulb)
+void LifxPacket::getBulbVersion(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_VERSION;
-    m_source = 919826;
-    
+    m_source = source;
+
     createHeader(bulb, false);        
 }
 
-void LifxPacket::getWifiInfoForBulb(LifxBulb* bulb)
+void LifxPacket::getWifiInfoForBulb(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::GET_WIFI_INFO;
-    m_source = 918345;
+    m_source = source;
 
     createHeader(bulb, false);
 }
 
-void LifxPacket::setBulbPower(LifxBulb* bulb)
+void LifxPacket::setBulbPower(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
-    m_ackRequired = 0;
-    m_resRequired = 1;
+    m_ackRequired = ackRequired;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::SET_POWER;
-    m_source = 919844;
-    
+    m_source = source;
+
     createHeader(bulb, false);
     if (bulb->power() == 0) {
         m_payload = QByteArrayLiteral("\x00\x00");
@@ -311,9 +316,9 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
 {
     m_tagged = 0;
     m_ackRequired = 0;
-    m_resRequired = 1;
+    m_resRequired = false;
     m_type = LIFX_DEFINES::SET_REBOOT;
-    m_source = 919828;
+    m_source = 0;
     
     createHeader(bulb, false);
 }

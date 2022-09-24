@@ -60,17 +60,17 @@ public:
     uint8_t* target() { return m_target; }
     uint64_t targetAsLong();
     
-    void getBulbPower(LifxBulb *bulb);
-    void getBulbFirmware(LifxBulb *bulb);
-    void getBulbLabel(LifxBulb *bulb);
-    void getBulbColor(LifxBulb *bulb);
-    void getBulbGroup(LifxBulb *bulb);
-    void getBulbVersion(LifxBulb *bulb);
-    void getWifiInfoForBulb(LifxBulb *bulb);
-    void setBulbColor(LifxBulb *bulb);
-    void setBulbPower(LifxBulb *bulb);
+    void getBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void getBulbFirmware(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void getBulbLabel(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void getBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void getBulbGroup(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void getBulbVersion(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void getWifiInfoForBulb(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void setBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
     void rebootBulb(LifxBulb *bulb);
-    void echoBulb(LifxBulb *bulb);
+    void echoBulb(LifxBulb *bulb, QByteArray bytes, int source = 0);
 
     static constexpr int HEADER_SIZE = 36;
     

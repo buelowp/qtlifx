@@ -74,68 +74,68 @@ void LifxProtocol::initialize()
 {
 }
 
-void LifxProtocol::getPowerForBulb(LifxBulb* bulb)
+void LifxProtocol::getPowerForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
     
-    packet.getBulbPower(bulb);
+    packet.getBulbPower(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::getLabelForBulb(LifxBulb* bulb)
+void LifxProtocol::getLabelForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbLabel(bulb);
+    packet.getBulbLabel(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::getFirmwareForBulb(LifxBulb* bulb)
+void LifxProtocol::getFirmwareForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbFirmware(bulb);
+    packet.getBulbFirmware(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::getVersionForBulb(LifxBulb* bulb)
+void LifxProtocol::getVersionForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbVersion(bulb);
+    packet.getBulbVersion(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::getColorForBulb(LifxBulb* bulb)
+void LifxProtocol::getColorForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbColor(bulb);
+    packet.getBulbColor(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());    
 }
 
-void LifxProtocol::setBulbColor(LifxBulb* bulb)
+void LifxProtocol::setBulbColor(LifxBulb* bulb, int source, bool ackRequired)
 {
     LifxPacket packet;
-    packet.setBulbColor(bulb);
+    packet.setBulbColor(bulb, source, ackRequired);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::setBulbColor(LifxBulb* bulb, QColor color)
+void LifxProtocol::setBulbColor(LifxBulb* bulb, QColor color, int source, bool ackRequired)
 {
     LifxPacket packet;
     bulb->setColor(color);
-    packet.setBulbColor(bulb);
+    packet.setBulbColor(bulb, source, ackRequired);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());    
 }
 
-void LifxProtocol::getGroupForBulb(LifxBulb* bulb)
+void LifxProtocol::getGroupForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbGroup(bulb);
+    packet.getBulbGroup(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::getWifiInfoForBulb(LifxBulb* bulb)
+void LifxProtocol::getWifiInfoForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getWifiInfoForBulb(bulb);
+    packet.getWifiInfoForBulb(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
@@ -146,16 +146,16 @@ void LifxProtocol::rebootBulb(LifxBulb* bulb)
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::setBulbState(LifxBulb* bulb, bool state)
+void LifxProtocol::setBulbState(LifxBulb* bulb, bool state, int source, bool ackRequired)
 {
     uint16_t power = state ? 65535 : 0;
     LifxPacket packet;
     bulb->setPower(power);
-    packet.setBulbPower(bulb);
+    packet.setBulbPower(bulb, source, ackRequired);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
 }
 
-void LifxProtocol::setGroupState(LifxGroup* group, bool state)
+void LifxProtocol::setGroupState(LifxGroup* group, bool state, int source, bool ackRequired)
 {
     uint16_t power = state ? 65535 : 0;
     
@@ -163,16 +163,16 @@ void LifxProtocol::setGroupState(LifxGroup* group, bool state)
     QVector<LifxBulb*> bulbs = group->bulbs();
     for (auto bulb : bulbs) {
         bulb->setPower(power);
-        packet.setBulbPower(bulb);
+        packet.setBulbPower(bulb, source, ackRequired);
         m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
     }
 }
 
-void LifxProtocol::echoRequest ( LifxBulb* bulb )
+void LifxProtocol::echoRequest(LifxBulb* bulb, QByteArray echoing)
 {
     if (bulb) {
         LifxPacket packet;
-        packet.echoBulb(bulb);
+        packet.echoBulb(bulb, echoing);
         m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
     }
 }
