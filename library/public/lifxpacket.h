@@ -59,6 +59,7 @@ public:
     uint16_t port() const { return m_port; }
     uint8_t* target() { return m_target; }
     uint64_t targetAsLong();
+    bool isValid();
     
     void getBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
     void getBulbFirmware(LifxBulb *bulb, int source = 0, bool ackRequired = false);

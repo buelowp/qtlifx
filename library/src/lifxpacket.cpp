@@ -95,6 +95,23 @@ void LifxPacket::makeDiscoveryPacket()
     createHeader(&bulb);
 }
 
+bool LifxPacket::isValid()
+{
+    if (m_size == 0) {
+        return false;
+    }
+
+    if (m_protocol != 1024) {
+        return false;
+    }
+
+    if (m_type == 0) {
+        return false;
+    }
+
+    return true;
+}
+
 void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
 {
     LifxBulb bulb;
@@ -120,7 +137,10 @@ QByteArray LifxPacket::datagram()
     m_datagram.clear();
     m_datagram.append(m_hdr);
     m_datagram.append(m_payload);
-    
+
+    if (m_type == 101)
+        qDebug() << __PRETTY_FUNCTION__ << ":" << this;
+
     return m_datagram;
 }
 
@@ -159,6 +179,8 @@ void LifxPacket::setDatagram(QNetworkDatagram &datagram)
             setPayload(datagram.data().mid(m_headerSize));
         }
     }
+    if (m_type == 107)
+        qDebug() << __PRETTY_FUNCTION__ << ":" << this;
 }
 
 /**
@@ -233,7 +255,7 @@ void LifxPacket::getBulbLabel(LifxBulb* bulb, int source, bool ackRequired)
     m_type = LIFX_DEFINES::GET_LABEL;
     m_source = source;
 
-    createHeader(bulb);    
+    createHeader(bulb, false);
 }
 
 void LifxPacket::getBulbColor(LifxBulb* bulb, int source, bool ackRequired)
@@ -334,7 +356,8 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
 QDebug operator<<(QDebug debug, LifxPacket &packet)
 {
     QDebugStateSaver saver(debug);
-    uint8_t *rawmac = packet.target();
+    uint8_t rawmac[8];
+    memcpy(rawmac, packet.protocolHeader().target, 8);
     QString mac = QString("%1:%2:%3:%4:%5:%6")
                     .arg(rawmac[0], 2, 16, QLatin1Char('0'))
                     .arg(rawmac[1], 2, 16, QLatin1Char('0'))
@@ -350,9 +373,15 @@ QDebug operator<<(QDebug debug, LifxPacket &packet)
                     .arg(packet.protocolHeader().reserved[4], 2, 16, QLatin1Char('0'))
                     .arg(packet.protocolHeader().reserved[5], 2, 16, QLatin1Char('0'));
 
-    debug.nospace().noquote() << "Packet From: " << packet.address().toString() << Qt::endl;
+    if (packet.address().isNull()) {
+        debug.nospace().noquote() << "Packet SEND:" << Qt::endl;
+    }
+    else {
+        debug.nospace().noquote() << "Packet From: " << packet.address().toString() << Qt::endl;
+    }
     debug.nospace().noquote() << "Packet Raw: " << packet.header().toHex() << Qt::endl;
     debug.nospace().noquote() << "\tsize: " << packet.protocolHeader().size << Qt::endl;
+    debug.nospace().noquote() << "\ttype: " << defines_names_map[packet.type()] << Qt::endl;
     debug.nospace().noquote() << "\tprotocol: " << packet.protocolHeader().protocol << Qt::endl;
     debug.nospace().noquote() << "\taddressable: " << packet.protocolHeader().addressable << Qt::endl;
     debug.nospace().noquote() << "\ttagged: " << packet.protocolHeader().tagged << Qt::endl;
@@ -380,7 +409,8 @@ QDebug operator<<(QDebug debug, LifxPacket &packet)
 QDebug operator<<(QDebug debug, LifxPacket *packet)
 {
     QDebugStateSaver saver(debug);
-    uint8_t *rawmac = packet->target();
+    uint8_t rawmac[8];
+    memcpy(rawmac, packet->protocolHeader().target, 8);
     QString mac = QString("%1:%2:%3:%4:%5:%6")
                     .arg(rawmac[0], 2, 16, QLatin1Char('0'))
                     .arg(rawmac[1], 2, 16, QLatin1Char('0'))
@@ -396,9 +426,15 @@ QDebug operator<<(QDebug debug, LifxPacket *packet)
                     .arg(packet->protocolHeader().reserved[4], 2, 16, QLatin1Char('0'))
                     .arg(packet->protocolHeader().reserved[5], 2, 16, QLatin1Char('0'));
 
-    debug.nospace().noquote() << "Packet From: " << packet->address().toString() << Qt::endl;
+    if (packet->address().isNull()) {
+        debug.nospace().noquote() << "Packet SEND:" << Qt::endl;
+    }
+    else {
+        debug.nospace().noquote() << "Packet From: " << packet->address().toString() << Qt::endl;
+    }
     debug.nospace().noquote() << "Packet Raw: " << packet->header().toHex() << Qt::endl;
     debug.nospace().noquote() << "\tsize: " << packet->protocolHeader().size << Qt::endl;
+    debug.nospace().noquote() << "\ttype: " << defines_names_map[packet->type()] << Qt::endl;
     debug.nospace().noquote() << "\tprotocol: " << packet->protocolHeader().protocol << Qt::endl;
     debug.nospace().noquote() << "\taddressable: " << packet->protocolHeader().addressable << Qt::endl;
     debug.nospace().noquote() << "\ttagged: " << packet->protocolHeader().tagged << Qt::endl;
@@ -409,7 +445,17 @@ QDebug operator<<(QDebug debug, LifxPacket *packet)
     debug.nospace().noquote() << "\tresponse required: " << packet->protocolHeader().res_required << Qt::endl;
     debug.nospace().noquote() << "\tack required: " << packet->protocolHeader().ack_required << Qt::endl;
     if (packet->payload().size()) {
-        debug.nospace().noquote() << "Payload: " << packet->payload().toHex() << Qt::endl;
+        if (packet->type() == 107) {
+//            lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)packet->payload().data();
+            lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(52);
+            memcpy(color, packet->payload().data(), 52);
+            debug.nospace().noquote() << "Payload: " << packet->payload().toHex() << Qt::endl;
+            debug.nospace().noquote() << "\thue  : " << color->hue << Qt::endl;
+            debug.nospace().noquote() << "\tsat  : " << color->saturation << Qt::endl;
+            debug.nospace().noquote() << "\tbri  : " << color->brightness << Qt::endl;
+            debug.nospace().noquote() << "\tkel  : " << color->kelvin << Qt::endl;
+            debug.nospace().noquote() << "\tpower: " << color->power << Qt::endl;
+        }
     }
     return debug;
 }

@@ -153,6 +153,7 @@ void LifxProtocol::setBulbState(LifxBulb* bulb, bool state, int source, bool ack
     bulb->setPower(power);
     packet.setBulbPower(bulb, source, ackRequired);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    qDebug() << packet;
 }
 
 void LifxProtocol::setGroupState(LifxGroup* group, bool state, int source, bool ackRequired)

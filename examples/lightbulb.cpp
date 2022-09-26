@@ -45,7 +45,7 @@ QSize LightBulb::sizeHint() const
 void LightBulb::mousePressEvent(QMouseEvent* e)
 {
     if (e->button() == Qt::LeftButton)
-        emit stateChangeEvent(m_label, m_state);
+        emit stateChangeEvent(m_label, !m_state);
     if (e->button() == Qt::RightButton)
         emit openColorDialog();
 }

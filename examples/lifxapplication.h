@@ -43,16 +43,15 @@ public:
     void go();
 
 public slots:
-    void bulbDiscovered(LifxBulb *bulb);
-    void bulbStateChanged(LifxBulb *bulb);
-    void timeout();
-    void discoverTimeout();
     void widgetStateChange(QString label, bool state);
     void newColorForBulb(QString label, QColor color);
-    void runDiscovery();
+    void handlerTimeout();
+    void bulbStateChange(LifxBulb *bulb);
     void bulbDiscoveryFinished(LifxBulb *bulb);
-    void bulbDiscoveryFailed();
-    
+    void handlerComplete(uint32_t m_uniqueId);
+    void runStateCheck();
+    void ackReceived(QHostAddress address, int port, uint64_t target);
+
 protected:
     void showEvent(QShowEvent *e);
     
@@ -60,14 +59,19 @@ private:
     int xPosition();
     int yPosition();
     void createDisplayObject(LifxBulb *bulb);
+    void updateDisplayObject(LifxBulb *bulb);
+    BulbMessageHandler *createHandler();
+    BulbMessageHandler *createHandler(QHostAddress address, int port);
 
     LifxManager *m_manager;
     QGridLayout *m_layout;
     QTimer *m_stateCheckInterval;
     QTimer *m_discoverInterval;
     QMap<QString, LightBulb*> m_widgets;
+    QMap<int, BulbMessageHandler*> m_handlers;
     int m_x;
     int m_y;
+    uint32_t m_uniqueId;
 };
 
 #endif // LIFXAPPLICATION_H

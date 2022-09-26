@@ -485,7 +485,7 @@ void LifxManager::changeGroupState(QByteArray& uuid, bool state, int source, boo
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
-        m_protocol->setGroupState(group, state);
+        m_protocol->setGroupState(group, state, source, ackRequired);
     }
 }
 
@@ -548,7 +548,7 @@ void LifxManager::changeBulbState(LifxBulb* bulb, bool state, int source, bool a
         if (m_debug)
         qDebug() << __PRETTY_FUNCTION__ << ": Setting" << bulb->label() << "to" << state;
         
-        m_protocol->setBulbState(bulb, state);
+        m_protocol->setBulbState(bulb, state, source, ackRequired);
     }
 }
 
@@ -556,7 +556,7 @@ void LifxManager::changeBulbState(uint64_t target, bool state, int source, bool 
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
-        changeBulbState(bulb, state);
+        changeBulbState(bulb, state, source, ackRequired);
     }
 }
 

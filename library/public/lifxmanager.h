@@ -69,6 +69,7 @@ public:
     LifxBulb* getBulbByMac(uint64_t target);
     LifxGroup* getGroupByName(QString &name);
     LifxGroup* getGroupByUUID(QByteArray &uuid);
+    LifxProtocol *getProtocol() { return m_protocol; }
     QList<LifxBulb*> getBulbsByPID(int pid);
     void enableDebug(bool debug) { m_debug = debug; }
     void enableBulbEcho(QString &name, int timeout, QByteArray echoing);

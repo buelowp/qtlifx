@@ -21,23 +21,20 @@
 
 LifxApplication::LifxApplication() : QMainWindow()
 {
-//    m_manager = new LifxManager();
-//    connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscovered);
-//    connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChanged);
-    
     m_x = 0;
     m_y = 0;
-    /*
-    m_stateCheckInterval = new QTimer();
-    connect(m_stateCheckInterval, &QTimer::timeout, this, &LifxApplication::timeout);
-    m_stateCheckInterval->setInterval(5000);
-    m_stateCheckInterval->start();
+    m_uniqueId = 1;
 
-    m_discoverInterval = new QTimer();
-    connect(m_discoverInterval, &QTimer::timeout, this, &LifxApplication::discoverTimeout);
-    m_discoverInterval->setInterval(60000);
-    m_discoverInterval->start();
-*/
+    m_stateCheckInterval = new QTimer(this);
+    m_stateCheckInterval->setInterval(2000);
+    connect(m_stateCheckInterval, &QTimer::timeout, this, &LifxApplication::runStateCheck);
+
+    m_manager = new LifxManager(this);
+    connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscoveryFinished);
+    connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChange);
+    connect(m_manager, &LifxManager::bulbLabelChange, this, &LifxApplication::bulbStateChange);
+    connect(m_manager, &LifxManager::bulbPowerChange, this, &LifxApplication::bulbStateChange);
+
     m_layout = new QGridLayout();
     QWidget *central = new QWidget();
     central->setLayout(m_layout);
@@ -55,7 +52,20 @@ LifxApplication::~LifxApplication()
 {
 }
 
-void LifxApplication::bulbStateChanged(LifxBulb* bulb)
+void LifxApplication::runStateCheck()
+{
+    QList<QString> keys = m_widgets.keys();
+
+    foreach(auto key, keys) {
+        LifxBulb *bulb = m_manager->getBulbByName(key);
+        if (bulb) {
+            BulbMessageHandler *handler = createHandler();
+            handler->getColorForBulb(bulb);
+        }
+    }
+}
+
+void LifxApplication::bulbStateChange(LifxBulb* bulb)
 {
     LightBulb *lb = m_widgets[bulb->label()];
     QHostAddress ip4(bulb->address().toIPv4Address());
@@ -68,19 +78,8 @@ void LifxApplication::bulbStateChanged(LifxBulb* bulb)
     }
 }
 
-void LifxApplication::timeout()
-{
-    //m_manager->updateState();
-}
-
-void LifxApplication::discoverTimeout()
-{
-    //m_manager->initialize();
-}
-
 void LifxApplication::setProductsJsonFile(QString path)
 {
-    /*
     QFile file(path);
     QJsonParseError error;
     
@@ -94,7 +93,6 @@ void LifxApplication::setProductsJsonFile(QString path)
             m_manager->setProductCapabilities(doc);
         }
     }
-    */
 }
 
 void LifxApplication::showEvent(QShowEvent *e)
@@ -118,13 +116,9 @@ void LifxApplication::go()
         QStringList groups = settings.childGroups();
         for (const auto &child : groups) {
             settings.beginGroup(child);
-            qDebug() << __PRETTY_FUNCTION__ << ": checking" << child;
             QHostAddress address(settings.value("address").toString());
             int port = settings.value("port").toInt();
-
-            BulbMessageHandler *handler = new BulbMessageHandler(address, port);
-            connect(handler, &BulbMessageHandler::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscoveryFinished);
-            connect(handler, &BulbMessageHandler::bulbDiscoveryFailure, this, &LifxApplication::bulbDiscoveryFailed);
+            BulbMessageHandler *handler = createHandler(address, port);
             handler->discover();
             settings.endGroup();
         }
@@ -132,27 +126,16 @@ void LifxApplication::go()
     }
 }
 
-void LifxApplication::bulbDiscoveryFailed()
-{
-    qDebug() << __PRETTY_FUNCTION__;
-}
-
-void LifxApplication::bulbDiscoveryFinished(LifxBulb* bulb)
-{
-    createDisplayObject(bulb);
-}
-
 void LifxApplication::newColorForBulb(QString label, QColor color)
 {
     qDebug() << __PRETTY_FUNCTION__;
+    LifxBulb *bulb = m_manager->getBulbByName(label);
+    if (bulb) {
+        m_manager->changeBulbColor(bulb, color);
+    }
 }
 
-void LifxApplication::runDiscovery()
-{
-    //m_manager->initialize();
-}
-
-void LifxApplication::bulbDiscovered(LifxBulb *bulb)
+void LifxApplication::bulbDiscoveryFinished(LifxBulb *bulb)
 {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
     QStringList groups = settings.childGroups();
@@ -173,19 +156,23 @@ void LifxApplication::bulbDiscovered(LifxBulb *bulb)
         }
         settings.endGroup();
     }
-
-    qDebug().nospace().noquote() << "Found new bulb: " << bulb;
+    createDisplayObject(bulb);
 }
 
 void LifxApplication::createDisplayObject(LifxBulb* bulb)
 {
-    qDebug() << __PRETTY_FUNCTION__ << ": Creating new display object for" << bulb;
     LightBulb *widget = new LightBulb();
     connect(widget, &LightBulb::stateChangeEvent, this, &LifxApplication::widgetStateChange);
     connect(widget, &LightBulb::newColorChosen, this, &LifxApplication::newColorForBulb);
-    widget->setText(bulb->label());
-    widget->setColor(bulb->color());
-    widget->setPower(bulb->power());
+    QHostAddress ip4(bulb->address().toIPv4Address());
+    QString label = QString("%1\n%2\nRSSI: %3\nr:%4 g:%5 b:%6").arg(bulb->label()).arg(ip4.toString()).arg(bulb->rssi()).arg(bulb->color().red()).arg(bulb->color().green()).arg(bulb->color().blue());
+    if (widget != nullptr) {
+        widget->setColor(bulb->color());
+        widget->setPower(bulb->power());
+        widget->setText(label);
+        widget->setLabel(bulb->label());
+    }
+//    qDebug() << __PRETTY_FUNCTION__ << ": Creating" << bulb->label() << ": color" << bulb->color() << ", power" << bulb->power();
     m_layout->addWidget(widget, m_x, m_y);
     m_widgets.insert(bulb->label(), widget);
     m_y++;
@@ -197,11 +184,65 @@ void LifxApplication::createDisplayObject(LifxBulb* bulb)
 
 void LifxApplication::widgetStateChange(QString label, bool state)
 {
-    qDebug() << __PRETTY_FUNCTION__;
-    /*
+    qDebug() << __PRETTY_FUNCTION__ << ": Handling state change for" << label << "to state" << state;
     LifxBulb *bulb = m_manager->getBulbByName(label);
+
     if (bulb) {
-        m_manager->changeBulbState(bulb, !state);
+        BulbMessageHandler *handler = createHandler();
+        handler->changeBulbState(bulb, state);
     }
-    */
+}
+
+void LifxApplication::handlerTimeout()
+{
+}
+
+void LifxApplication::handlerComplete(uint32_t id)
+{
+    BulbMessageHandler *handler = m_handlers[id];
+
+    if (handler) {
+//        qDebug() << __PRETTY_FUNCTION__ << ": Cleaning up handler" << id;
+        handler->deleteLater();
+        m_handlers.remove(id);
+    }
+}
+
+void LifxApplication::ackReceived(QHostAddress address, int port, uint64_t target)
+{
+    LifxBulb *bulb = m_manager->getBulbByMac(target);
+    if (bulb) {
+        BulbMessageHandler *handler = createHandler(address, port);
+        handler->getColorForBulb(bulb);
+    }
+}
+
+BulbMessageHandler * LifxApplication::createHandler()
+{
+    BulbMessageHandler *handler = new BulbMessageHandler(this);
+    handler->setUniqueId(m_uniqueId++);
+    while (m_handlers.contains(handler->uniqueId())) {
+        handler->setUniqueId(m_uniqueId++);
+    }
+    m_handlers[handler->uniqueId()] = handler;
+    connect(handler, &BulbMessageHandler::newPacket, m_manager, &LifxManager::newPacket);
+    connect(handler, &BulbMessageHandler::bulbMessageTimeout, this, &LifxApplication::handlerTimeout);
+    connect(handler, &BulbMessageHandler::complete, this, &LifxApplication::handlerComplete);
+    connect(handler, &BulbMessageHandler::packetAck, this, &LifxApplication::ackReceived);
+    return handler;
+}
+
+BulbMessageHandler * LifxApplication::createHandler(QHostAddress address, int port)
+{
+    BulbMessageHandler *handler = new BulbMessageHandler(address, port, this);
+    handler->setUniqueId(m_uniqueId++);
+    while (m_handlers.contains(handler->uniqueId())) {
+        handler->setUniqueId(m_uniqueId++);
+    }
+    m_handlers[handler->uniqueId()] = handler;
+    connect(handler, &BulbMessageHandler::newPacket, m_manager, &LifxManager::newPacket);
+    connect(handler, &BulbMessageHandler::bulbMessageTimeout, this, &LifxApplication::handlerTimeout);
+    connect(handler, &BulbMessageHandler::complete, this, &LifxApplication::handlerComplete);
+    connect(handler, &BulbMessageHandler::packetAck, this, &LifxApplication::ackReceived);
+    return handler;
 }
