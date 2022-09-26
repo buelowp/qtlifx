@@ -55,19 +55,19 @@ public:
     bool newPacketAvailable();
     LifxBulb *createNewBulb();
     
-    void setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void setBulbColor(LifxBulb *bulb, QColor color, int source = 0, bool ackRequired = false);
-    void setBulbState(LifxBulb *bulb, bool state, int source = 0, bool ackRequired = false);
+    uint16_t setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t setBulbColor(LifxBulb *bulb, QColor color, int source = 0, bool ackRequired = false);
+    uint16_t setBulbState(LifxBulb *bulb, bool state, int source = 0, bool ackRequired = false);
     void setGroupState(LifxGroup *group, bool state, int source = 0, bool ackRequired = false);
-    void rebootBulb(LifxBulb *bulb);
+    uint16_t rebootBulb(LifxBulb *bulb);
     
-    void getPowerForBulb(LifxBulb *bulb, int source = 0);
-    void getLabelForBulb(LifxBulb *bulb, int source = 0);
-    void getVersionForBulb(LifxBulb *bulb, int source = 0);
-    void getFirmwareForBulb(LifxBulb *bulb, int source = 0);
-    void getColorForBulb(LifxBulb *bulb, int source = 0);
-    void getGroupForBulb(LifxBulb *bulb, int source = 0);
-    void getWifiInfoForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getPowerForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getLabelForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getVersionForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getFirmwareForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getColorForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getGroupForBulb(LifxBulb *bulb, int source = 0);
+    uint16_t getWifiInfoForBulb(LifxBulb *bulb, int source = 0);
     
     void echoRequest(LifxBulb *bulb, QByteArray echoing);
 

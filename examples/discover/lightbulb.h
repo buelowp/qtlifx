@@ -33,9 +33,10 @@ public:
     void setText(QString text) { m_text = text; update(); }
     void setLabel(QString text) { m_label = text; }
     void setColor(QColor c) { m_color = c; update(); }
-    void setPower(uint16_t p) { m_state = (p != 0); }
+    void setPower(uint16_t p);
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
+    bool localState() { return m_state; }
 
 protected slots:
     void showColorDialog();

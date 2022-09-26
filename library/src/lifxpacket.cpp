@@ -48,6 +48,7 @@ LifxPacket::LifxPacket(const LifxPacket& object)
     m_address = object.m_address;
     m_payload = object.m_payload;
     m_datagram = object.m_datagram;
+    memcpy(m_protoid, object.m_protoid, 6);
 }
 
 
@@ -71,6 +72,7 @@ void LifxPacket::createHeader(LifxBulb* bulb, bool blankTarget)
     // all set to 0
     // protocol header
     m_header.type = m_type;
+    memcpy(m_header.protoid, protoid, 6);
     
     m_packet = static_cast<char*>(malloc(m_headerSize));
     memcpy(m_packet, static_cast<void*>(&m_header), m_headerSize);
@@ -138,9 +140,6 @@ QByteArray LifxPacket::datagram()
     m_datagram.append(m_hdr);
     m_datagram.append(m_payload);
 
-    if (m_type == 101)
-        qDebug() << __PRETTY_FUNCTION__ << ":" << this;
-
     return m_datagram;
 }
 
@@ -155,6 +154,7 @@ void LifxPacket::setHeader(const char* data)
     m_protocol = m_header.protocol;
     m_addressable = m_header.addressable;
     m_size = m_header.size;
+    memcpy(m_protoid, m_header.protoid, 6);
     
     // m_target is the 6 byte MAC, leaving 2 bytes out
     // the full 8 byte field is stored in the raw header
@@ -179,8 +179,6 @@ void LifxPacket::setDatagram(QNetworkDatagram &datagram)
             setPayload(datagram.data().mid(m_headerSize));
         }
     }
-    if (m_type == 107)
-        qDebug() << __PRETTY_FUNCTION__ << ":" << this;
 }
 
 /**
@@ -225,7 +223,7 @@ void LifxPacket::echoBulb(LifxBulb* bulb, QByteArray bytes, int source)
     }
 }
 
-void LifxPacket::getBulbFirmware(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getBulbFirmware(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -234,9 +232,10 @@ void LifxPacket::getBulbFirmware(LifxBulb* bulb, int source, bool ackRequired)
     m_source = source;
 
     createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::getBulbPower(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getBulbPower(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -245,9 +244,10 @@ void LifxPacket::getBulbPower(LifxBulb* bulb, int source, bool ackRequired)
     m_source = source;
 
     createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::getBulbLabel(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getBulbLabel(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -256,9 +256,10 @@ void LifxPacket::getBulbLabel(LifxBulb* bulb, int source, bool ackRequired)
     m_source = source;
 
     createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::getBulbColor(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getBulbColor(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -267,24 +268,26 @@ void LifxPacket::getBulbColor(LifxBulb* bulb, int source, bool ackRequired)
     m_source = source;
 
     createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::setBulbColor(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::setBulbColor(LifxBulb* bulb, int source, bool ackRequired)
 {
     lx_dev_color_t *color = bulb->toDeviceColor();
     
     m_tagged = 0;
     m_ackRequired = ackRequired;
-    m_resRequired = false;
+    m_resRequired = true;
     m_type = LIFX_DEFINES::SET_COLOR;
     m_source = source;
 
     createHeader(bulb, false);
     m_payload.clear();
     m_payload = QByteArray::fromRawData((char*)color, sizeof(lx_dev_color_t));
+    return m_type;
 }
 
-void LifxPacket::getBulbGroup(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getBulbGroup(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -292,10 +295,11 @@ void LifxPacket::getBulbGroup(LifxBulb* bulb, int source, bool ackRequired)
     m_type = LIFX_DEFINES::GET_GROUP;
     m_source = source;
 
-    createHeader(bulb, false);    
+    createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::getBulbVersion(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getBulbVersion(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -303,10 +307,11 @@ void LifxPacket::getBulbVersion(LifxBulb* bulb, int source, bool ackRequired)
     m_type = LIFX_DEFINES::GET_VERSION;
     m_source = source;
 
-    createHeader(bulb, false);        
+    createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::getWifiInfoForBulb(LifxBulb* bulb, int source, bool ackRequired)
+uint16_t LifxPacket::getWifiInfoForBulb(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -315,9 +320,18 @@ void LifxPacket::getWifiInfoForBulb(LifxBulb* bulb, int source, bool ackRequired
     m_source = source;
 
     createHeader(bulb, false);
+    return m_type;
 }
 
-void LifxPacket::setBulbPower(LifxBulb* bulb, int source, bool ackRequired)
+/**
+ * So this operation has an interesting side effect. When you tell it to turn off,
+ * it actually powers down from 65535 to 0, which may take a few milliseconds. The bulbs
+ * are not all going to reply when they get to their final powered state, so sometimes
+ * if response required is true, you will get an power value between 0 and 65535. So,
+ * don't ask for a response here, but rather, an ACK, and then go back and update when the ack is done
+ * and the bulb has completed it's power change cycle.
+ */
+uint16_t LifxPacket::setBulbPower(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
@@ -332,9 +346,10 @@ void LifxPacket::setBulbPower(LifxBulb* bulb, int source, bool ackRequired)
     else {
         m_payload = QByteArrayLiteral("\xff\xff");
     }
+    return m_type;
 }
 
-void LifxPacket::rebootBulb(LifxBulb* bulb)
+uint16_t LifxPacket::rebootBulb(LifxBulb* bulb)
 {
     m_tagged = 0;
     m_ackRequired = 0;
@@ -343,6 +358,7 @@ void LifxPacket::rebootBulb(LifxBulb* bulb)
     m_source = 0;
     
     createHeader(bulb, false);
+    return m_type;
 }
 
 /**
@@ -365,13 +381,7 @@ QDebug operator<<(QDebug debug, LifxPacket &packet)
                     .arg(rawmac[3], 2, 16, QLatin1Char('0'))
                     .arg(rawmac[4], 2, 16, QLatin1Char('0'))
                     .arg(rawmac[5], 2, 16, QLatin1Char('0'));
-    QString reserved = QString("%1:%2:%3:%4:%5:%6")
-                    .arg(packet.protocolHeader().reserved[0], 2, 16, QLatin1Char('0'))
-                    .arg(packet.protocolHeader().reserved[1], 2, 16, QLatin1Char('0'))
-                    .arg(packet.protocolHeader().reserved[2], 2, 16, QLatin1Char('0'))
-                    .arg(packet.protocolHeader().reserved[3], 2, 16, QLatin1Char('0'))
-                    .arg(packet.protocolHeader().reserved[4], 2, 16, QLatin1Char('0'))
-                    .arg(packet.protocolHeader().reserved[5], 2, 16, QLatin1Char('0'));
+    QByteArray protoid = QByteArray::fromRawData((char*)packet.protocolHeader().protoid, 6);
 
     if (packet.address().isNull()) {
         debug.nospace().noquote() << "Packet SEND:" << Qt::endl;
@@ -388,12 +398,24 @@ QDebug operator<<(QDebug debug, LifxPacket &packet)
     debug.nospace().noquote() << "\torigin: " << packet.protocolHeader().origin << Qt::endl;
     debug.nospace().noquote() << "\tsource: " << packet.protocolHeader().source << Qt::endl;
     debug.nospace().noquote() << "\ttarget: " << mac << Qt::endl;
-    debug.nospace().noquote() << "\treserved: " << reserved << Qt::endl;
+    debug.nospace().noquote() << "\tprotocol id: " << QString(protoid) << Qt::endl;
     debug.nospace().noquote() << "\tresponse required: " << packet.protocolHeader().res_required << Qt::endl;
     debug.nospace().noquote() << "\tack required: " << packet.protocolHeader().ack_required << Qt::endl;
 
     if (packet.payload().size()) {
-        debug.nospace().noquote() << "Payload: " << packet.payload().toHex() << Qt::endl;
+        if (packet.type() == 107) {
+            lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(52);
+            memcpy(color, packet.payload().data(), 52);
+            debug.nospace().noquote() << "Payload: " << packet.payload().toHex() << Qt::endl;
+            debug.nospace().noquote() << "\thue  : " << color->hue << Qt::endl;
+            debug.nospace().noquote() << "\tsat  : " << color->saturation << Qt::endl;
+            debug.nospace().noquote() << "\tbri  : " << color->brightness << Qt::endl;
+            debug.nospace().noquote() << "\tkel  : " << color->kelvin << Qt::endl;
+            debug.nospace().noquote() << "\tpower: " << color->power << Qt::endl;
+        }
+        else {
+            debug.nospace().noquote() << "Payload: " << packet.payload().toHex() << Qt::endl;
+        }
     }
     return debug;
 }
@@ -418,13 +440,7 @@ QDebug operator<<(QDebug debug, LifxPacket *packet)
                     .arg(rawmac[3], 2, 16, QLatin1Char('0'))
                     .arg(rawmac[4], 2, 16, QLatin1Char('0'))
                     .arg(rawmac[5], 2, 16, QLatin1Char('0'));
-    QString reserved = QString("%1:%2:%3:%4:%5:%6")
-                    .arg(packet->protocolHeader().reserved[0], 2, 16, QLatin1Char('0'))
-                    .arg(packet->protocolHeader().reserved[1], 2, 16, QLatin1Char('0'))
-                    .arg(packet->protocolHeader().reserved[2], 2, 16, QLatin1Char('0'))
-                    .arg(packet->protocolHeader().reserved[3], 2, 16, QLatin1Char('0'))
-                    .arg(packet->protocolHeader().reserved[4], 2, 16, QLatin1Char('0'))
-                    .arg(packet->protocolHeader().reserved[5], 2, 16, QLatin1Char('0'));
+    QByteArray protoid = QByteArray::fromRawData((char*)packet->protocolHeader().protoid, 6);
 
     if (packet->address().isNull()) {
         debug.nospace().noquote() << "Packet SEND:" << Qt::endl;
@@ -441,12 +457,11 @@ QDebug operator<<(QDebug debug, LifxPacket *packet)
     debug.nospace().noquote() << "\torigin: " << packet->protocolHeader().origin << Qt::endl;
     debug.nospace().noquote() << "\tsource: " << packet->protocolHeader().source << Qt::endl;
     debug.nospace().noquote() << "\ttarget: " << mac << Qt::endl;
-    debug.nospace().noquote() << "\treserved: " << reserved << Qt::endl;
+    debug.nospace().noquote() << "\tprotocol id: " << QString(protoid) << Qt::endl;
     debug.nospace().noquote() << "\tresponse required: " << packet->protocolHeader().res_required << Qt::endl;
     debug.nospace().noquote() << "\tack required: " << packet->protocolHeader().ack_required << Qt::endl;
     if (packet->payload().size()) {
         if (packet->type() == 107) {
-//            lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)packet->payload().data();
             lx_dev_lightstate_t *color = (lx_dev_lightstate_t*)malloc(52);
             memcpy(color, packet->payload().data(), 52);
             debug.nospace().noquote() << "Payload: " << packet->payload().toHex() << Qt::endl;

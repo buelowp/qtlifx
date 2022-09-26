@@ -22,7 +22,7 @@
 LifxProtocol::LifxProtocol(QObject *parent) : QObject(parent)
 {
     m_socket = nullptr;
-    m_socket = new QUdpSocket();
+    m_socket = new QUdpSocket(this);
     m_socket->bind(LIFX_PORT);
     connect(m_socket, &QUdpSocket::readyRead, this, &LifxProtocol::readDatagram);
 }
@@ -59,8 +59,12 @@ void LifxProtocol::readDatagram()
         QNetworkDatagram datagram = m_socket->receiveDatagram();
         if (datagram.isValid()) {
             LifxPacket *packet = new LifxPacket;
+
             packet->setDatagram(datagram);
             emit newPacket(packet);
+        }
+        else {
+            qWarning() << __PRETTY_FUNCTION__ << ": Invalid datagram detected";
         }
     }
 }
@@ -74,86 +78,123 @@ void LifxProtocol::initialize()
 {
 }
 
-void LifxProtocol::getPowerForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getPowerForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
+    uint16_t type;
     
-    packet.getBulbPower(bulb, source);
+    type = packet.getBulbPower(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::getLabelForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getLabelForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbLabel(bulb, source);
+    uint16_t type;
+
+    type = packet.getBulbLabel(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::getFirmwareForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getFirmwareForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbFirmware(bulb, source);
+    uint16_t type;
+
+    type = packet.getBulbFirmware(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::getVersionForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getVersionForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbVersion(bulb, source);
+    uint16_t type;
+
+    type = packet.getBulbVersion(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::getColorForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getColorForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbColor(bulb, source);
-    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());    
-}
+    uint16_t type;
 
-void LifxProtocol::setBulbColor(LifxBulb* bulb, int source, bool ackRequired)
-{
-    LifxPacket packet;
-    packet.setBulbColor(bulb, source, ackRequired);
+    type = packet.getBulbColor(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::setBulbColor(LifxBulb* bulb, QColor color, int source, bool ackRequired)
+uint16_t LifxProtocol::setBulbColor(LifxBulb* bulb, int source, bool ackRequired)
 {
     LifxPacket packet;
+    uint16_t type;
+
+    type = packet.setBulbColor(bulb, source, ackRequired);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
+}
+
+uint16_t LifxProtocol::setBulbColor(LifxBulb* bulb, QColor color, int source, bool ackRequired)
+{
+    LifxPacket packet;
+    uint16_t type;
+
     bulb->setColor(color);
-    packet.setBulbColor(bulb, source, ackRequired);
-    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());    
+    type = packet.setBulbColor(bulb, source, ackRequired);
+    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::getGroupForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getGroupForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getBulbGroup(bulb, source);
+    uint16_t type;
+
+    type = packet.getBulbGroup(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::getWifiInfoForBulb(LifxBulb* bulb, int source)
+uint16_t LifxProtocol::getWifiInfoForBulb(LifxBulb* bulb, int source)
 {
     LifxPacket packet;
-    packet.getWifiInfoForBulb(bulb, source);
+    uint16_t type;
+
+    type = packet.getWifiInfoForBulb(bulb, source);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::rebootBulb(LifxBulb* bulb)
+uint16_t LifxProtocol::rebootBulb(LifxBulb* bulb)
 {
     LifxPacket packet;
-    packet.rebootBulb(bulb);
+    uint16_t type;
+
+    type = packet.rebootBulb(bulb);
     m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+    return type;
 }
 
-void LifxProtocol::setBulbState(LifxBulb* bulb, bool state, int source, bool ackRequired)
+uint16_t LifxProtocol::setBulbState(LifxBulb* bulb, bool state, int source, bool ackRequired)
 {
     uint16_t power = state ? 65535 : 0;
     LifxPacket packet;
-    bulb->setPower(power);
-    packet.setBulbPower(bulb, source, ackRequired);
-    m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
-    qDebug() << packet;
+    uint16_t type;
+
+    if (bulb) {
+        bulb->setPower(power);
+        type = packet.setBulbPower(bulb, source, ackRequired);
+        m_socket->writeDatagram(packet.datagram(), bulb->address(), bulb->port());
+        return type;
+    }
+    else {
+        qWarning() << __PRETTY_FUNCTION__ << ": Protocol request for a NULL bulb";
+    }
+    return 0;
 }
 
 void LifxProtocol::setGroupState(LifxGroup* group, bool state, int source, bool ackRequired)
@@ -161,6 +202,7 @@ void LifxProtocol::setGroupState(LifxGroup* group, bool state, int source, bool 
     uint16_t power = state ? 65535 : 0;
     
     LifxPacket packet;
+
     QVector<LifxBulb*> bulbs = group->bulbs();
     for (auto bulb : bulbs) {
         bulb->setPower(power);

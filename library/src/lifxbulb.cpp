@@ -40,6 +40,11 @@ LifxBulb::LifxBulb()
     memset(m_target, 0, 8);
 }
 
+LifxBulb::~LifxBulb()
+{
+    free(m_deviceColor);
+}
+
 /**
  * \fn void LifxBulb::setDiscoveryActive(bool discovery)
  * \param discovery bool indicating state of discovery operation for this bulb

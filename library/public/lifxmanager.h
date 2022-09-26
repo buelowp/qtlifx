@@ -28,6 +28,7 @@
 #include "lifxpacket.h"
 #include "lifxgroup.h"
 #include "hsbk.h"
+#include "asynchandler.h"
 
 /**
  * \class LifxManager
@@ -63,7 +64,6 @@ public:
     ~LifxManager();
     LifxManager(const LifxManager &object);
     
-    void initialize();
     void discoverBulb(QHostAddress address, int port);
     LifxBulb* getBulbByName(QString &name);
     LifxBulb* getBulbByMac(uint64_t target);
@@ -78,6 +78,7 @@ public:
     void disableEcho(uint64_t target);
     
 public slots:
+    void discover();
     void discoveryFailed();
     void newPacket(LifxPacket *packet);
     void changeBulbColor(uint64_t target, QColor color, uint32_t duration = 400, int source = 0, bool ackRequired = false);
@@ -96,6 +97,13 @@ public slots:
     void rebootBulb(uint64_t target);
     void rebootGroup(QByteArray &uuid);
     void updateState();
+    void updateState(LifxBulb *bulb);
+    void updateState(uint64_t target);
+    void handlerTimeout(uint32_t uniqueId);
+    void ackReceived(uint32_t uniqueId);
+    void getColorForBulb(LifxBulb *bulb, int source = 0);
+    void getColorForBulb(uint64_t target, int source = 0);
+    void handlerComplete(uint32_t uniqueid);
 
 signals:
     void bulbDiscoveryFinished(LifxBulb *bulb);
@@ -107,9 +115,13 @@ signals:
     void bulbGroupChange(LifxGroup *group);
     void bulbPowerChange(LifxBulb *bulb);
     void bulbRSSIChange(LifxBulb *bulb);
+    void messageTimeout();
+    void ack(uint32_t uniqueId);
 
 private:
     void echoFunction(LifxBulb *bulb, int timeout, QByteArray echoing);
+    AsyncHandler* createHandler();
+    AsyncHandler* createHandler(QHostAddress address, int port);
     
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
@@ -117,7 +129,10 @@ private:
     QMultiMap<int, LifxBulb*> m_bulbsByPID;
     QMap<int, QJsonObject> m_productObjects;
     QMap<uint64_t, QTimer*> m_echoTimers;
+    QMap<uint32_t, AsyncHandler*> m_handlers;
+    QMutex m_mutex;
     bool m_debug;
+    uint32_t m_uniqueId;
 };
 
 Q_DECLARE_METATYPE(LifxManager);

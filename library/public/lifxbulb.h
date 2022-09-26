@@ -65,7 +65,7 @@ class LifxBulb
 {
 public:
     LifxBulb();
-    ~LifxBulb() = default;
+    ~LifxBulb();
     
     bool operator==(const LifxBulb &bulb);
     bool operator==(const uint8_t*);

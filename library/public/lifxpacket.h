@@ -41,6 +41,7 @@ public:
     ~LifxPacket();
     
     LifxPacket(const LifxPacket &object);
+    static constexpr uint8_t protoid[] = { 0x4c, 0x49, 0x46, 0x58, 0x56, 0x32 };
 
     void makeDiscoveryPacket();
     void makeDiscoveryPacketForBulb(QHostAddress address, int port);
@@ -61,16 +62,16 @@ public:
     uint64_t targetAsLong();
     bool isValid();
     
-    void getBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void getBulbFirmware(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void getBulbLabel(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void getBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void getBulbGroup(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void getBulbVersion(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void getWifiInfoForBulb(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void setBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    void rebootBulb(LifxBulb *bulb);
+    uint16_t getBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t getBulbFirmware(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t getBulbLabel(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t getBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t getBulbGroup(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t getBulbVersion(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t getWifiInfoForBulb(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t setBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    uint16_t rebootBulb(LifxBulb *bulb);
     void echoBulb(LifxBulb *bulb, QByteArray bytes, int source = 0);
 
     static constexpr int HEADER_SIZE = 36;
@@ -93,6 +94,7 @@ private:
     uint16_t m_size;
     uint8_t m_addressable;
     uint8_t m_headerSize;
+    uint8_t m_protoid[6];
     lx_protocol_header_t m_header;
     char *m_packet;
 };

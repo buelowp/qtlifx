@@ -74,7 +74,7 @@ typedef struct {
   uint8_t  origin:2;            /**< Origin flag */
   uint32_t source;              /**< 32bit number which is returned in kind, can be used to identify messages */
   uint8_t target[8];            /**< MAC address as an uint64_t */
-  uint8_t  reserved[6];         /**< Reserved space, used by bulbs but not by this library */
+  uint8_t  protoid[6];         /**< Reserved space, used by bulbs but not by this library */
   uint8_t  res_required:1;      /**< Indicates the bulb should be forced to respond to a message */
   uint8_t  ack_required:1;      /**< Indicates the bulb should be forced to ACK a message */
   uint8_t  reserved1:6;         /**< Reserved space, used by bulbs but not by this library */

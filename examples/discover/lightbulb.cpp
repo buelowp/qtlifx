@@ -44,8 +44,9 @@ QSize LightBulb::sizeHint() const
 
 void LightBulb::mousePressEvent(QMouseEvent* e)
 {
-    if (e->button() == Qt::LeftButton)
+    if (e->button() == Qt::LeftButton) {
         emit stateChangeEvent(m_label, !m_state);
+    }
     if (e->button() == Qt::RightButton)
         emit openColorDialog();
 }
@@ -85,4 +86,13 @@ void LightBulb::paintEvent(QPaintEvent* e)
         QRect drect(xoffset, yoffset, width() / 2, height() / 2);
         painter.drawText(drect, Qt::TextWordWrap, m_text);
     }    
+}
+
+void LightBulb::setPower(uint16_t p)
+{
+    if (p == 0)
+        m_state = false;
+
+    if (p == 65535)
+        m_state = true;
 }
