@@ -3,7 +3,7 @@
 
 #include "asynchandler.h"
 
-AsyncHandler::AsyncHandler(bool debug, QObject *parent) : QObject(parent), m_messageFailureCount(0), m_retryCount(10), m_messageTimeout(1000), m_debug(debug)
+AsyncHandler::AsyncHandler(uint32_t id, bool debug, QObject *parent) : QObject(parent), m_messageFailureCount(0), m_retryCount(10), m_messageTimeout(1000), m_debug(debug)
 {
     m_messageStatusTimer = new QTimer(this);
     m_messageStatusTimer->setInterval(m_messageTimeout);
@@ -13,10 +13,23 @@ AsyncHandler::AsyncHandler(bool debug, QObject *parent) : QObject(parent), m_mes
     m_stopped = true;
     m_type = 0;
     m_bulb = nullptr;
-    m_uniqueId = 0;
+    m_uniqueId = id;
 }
 
-AsyncHandler::AsyncHandler(bool debug, QHostAddress address, int port, QObject *parent) : QObject(parent), m_address(address), m_port(port), m_messageFailureCount(0), m_retryCount(15), m_messageTimeout(1500), m_debug(debug)
+AsyncHandler::AsyncHandler(uint32_t id, bool debug, LifxBulb *bulb, QObject *parent) : QObject(parent), m_messageFailureCount(0), m_retryCount(10), m_messageTimeout(1000), m_debug(debug)
+{
+    m_messageStatusTimer = new QTimer(this);
+    m_messageStatusTimer->setInterval(m_messageTimeout);
+    connect(m_messageStatusTimer, &QTimer::timeout, this, &AsyncHandler::timeout);
+    m_protocol = new LifxProtocol(this);
+    connect(m_protocol, &LifxProtocol::newPacket, this, &AsyncHandler::messageResponse);
+    m_stopped = true;
+    m_type = 0;
+    m_bulb = bulb;
+    m_uniqueId = id;
+}
+
+AsyncHandler::AsyncHandler(uint32_t id, bool debug, QHostAddress address, int port, QObject *parent) : QObject(parent), m_address(address), m_port(port), m_messageFailureCount(0), m_retryCount(15), m_messageTimeout(1500), m_debug(debug)
 {
     m_messageStatusTimer = new QTimer(this);
     m_protocol = new LifxProtocol(this);
@@ -24,7 +37,7 @@ AsyncHandler::AsyncHandler(bool debug, QHostAddress address, int port, QObject *
     m_stopped = true;
     m_type = 0;
     m_bulb = nullptr;
-    m_uniqueId = 0;
+    m_uniqueId = id;
 }
 
 AsyncHandler::~AsyncHandler()
@@ -38,6 +51,7 @@ AsyncHandler::~AsyncHandler()
 void AsyncHandler::sendDiscover()
 {
     m_protocol->discover();
+    m_type = 2;
 }
 
 void AsyncHandler::messageResponse(LifxPacket* packet)
@@ -81,6 +95,7 @@ void AsyncHandler::setMessageTimeout(int timeout)
 void AsyncHandler::timeout()
 {
     m_messageFailureCount++;
+    qDebug() << __PRETTY_FUNCTION__ << ":" << m_messageFailureCount;
     if (m_messageFailureCount == m_retryCount) {
         qWarning() << __PRETTY_FUNCTION__ << ": No response from message handler ID" << m_uniqueId;
         m_messageStatusTimer->stop();
@@ -89,9 +104,9 @@ void AsyncHandler::timeout()
     }
 }
 
-void AsyncHandler::discoverBulbByAddress(QHostAddress address, int port)
+void AsyncHandler::discoverBulbByAddress()
 {
-    m_type = m_protocol->discoverBulbByAddress(address, port);
+    m_type = m_protocol->discoverBulbByAddress(m_address, m_port);
     m_messageStatusTimer->start();
 }
 

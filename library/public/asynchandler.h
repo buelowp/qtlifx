@@ -15,8 +15,9 @@ class AsyncHandler : public QObject
     Q_OBJECT
 
 public:
-    AsyncHandler(bool debug, QObject *parent = nullptr);
-    AsyncHandler(bool debug, QHostAddress address, int port, QObject *parent = nullptr);
+    AsyncHandler(uint32_t id, bool debug, QObject *parent = nullptr);
+    AsyncHandler(uint32_t id, bool debug, LifxBulb* bulb, QObject *parent = nullptr);
+    AsyncHandler(uint32_t id, bool debug, QHostAddress address, int port, QObject *parent = nullptr);
     ~AsyncHandler();
 
     void setRetryCount(int count);
@@ -33,7 +34,7 @@ public:
 
 public slots:
     void messageResponse(LifxPacket *packet);
-    void discoverBulbByAddress(QHostAddress address, int port);
+    void discoverBulbByAddress();
     void getPowerForBulb(LifxBulb *bulb, int source = 0);
     void getLabelForBulb(LifxBulb *bulb, int source = 0);
     void getVersionForBulb(LifxBulb *bulb, int source = 0);

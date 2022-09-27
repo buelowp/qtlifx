@@ -115,12 +115,13 @@ signals:
     void bulbGroupChange(LifxGroup *group);
     void bulbPowerChange(LifxBulb *bulb);
     void bulbRSSIChange(LifxBulb *bulb);
-    void messageTimeout();
+    void messageTimeout(uint32_t uniqueId);
     void ack(uint32_t uniqueId);
 
 private:
     void echoFunction(LifxBulb *bulb, int timeout, QByteArray echoing);
     AsyncHandler* createHandler();
+    AsyncHandler* createHandler(LifxBulb *bulb);
     AsyncHandler* createHandler(QHostAddress address, int port);
     
     LifxProtocol *m_protocol;

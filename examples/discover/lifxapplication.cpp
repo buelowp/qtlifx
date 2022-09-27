@@ -121,6 +121,11 @@ void LifxApplication::go()
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
     QStringList list = settings.childGroups();
 
+    // Find the HUE lights for a given bridge
+    auto handler = std::make_shared<hueplusplus::LinHttpHandler>();
+    hueplusplus::Bridge bridge(settings.value("bridgeip").toString().toStdString(), settings.value("bridgeport").toInt(), settings.value("bridgepass").toString().toStdString(), handler);
+    m_allHueLights = bridge.lights().getAll();
+
     if (!list.contains("Bulbs")) {
         settings.beginGroup("Bulbs");
         settings.setValue("exists", true);

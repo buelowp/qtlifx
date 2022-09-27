@@ -20,13 +20,17 @@
 #ifndef LIFXAPPLICATION_H
 #define LIFXAPPLICATION_H
 
+#include <vector>
+
 #include <QtGui/QtGui>
 #include <QtNetwork/QtNetwork>
 #include <QtCore/QtCore>
 #include <QtWidgets/QtWidgets>
 
-#include <lifxbulb.h>
-#include <lifxmanager.h>
+#include <hueplusplus/LinHttpHandler.h>
+#include <hueplusplus/Bridge.h>
+#include "lifxbulb.h"
+#include "lifxmanager.h"
 
 #include "lightbulb.h"
 #include "asynchandler.h"
@@ -69,6 +73,7 @@ private:
     int m_x;
     int m_y;
     uint32_t m_uniqueId;
+    std::vector<hueplusplus::Light> m_allHueLights;
 };
 
 #endif // LIFXAPPLICATION_H
