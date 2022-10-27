@@ -47,7 +47,6 @@ public slots:
     void setBulbState(LifxBulb *bulb, bool state, int source = 0, bool ackRequired = false);
     void setGroupState(LifxGroup *group, bool state, int source = 0, bool ackRequired = false);
     void timeout();
-    void sendDiscover();
 
 signals:
     void newPacket(LifxPacket *packet);

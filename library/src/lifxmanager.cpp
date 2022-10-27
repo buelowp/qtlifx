@@ -65,8 +65,7 @@ void LifxManager::discoveryFailed()
  */
 void LifxManager::discover()
 {
-    AsyncHandler *handler = createHandler();
-    handler->sendDiscover();
+    m_protocol->discover();
 }
 
 /**
@@ -793,39 +792,37 @@ AsyncHandler * LifxManager::createHandler(QHostAddress address, int port)
 /**
  * We ask for an ACK on a state change because the response may include a power value
  * that isn't useful due to timing. If we originally asked for power, then just ask again
- * which should result in a true state chane value
+ * which should result in a true state change value
  */
 void LifxManager::ackReceived(uint32_t uniqueId)
 {
-    AsyncHandler *handler = m_handlers[uniqueId];
-    emit ack(uniqueId);
-    if (m_debug) {
-        if (handler) {
-            LifxBulb *bulb = handler->bulb();
+    if (m_handlers.contains(uniqueId)) {
+        emit ack(uniqueId);
+        if (m_debug) {
+            LifxBulb *bulb = m_handlers[uniqueId]->bulb();
             if (bulb) {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got an ack for" << uniqueId << "handling message type" << handler->type() << "for bulb" << bulb->label();
+                qDebug() << __PRETTY_FUNCTION__ << ": Got an ack for" << uniqueId << "handling message type" << m_handlers[uniqueId]->type() << "for bulb" << bulb->label();
             }
             else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got an ack for" << uniqueId << "handling message type" << handler->type();
-                qDebug() << handler;
+                qDebug() << __PRETTY_FUNCTION__ << ": Got an ack for" << uniqueId << "handling message type" << m_handlers[uniqueId]->type();
+                qDebug() << m_handlers[uniqueId];
             }
         }
-        else {
-            qWarning() << __PRETTY_FUNCTION__ << ": Unexpected ACK received for ID" << uniqueId << "which isn't in the handlers map";
-        }
+    }
+    else {
+        qWarning() << __PRETTY_FUNCTION__ << ": Unexpected ACK received for ID" << uniqueId << "which isn't in the handlers map";
     }
 }
 
 void LifxManager::handlerTimeout(uint32_t uniqueId)
 {
-    AsyncHandler *handler = m_handlers[uniqueId];
-    if (handler) {
+    if (m_handlers.contains(uniqueId)) {
         if (m_debug) {
-            LifxBulb *bulb = handler->bulb();
+            LifxBulb *bulb = m_handlers[uniqueId]->bulb();
             if (bulb)
                 qDebug() << __PRETTY_FUNCTION__ << ": Got a timeout for bulb" << bulb->label();
             else
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a timeout for" << uniqueId << "handling message type" << handler->type();
+                qDebug() << __PRETTY_FUNCTION__ << ": Got a timeout for" << uniqueId << "handling message type" << m_handlers[uniqueId]->type();
         }
         emit messageTimeout(uniqueId);
     }
@@ -838,14 +835,10 @@ void LifxManager::handlerTimeout(uint32_t uniqueId)
 void LifxManager::handlerComplete(uint32_t uniqueId)
 {
     if (m_handlers.contains(uniqueId)) {
-        AsyncHandler *handler = m_handlers[uniqueId];
-        if (handler) {
-            m_handlers.remove(uniqueId);
-            handler->deleteLater();
-        }
-        else {
-            qWarning() << __PRETTY_FUNCTION__ << ": WARNING: handlers map had an entry for" << uniqueId << ", but the handler pointer was null";
-        }
+        if (m_debug)
+            qDebug() << __PRETTY_FUNCTION__ << ":" << uniqueId;
+        m_handlers[uniqueId]->deleteLater();
+        m_handlers.remove(uniqueId);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": handlers map does not contain an entry for" << uniqueId;

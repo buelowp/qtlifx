@@ -32,6 +32,7 @@ AsyncHandler::AsyncHandler(uint32_t id, bool debug, LifxBulb *bulb, QObject *par
 AsyncHandler::AsyncHandler(uint32_t id, bool debug, QHostAddress address, int port, QObject *parent) : QObject(parent), m_address(address), m_port(port), m_messageFailureCount(0), m_retryCount(15), m_messageTimeout(1500), m_debug(debug)
 {
     m_messageStatusTimer = new QTimer(this);
+    m_messageStatusTimer->setInterval(m_messageTimeout);
     m_protocol = new LifxProtocol(this);
     connect(m_protocol, &LifxProtocol::newPacket, this, &AsyncHandler::messageResponse);
     m_stopped = true;
@@ -46,12 +47,6 @@ AsyncHandler::~AsyncHandler()
         qDebug() << __PRETTY_FUNCTION__ << ": Cleaning up handler id" << m_uniqueId;
     m_messageStatusTimer->stop();
     m_messageStatusTimer->deleteLater();
-}
-
-void AsyncHandler::sendDiscover()
-{
-    m_protocol->discover();
-    m_type = 2;
 }
 
 void AsyncHandler::messageResponse(LifxPacket* packet)
@@ -95,9 +90,12 @@ void AsyncHandler::setMessageTimeout(int timeout)
 void AsyncHandler::timeout()
 {
     m_messageFailureCount++;
-    qDebug() << __PRETTY_FUNCTION__ << ":" << m_messageFailureCount;
     if (m_messageFailureCount == m_retryCount) {
-        qWarning() << __PRETTY_FUNCTION__ << ": No response from message handler ID" << m_uniqueId;
+        if (m_bulb)
+            qWarning() << "No response from" << m_bulb << "with id" << m_uniqueId;
+        else
+            qWarning() << "No response from" << m_address.toString() << "with id" << m_uniqueId;
+
         m_messageStatusTimer->stop();
         emit messageTimeout(m_uniqueId);
         emit complete(m_uniqueId);
