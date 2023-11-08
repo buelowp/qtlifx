@@ -55,7 +55,7 @@ LifxManager::~LifxManager()
 void LifxManager::discoveryFailed()
 {
     if (m_debug)
-        qDebug() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
+        qWarning() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
     m_protocol->discover();
 }
 
