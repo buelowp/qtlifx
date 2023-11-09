@@ -120,7 +120,6 @@ void LifxApplication::createDisplayObject(LifxBulb* bulb)
     connect(widget, &LightBulb::newColorChosen, this, &LifxApplication::newColorForBulb);
     connect(widget, &LightBulb::requestStatus, this, &LifxApplication::runStateCheck);
     m_layout->addWidget(widget, m_x, m_y);
-    qDebug() << __PRETTY_FUNCTION__ << ":" << bulb;
     m_y++;
     if (m_y > 2) {
         m_x++;

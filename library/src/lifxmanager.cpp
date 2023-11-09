@@ -305,7 +305,7 @@ void LifxManager::newPacket(LifxPacket *packet)
             }
             break;
         case LIFX_DEFINES::ACKNOWLEDGEMENT:
-            qDebug() << __PRETTY_FUNCTION__ << ": Acknowledgment sent from" << packet->address().toString();
+            qDebug() << __PRETTY_FUNCTION__ << ": Acknowledgment sent from" << packet->address().toString() << ":" << packet;
             break;
         default:
             if (packet->type() != 2) {

@@ -26,7 +26,7 @@ LightBulb::LightBulb(LifxBulb *bulb, QWidget *parent) : QWidget(parent)
         m_state = false;
         m_updateTimer = new QTimer();
         m_updateTimer->setInterval(1000);
-//        m_updateTimer->start();
+        m_updateTimer->start();
         connect(m_updateTimer, &QTimer::timeout, this, &LightBulb::stateTimeout);
         connect(this, &LightBulb::openColorDialog, this, &LightBulb::showColorDialog);
     }
@@ -91,7 +91,6 @@ void LightBulb::paintEvent(QPaintEvent* e)
         painter.setBrush(m_color);
     else
         painter.setBrush(QColor("black"));
-
     painter.setPen(QColor("black"));
     painter.drawEllipse(circleX, 0, height(), height());
     if (m_text.size()) {
