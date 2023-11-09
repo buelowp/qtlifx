@@ -21,7 +21,7 @@
 
 LifxManager::LifxManager(QObject *parent) : QObject(parent), m_debug(false)
 {
-    m_protocol = new LifxProtocol(this);
+    m_protocol = new LifxProtocol();
     connect(m_protocol, &LifxProtocol::discoveryFailed, this, &LifxManager::discoveryFailed);
     connect(m_protocol, &LifxProtocol::newPacket, this, &LifxManager::newPacket);
     QByteArray debug = qgetenv("LIFX_DEBUG");
@@ -56,7 +56,8 @@ void LifxManager::discoveryFailed()
 {
     if (m_debug)
         qWarning() << __PRETTY_FUNCTION__ << ": Timed out waiting for light discovery, retrying...";
-    m_protocol->discover();
+
+    emit bulbDiscoveryFailed();
 }
 
 /**
@@ -65,8 +66,7 @@ void LifxManager::discoveryFailed()
  */
 void LifxManager::discover()
 {
-    AsyncHandler *handler = createHandler();
-    handler->sendDiscover();
+    m_protocol->discover();
 }
 
 /**
@@ -77,8 +77,7 @@ void LifxManager::updateState(LifxBulb* bulb)
 {
     if (bulb) {
         qDebug() << __PRETTY_FUNCTION__ << ": Updating state for" << bulb->label();
-        AsyncHandler *handler = createHandler();
-        handler->getColorForBulb(bulb);
+        getColorForBulb(bulb);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": Called with a null bulb pointer";
@@ -116,8 +115,7 @@ void LifxManager::updateState()
 
 void LifxManager::discoverBulb(QHostAddress address, int port)
 {
-    AsyncHandler *handler = createHandler();
-    handler->discoverBulbByAddress(address, port);
+//    discoverBulbByAddress(address, port);
 }
 
 /**
@@ -144,8 +142,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": SERVICE:" << bulb;
                 m_bulbs[target] = bulb;
-                AsyncHandler *handler = createHandler();
-                handler->getLabelForBulb(bulb);
+                m_protocol->getLabelForBulb(bulb);
             }
             else {
                 bulb = m_bulbs[target];
@@ -160,8 +157,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": LABEL:" << bulb;
                 if (bulb->inDiscovery()) {
-                    AsyncHandler *handler = createHandler();
-                    handler->getFirmwareForBulb(bulb);
+                    m_protocol->getFirmwareForBulb(bulb);
                 }
                 else
                     emit bulbLabelChange(bulb);
@@ -180,8 +176,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                 if (m_debug)
                     qDebug() << __PRETTY_FUNCTION__ << ": FIRMWARE:" << bulb;
                 if (bulb->inDiscovery()) {
-                    AsyncHandler *handler = createHandler();
-                    handler->getWifiInfoForBulb(bulb);
+                    m_protocol->getWifiInfoForBulb(bulb);
                 }
             }
             else {
@@ -203,8 +198,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                     qDebug() << __PRETTY_FUNCTION__ << ": VERSION:" << bulb;
 
                 if (bulb->inDiscovery()) {
-                    AsyncHandler *handler = createHandler();
-                    handler->getGroupForBulb(bulb);
+                    m_protocol->getGroupForBulb(bulb);
                 }
             }
             else {
@@ -242,8 +236,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                         qDebug() << __PRETTY_FUNCTION__ << ": GROUP (new):" << g;
                 }
                 if (bulb->inDiscovery()) {
-                    AsyncHandler *handler = createHandler();
-                    handler->getColorForBulb(bulb);
+                    m_protocol->getColorForBulb(bulb);
                 }
             }
             break;
@@ -307,8 +300,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                 if (!bulb->inDiscovery())
                     emit bulbRSSIChange(bulb);
                 else {
-                    AsyncHandler *handler = createHandler();
-                    handler->getVersionForBulb(bulb);
+                    m_protocol->getVersionForBulb(bulb);
                 }
             }
             break;
@@ -369,8 +361,7 @@ void LifxManager::changeBulbColor(uint64_t target, QColor color, uint32_t durati
         LifxBulb *bulb = m_bulbs[target];
         bulb->setColor(color);
         bulb->setDuration(duration);
-        AsyncHandler *handler = createHandler();
-        handler->setBulbColor(bulb, source, ackRequired);
+        m_protocol->setBulbColor(bulb, source, ackRequired);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": bulb for target" << target << "not found in bulbs map";
@@ -389,8 +380,7 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, QColor color, uint32_t duratio
     if (bulb) {
         bulb->setColor(color);
         bulb->setDuration(duration);
-        AsyncHandler *handler = createHandler();
-        handler->setBulbColor(bulb, source, ackRequired);
+        m_protocol->setBulbColor(bulb, source, ackRequired);
     }
 }
 
@@ -407,8 +397,7 @@ void LifxManager::changeBulbColor(uint64_t target, HSBK color, uint32_t duration
         LifxBulb *bulb = m_bulbs[target];
         bulb->setColor(color);
         bulb->setDuration(duration);
-        AsyncHandler *handler = createHandler();
-        handler->setBulbColor(bulb, source, ackRequired);
+        m_protocol->setBulbColor(bulb, source, ackRequired);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": bulb for target" << target << "not found in bulbs map";
@@ -427,8 +416,7 @@ void LifxManager::changeBulbColor(LifxBulb *bulb, HSBK color, uint32_t duration,
     if (bulb) {
         bulb->setColor(color);
         bulb->setDuration(duration);
-        AsyncHandler *handler = createHandler();
-        handler->setBulbColor(bulb, source, ackRequired);
+        m_protocol->setBulbColor(bulb, source, ackRequired);
     }
 }
 
@@ -443,8 +431,7 @@ void LifxManager::changeBulbBrightness(uint64_t target, uint16_t brightness, int
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
         bulb->setBrightness(brightness);
-        AsyncHandler *handler = createHandler();
-        handler->setBulbColor(bulb, source, ackRequired);
+        m_protocol->setBulbColor(bulb, source, ackRequired);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": bulb for target" << target << "not found in bulbs map";
@@ -461,8 +448,7 @@ void LifxManager::changeBulbBrightness(LifxBulb *bulb, uint16_t brightness, int 
 {
     if (bulb) {
         bulb->setBrightness(brightness);
-        AsyncHandler *handler = createHandler();
-        handler->setBulbColor(bulb, source, ackRequired);
+        m_protocol->setBulbColor(bulb, source, ackRequired);
     }
 }
 
@@ -531,8 +517,7 @@ LifxGroup * LifxManager::getGroupByName(QString& name)
 void LifxManager::getColorForBulb(LifxBulb *bulb, int source)
 {
     if (bulb) {
-        AsyncHandler *handler = createHandler();
-        handler->getColorForBulb(bulb, source);
+        m_protocol->getColorForBulb(bulb, source);
     }
 }
 
@@ -547,8 +532,7 @@ void LifxManager::getColorForBulb(uint64_t target, int source)
 {
     if (m_bulbs.contains(target)) {
         LifxBulb *bulb = m_bulbs[target];
-        AsyncHandler *handler = createHandler();
-        handler->getColorForBulb(bulb, source);
+        m_protocol->getColorForBulb(bulb, source);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": bulb for target" << target << "not found in bulbs map";
@@ -580,8 +564,7 @@ void LifxManager::changeGroupState(QByteArray& uuid, bool state, int source, boo
 {
     if (m_groups.contains(uuid)) {
         LifxGroup *group = m_groups[uuid];
-        AsyncHandler *handler = createHandler();
-        handler->setGroupState(group, state, source, ackRequired);
+        m_protocol->setGroupState(group, state, source, ackRequired);
     }
 }
 
@@ -650,8 +633,7 @@ void LifxManager::changeBulbState(LifxBulb* bulb, bool state, int source, bool a
         if (m_debug)
             qDebug() << __PRETTY_FUNCTION__ << ": Setting" << bulb->label() << "to" << state;
 
-        AsyncHandler *handler = createHandler();
-        handler->setBulbState(bulb, state, source, ackRequired);
+        m_protocol->setBulbState(bulb, state, source, ackRequired);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": state change requested on a NULL bulb";
@@ -743,100 +725,5 @@ void LifxManager::disableEcho ( uint64_t target )
     if (m_echoTimers.contains(target)) {
         m_echoTimers[target]->stop();
         m_echoTimers[target]->deleteLater();
-    }
-}
-
-AsyncHandler * LifxManager::createHandler()
-{
-    AsyncHandler *handler = new AsyncHandler(m_debug, this);
-
-    m_mutex.lock();
-    handler->setUniqueId(m_uniqueId++);
-    m_handlers[handler->uniqueId()] = handler;
-    m_mutex.unlock();
-
-    connect(handler, &AsyncHandler::newPacket, this, &LifxManager::newPacket);
-    connect(handler, &AsyncHandler::messageTimeout, this, &LifxManager::handlerTimeout);
-    connect(handler, &AsyncHandler::packetAck, this, &LifxManager::ackReceived);
-    connect(handler, &AsyncHandler::complete, this, &LifxManager::handlerComplete);
-    return handler;
-}
-
-AsyncHandler * LifxManager::createHandler(QHostAddress address, int port)
-{
-    AsyncHandler *handler = new AsyncHandler(m_debug, address, port, this);
-
-    m_mutex.lock();
-    handler->setUniqueId(m_uniqueId++);
-    m_handlers[handler->uniqueId()] = handler;
-    m_mutex.unlock();
-
-    connect(handler, &AsyncHandler::newPacket, this, &LifxManager::newPacket);
-    connect(handler, &AsyncHandler::messageTimeout, this, &LifxManager::handlerTimeout);
-    connect(handler, &AsyncHandler::packetAck, this, &LifxManager::ackReceived);
-    connect(handler, &AsyncHandler::complete, this, &LifxManager::handlerComplete);
-    return handler;
-}
-
-/**
- * We ask for an ACK on a state change because the response may include a power value
- * that isn't useful due to timing. If we originally asked for power, then just ask again
- * which should result in a true state chane value
- */
-void LifxManager::ackReceived(uint32_t uniqueId)
-{
-    AsyncHandler *handler = m_handlers[uniqueId];
-    emit ack(uniqueId);
-    if (m_debug) {
-        if (handler) {
-            LifxBulb *bulb = handler->bulb();
-            if (bulb) {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got an ack for" << uniqueId << "handling message type" << handler->type() << "for bulb" << bulb->label();
-            }
-            else {
-                qDebug() << __PRETTY_FUNCTION__ << ": Got an ack for" << uniqueId << "handling message type" << handler->type();
-                qDebug() << handler;
-            }
-        }
-        else {
-            qWarning() << __PRETTY_FUNCTION__ << ": Unexpected ACK received for ID" << uniqueId << "which isn't in the handlers map";
-        }
-    }
-}
-
-void LifxManager::handlerTimeout(uint32_t uniqueId)
-{
-    AsyncHandler *handler = m_handlers[uniqueId];
-    if (handler) {
-        if (m_debug) {
-            LifxBulb *bulb = handler->bulb();
-            if (bulb)
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a timeout for bulb" << bulb->label();
-            else
-                qDebug() << __PRETTY_FUNCTION__ << ": Got a timeout for" << uniqueId << "handling message type" << handler->type();
-        }
-        emit messageTimeout();
-    }
-    else {
-        qWarning() << __PRETTY_FUNCTION__ << ": Unexpected ACK received for ID" << uniqueId << "which isn't in the handlers map";
-    }
-
-}
-
-void LifxManager::handlerComplete(uint32_t uniqueid)
-{
-    if (m_handlers.contains(uniqueid)) {
-        AsyncHandler *handler = m_handlers[uniqueid];
-        if (handler) {
-            m_handlers.remove(uniqueid);
-            handler->deleteLater();
-        }
-        else {
-            qWarning() << __PRETTY_FUNCTION__ << ": WARNING: handlers map had an entry for" << uniqueid << ", but the handler pointer was null";
-        }
-    }
-    else {
-        qWarning() << __PRETTY_FUNCTION__ << ": handlers map does not contain an entry for" << uniqueid;
-        qWarning() << __PRETTY_FUNCTION__ << ":" << m_handlers.keys();
     }
 }

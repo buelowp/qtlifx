@@ -38,6 +38,7 @@ LifxProtocol::LifxProtocol(const LifxProtocol& object) : QObject()
 
 qint64 LifxProtocol::discover()
 {
+    qDebug() << __PRETTY_FUNCTION__;
     LifxPacket packet;
     packet.makeDiscoveryPacket();
     return m_socket->writeDatagram(packet.datagram(), QHostAddress::Broadcast, LIFX_PORT);

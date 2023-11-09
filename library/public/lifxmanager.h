@@ -28,7 +28,6 @@
 #include "lifxpacket.h"
 #include "lifxgroup.h"
 #include "hsbk.h"
-#include "asynchandler.h"
 
 /**
  * \class LifxManager
@@ -61,8 +60,8 @@ class Q_DECL_EXPORT LifxManager : public QObject
 
 public:
     LifxManager(QObject *parent = nullptr);
-    ~LifxManager();
     LifxManager(const LifxManager &object);
+    ~LifxManager();
     
     void discoverBulb(QHostAddress address, int port);
     LifxBulb* getBulbByName(QString &name);
@@ -99,14 +98,13 @@ public slots:
     void updateState();
     void updateState(LifxBulb *bulb);
     void updateState(uint64_t target);
-    void handlerTimeout(uint32_t uniqueId);
-    void ackReceived(uint32_t uniqueId);
     void getColorForBulb(LifxBulb *bulb, int source = 0);
     void getColorForBulb(uint64_t target, int source = 0);
-    void handlerComplete(uint32_t uniqueid);
+
 
 signals:
     void bulbDiscoveryFinished(LifxBulb *bulb);
+    void bulbDiscoveryFailed();
     void newBulbAvailable(QString, uint64_t);
     void bulbStateChange(LifxBulb *bulb);
     void newGroupFound(QString, QByteArray);
@@ -120,8 +118,6 @@ signals:
 
 private:
     void echoFunction(LifxBulb *bulb, int timeout, QByteArray echoing);
-    AsyncHandler* createHandler();
-    AsyncHandler* createHandler(QHostAddress address, int port);
     
     LifxProtocol *m_protocol;
     QMap<uint64_t, LifxBulb*> m_bulbs;
@@ -129,7 +125,6 @@ private:
     QMultiMap<int, LifxBulb*> m_bulbsByPID;
     QMap<int, QJsonObject> m_productObjects;
     QMap<uint64_t, QTimer*> m_echoTimers;
-    QMap<uint32_t, AsyncHandler*> m_handlers;
     QMutex m_mutex;
     bool m_debug;
     uint32_t m_uniqueId;

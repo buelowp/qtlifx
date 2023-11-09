@@ -29,7 +29,6 @@
 #include <lifxmanager.h>
 
 #include "lightbulb.h"
-#include "asynchandler.h"
 
 class LifxApplication : public QMainWindow
 {
@@ -43,13 +42,14 @@ public:
     void go();
 
 public slots:
-    void widgetStateChange(QString label, bool state);
-    void newColorForBulb(QString label, QColor color);
+    void widgetStateChange(LifxBulb *bulb, bool state);
+    void newColorForBulb(LifxBulb *bulb, QColor color);
     void handlerTimeout(uint32_t m_uniqueId);
     void bulbStateChange(LifxBulb *bulb);
     void bulbDiscoveryFinished(LifxBulb *bulb);
-    void runStateCheck();
+    void runStateCheck(LifxBulb *bulb);
     void ackReceived(uint32_t uniqueId);
+    void discoveryFailed();
 
 protected:
     void showEvent(QShowEvent *e);
@@ -59,13 +59,13 @@ private:
     int yPosition();
     void createDisplayObject(LifxBulb *bulb);
     void updateDisplayObject(LifxBulb *bulb);
+    LightBulb* getWidgetByName(QString label);
 
     LifxManager *m_manager;
     QGridLayout *m_layout;
     QTimer *m_stateCheckInterval;
     QTimer *m_discoverInterval;
-    QMap<QString, LightBulb*> m_widgets;
-    QMap<int, AsyncHandler*> m_handlers;
+    QMap<LifxBulb*, LightBulb*> m_widgets;
     int m_x;
     int m_y;
     uint32_t m_uniqueId;

@@ -19,15 +19,30 @@
 
 #include "lightbulb.h"
 
-LightBulb::LightBulb(QWidget *parent) : QWidget(parent)
+LightBulb::LightBulb(LifxBulb *bulb, QWidget *parent) : QWidget(parent)
 {
-    m_state = false;
-    connect(this, &LightBulb::openColorDialog, this, &LightBulb::showColorDialog);
+    if (bulb) {
+        m_bulb = bulb;
+        m_state = false;
+        m_updateTimer = new QTimer();
+        m_updateTimer->setInterval(1000);
+//        m_updateTimer->start();
+        connect(m_updateTimer, &QTimer::timeout, this, &LightBulb::stateTimeout);
+        connect(this, &LightBulb::openColorDialog, this, &LightBulb::showColorDialog);
+    }
+    else {
+        qWarning() << __PRETTY_FUNCTION__ << ": Bulb was NULL";
+    }
 }
 
 LightBulb::~LightBulb()
 {
 
+}
+
+void LightBulb::stateTimeout()
+{
+    emit requestStatus(m_bulb);
 }
 
 QSize LightBulb::minimumSizeHint() const
@@ -45,7 +60,7 @@ QSize LightBulb::sizeHint() const
 void LightBulb::mousePressEvent(QMouseEvent* e)
 {
     if (e->button() == Qt::LeftButton) {
-        emit stateChangeEvent(m_label, !m_state);
+        emit stateChangeEvent(m_bulb, !m_state);
     }
     if (e->button() == Qt::RightButton)
         emit openColorDialog();
@@ -54,7 +69,7 @@ void LightBulb::mousePressEvent(QMouseEvent* e)
 void LightBulb::showColorDialog()
 {
     const QColor color = QColorDialog::getColor(m_color, this, "Select Color");
-    emit newColorChosen(m_label, color);
+    emit newColorChosen(m_bulb, color);
 }
 
 void LightBulb::paintEvent(QPaintEvent* e)
@@ -67,7 +82,16 @@ void LightBulb::paintEvent(QPaintEvent* e)
     if (!m_state)
         m_color = QColor("black");
         
-    painter.setBrush(m_color);
+    m_text =  QString("%1\n%2\nRSSI: %3\nr:%4 g:%5 b:%6").arg(m_bulb->label()).arg(m_bulb->address().toString().mid(7)).arg(m_bulb->rssi()).arg(m_bulb->color().red()).arg(m_bulb->color().green()).arg(m_bulb->color().blue());
+    m_label = m_bulb->label();
+    m_color = m_bulb->color();
+    m_state = m_bulb->isOn();
+    setPower(m_bulb->power());
+    if (m_bulb->isOn())
+        painter.setBrush(m_color);
+    else
+        painter.setBrush(QColor("black"));
+
     painter.setPen(QColor("black"));
     painter.drawEllipse(circleX, 0, height(), height());
     if (m_text.size()) {
