@@ -25,16 +25,14 @@ LifxApplication::LifxApplication() : QMainWindow()
     m_y = 0;
     m_uniqueId = 1;
 
-    m_manager = new LifxManager(this);
+    m_manager = new LifxManager();
+    m_manager->enableDebug(false);
     connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscoveryFinished);
     connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChange);
     connect(m_manager, &LifxManager::bulbLabelChange, this, &LifxApplication::bulbStateChange);
     connect(m_manager, &LifxManager::bulbPowerChange, this, &LifxApplication::bulbStateChange);
     connect(m_manager, &LifxManager::ack, this, &LifxApplication::ackReceived);
-
-    m_stateCheckInterval = new QTimer(this);
-    m_stateCheckInterval->setInterval(2000);
-    connect(m_stateCheckInterval, &QTimer::timeout, this, &LifxApplication::runStateCheck);
+    connect(m_manager, &LifxManager::bulbDiscoveryFailed, this, &LifxApplication::discoveryFailed);
 
     m_discoverInterval = new QTimer(this);
     m_discoverInterval->setInterval(60000);
@@ -57,41 +55,23 @@ LifxApplication::~LifxApplication()
 {
 }
 
-void LifxApplication::runStateCheck()
+void LifxApplication::discoveryFailed()
 {
-    QList<QString> keys = m_widgets.keys();
+    qWarning() << __PRETTY_FUNCTION__;
+}
 
-    foreach(auto key, keys) {
-        LifxBulb *bulb = m_manager->getBulbByName(key);
-        if (bulb) {
-            m_manager->getColorForBulb(bulb);
-        }
-    }
+void LifxApplication::runStateCheck(LifxBulb *bulb)
+{
+    m_manager->getColorForBulb(bulb);
 }
 
 void LifxApplication::bulbStateChange(LifxBulb* bulb)
 {
-    if (bulb) {
-        LightBulb *lb = m_widgets[bulb->label()];
-        if (!lb) {
-            qWarning() << __PRETTY_FUNCTION__ << ":" << bulb->label() << "not found in widget map";
-            qWarning() << __PRETTY_FUNCTION__ << m_widgets.keys();
-            return;
-        }
-
-        if (lb != nullptr) {
-            QHostAddress ip4(bulb->address().toIPv4Address());
-            QString label = QString("%1\n%2\nRSSI: %3\nr:%4 g:%5 b:%6").arg(bulb->label()).arg(ip4.toString()).arg(bulb->rssi()).arg(bulb->color().red()).arg(bulb->color().green()).arg(bulb->color().blue());
-            lb->setColor(bulb->color());
-            lb->setPower(bulb->power());
-            lb->setText(label);
-            lb->setLabel(bulb->label());
-        }
-        else
-            qWarning() << __PRETTY_FUNCTION__ << ": LightBulb widget not found for" << bulb->label();
+    if (m_widgets.size()) {
+        LightBulb *b = m_widgets[bulb];
+        if (b)
+            b->update();
     }
-    else
-        qWarning() << __PRETTY_FUNCTION__ << ": Got a state change for a NULL bulb";
 }
 
 void LifxApplication::setProductsJsonFile(QString path)
@@ -118,79 +98,28 @@ void LifxApplication::showEvent(QShowEvent *e)
 
 void LifxApplication::go()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
-    QStringList list = settings.childGroups();
-
-    if (!list.contains("Bulbs")) {
-        settings.beginGroup("Bulbs");
-        settings.setValue("exists", true);
-        settings.endGroup();
-        qDebug() << __PRETTY_FUNCTION__ << "Created bulbs group";
-    }
-    else {
-        settings.beginGroup("Bulbs");
-        QStringList groups = settings.childGroups();
-        for (const auto &child : groups) {
-            settings.beginGroup(child);
-            QHostAddress address(settings.value("address").toString());
-            int port = settings.value("port").toInt();
-            m_manager->discoverBulb(address, port);
-            settings.endGroup();
-        }
-        settings.endGroup();
-    }
+    m_manager->discover();
 }
 
-void LifxApplication::newColorForBulb(QString label, QColor color)
+void LifxApplication::newColorForBulb(LifxBulb *bulb, QColor color)
 {
-    LifxBulb *bulb = m_manager->getBulbByName(label);
-    if (bulb) {
-        m_manager->changeBulbColor(bulb, color);
-    }
+    m_manager->changeBulbColor(bulb, color);
 }
 
 void LifxApplication::bulbDiscoveryFinished(LifxBulb *bulb)
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
-    QStringList groups = settings.childGroups();
-
-    if (groups.contains("Bulbs")) {
-        settings.beginGroup("Bulbs");
-        QStringList children = settings.childKeys();
-
-        for (const auto &child : children) {
-            QString label = QString("%1/label").arg(bulb->label());
-            QString address = QString("%1/address").arg(bulb->label());
-            QString port = QString("%1/port").arg(bulb->label());
-            if (!child.contains(label)) {
-                settings.setValue(label, bulb->label());
-                settings.setValue(address, bulb->address().toString());
-                settings.setValue(port, bulb->port());
-            }
-        }
-        settings.endGroup();
-    }
+    qDebug() << __PRETTY_FUNCTION__ << ":" << bulb;
     createDisplayObject(bulb);
-    m_discoverInterval->start();
-    m_stateCheckInterval->start();
 }
 
 void LifxApplication::createDisplayObject(LifxBulb* bulb)
 {
-    LightBulb *widget = new LightBulb();
+    LightBulb *widget = new LightBulb(bulb);
+    m_widgets[bulb] = widget;
     connect(widget, &LightBulb::stateChangeEvent, this, &LifxApplication::widgetStateChange);
     connect(widget, &LightBulb::newColorChosen, this, &LifxApplication::newColorForBulb);
-    QHostAddress ip4(bulb->address().toIPv4Address());
-    QString label = QString("%1\n%2\nRSSI: %3\nr:%4 g:%5 b:%6").arg(bulb->label()).arg(ip4.toString()).arg(bulb->rssi()).arg(bulb->color().red()).arg(bulb->color().green()).arg(bulb->color().blue());
-    if (widget != nullptr) {
-        widget->setColor(bulb->color());
-        widget->setPower(bulb->power());
-        widget->setText(label);
-        widget->setLabel(bulb->label());
-    }
-
+    connect(widget, &LightBulb::requestStatus, this, &LifxApplication::runStateCheck);
     m_layout->addWidget(widget, m_x, m_y);
-    m_widgets.insert(bulb->label(), widget);
     m_y++;
     if (m_y > 2) {
         m_x++;
@@ -198,16 +127,9 @@ void LifxApplication::createDisplayObject(LifxBulb* bulb)
     }
 }
 
-void LifxApplication::widgetStateChange(QString label, bool state)
+void LifxApplication::widgetStateChange(LifxBulb *bulb, bool state)
 {
-    LifxBulb *bulb = m_manager->getBulbByName(label);
-
-    if (bulb) {
-        m_manager->changeBulbState(bulb, state, 0, true);
-    }
-    else {
-        qWarning() << __PRETTY_FUNCTION__ << ": Bulb" << label << "not found by the manager";
-    }
+    m_manager->changeBulbState(bulb, state, 0, true);
 }
 
 void LifxApplication::handlerTimeout(uint32_t uniqueId)

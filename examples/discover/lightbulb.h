@@ -21,13 +21,14 @@
 #define LIGHTBULB_H
 
 #include <QtWidgets/QtWidgets>
+#include "lifxbulb.h"
 
 class LightBulb : public QWidget
 {
     Q_OBJECT
 
 public:
-    LightBulb(QWidget *parent = nullptr);
+    LightBulb(LifxBulb *bulb, QWidget *parent = nullptr);
     ~LightBulb();
 
     void setText(QString text) { m_text = text; update(); }
@@ -37,21 +38,27 @@ public:
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
     bool localState() { return m_state; }
+    QString label() { return m_bulb->label(); }
+    LifxBulb* bulb() { return m_bulb; }
 
-protected slots:
+public slots:
     void showColorDialog();
+    void stateTimeout();
 
 protected:
     void paintEvent(QPaintEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
 
 signals:
-    void stateChangeEvent(QString label, bool state);
-    void colorChangeEvent(QString label);
+    void stateChangeEvent(LifxBulb *bulb, bool state);
+    void colorChangeEvent(LifxBulb *bulb);
     void openColorDialog();
-    void newColorChosen(QString label, QColor color);
+    void newColorChosen(LifxBulb *bulb, QColor color);
+    void requestStatus(LifxBulb *bulb);
 
 private:
+    LifxBulb *m_bulb;
+    QTimer *m_updateTimer;
     QString m_text;
     QString m_label;
     QColor m_color;
