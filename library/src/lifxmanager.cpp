@@ -76,7 +76,9 @@ void LifxManager::discover()
 void LifxManager::updateState(LifxBulb* bulb)
 {
     if (bulb) {
-        qDebug() << __PRETTY_FUNCTION__ << ": Updating state for" << bulb->label();
+        if (m_debug)
+            qDebug() << __PRETTY_FUNCTION__ << ": Updating state for" << bulb->label();
+
         getColorForBulb(bulb);
     }
     else {
@@ -163,8 +165,7 @@ void LifxManager::newPacket(LifxPacket *packet)
                     emit bulbLabelChange(bulb);
             }
             else {
-                if (m_debug)
-                    qWarning() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
+                qWarning() << __PRETTY_FUNCTION__ << ": Got a STATE_LABEL for a bulb (" << target << ") which isn't in the map";
             }
             break;
         case LIFX_DEFINES::STATE_HOST_FIRMWARE:
@@ -264,7 +265,8 @@ void LifxManager::newPacket(LifxPacket *packet)
                 bulb = m_bulbs[target];
                 uint16_t power = 0;
                 memcpy(&power, packet->payload().data(), 2);
-                qDebug() << __PRETTY_FUNCTION__ << ": Power has changed to" << power;
+                if (m_debug)
+                    qDebug() << __PRETTY_FUNCTION__ << ": Power has changed to" << power;
                 
                 bulb->setPower(power);
                 if (!bulb->inDiscovery())
@@ -284,7 +286,8 @@ void LifxManager::newPacket(LifxPacket *packet)
                     emit echoReply(bulb, QByteArray());
                 }
                 else {
-                    qDebug() << "Got an echo response value of " << echo->value << ", but was expecting" << bulb->echoRequest(false);
+                    if (m_debug)
+                        qDebug() << "Got an echo response value of " << echo->value << ", but was expecting" << bulb->echoRequest(false);
                 }
             }
             else {
@@ -305,7 +308,8 @@ void LifxManager::newPacket(LifxPacket *packet)
             }
             break;
         case LIFX_DEFINES::ACKNOWLEDGEMENT:
-            qDebug() << __PRETTY_FUNCTION__ << ": Acknowledgment sent from" << packet->address().toString() << ":" << packet;
+            if (m_debug)
+                qDebug() << __PRETTY_FUNCTION__ << ": Acknowledgment sent from" << packet->address().toString() << ":" << packet;
             break;
         default:
             if (packet->type() != 2) {
@@ -700,7 +704,8 @@ void LifxManager::echoFunction(LifxBulb* bulb, int timeout, QByteArray echoing)
     m_echoTimers.insert(bulb->targetAsLong(), timer);
     connect(timer, &QTimer::timeout, [this,bulb]() {
         if (bulb->echoPending()) {
-            qDebug() << "Bulb " << bulb->label() << " did not respond to it's last echo request";
+            if (m_debug)
+                qDebug() << "Bulb " << bulb->label() << " did not respond to it's last echo request";
         }
         m_protocol->echoRequest(bulb, QByteArray());
         bulb->echoPending(true);
