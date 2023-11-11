@@ -22,7 +22,11 @@
 
 #include <QtCore/QtCore>
 
+#include "hsbk.h"
 #include "lifxbulb.h"
+
+class LifxBulb;
+class HSBK;
 
 /**
  * \class LifxGroup
@@ -84,6 +88,11 @@ public:
      */
     QVector<LifxBulb*>& bulbs() { return m_bulbs; }
     
+    void changeBrightness(uint16_t brightness);
+    void changeColor(QColor &color);
+    void changeColor(HSBK &color);
+    void changeKelvin(uint16_t kelvin);
+
 private:
     QVector<LifxBulb*> m_bulbs;     //!< Vector with all bulbs that exist in this group
     QString m_label;                //!< The group name/label

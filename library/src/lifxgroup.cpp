@@ -28,6 +28,30 @@ LifxGroup::~LifxGroup()
 {
 }
 
+void LifxGroup::changeBrightness(uint16_t brightness)
+{
+    for (LifxBulb* bulb : m_bulbs)
+        bulb->changeBrightness(brightness);
+}
+
+void LifxGroup::changeColor(HSBK& color)
+{
+    for (LifxBulb* bulb : m_bulbs)
+        bulb->changeColor(color);
+}
+
+void LifxGroup::changeColor(QColor& color)
+{
+    for (LifxBulb* bulb : m_bulbs)
+        bulb->changeColor(color);
+}
+
+void LifxGroup::changeKelvin(uint16_t kelvin)
+{
+    for (LifxBulb* bulb : m_bulbs)
+        bulb->changeKelvin(kelvin);
+}
+
 /**
  * \fn QDebug operator<<(QDebug debug, const LifxGroup &bulb)
  * \brief Pretty print the LifxGroup object

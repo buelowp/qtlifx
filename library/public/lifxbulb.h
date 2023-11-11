@@ -27,8 +27,12 @@
 #include <QtGui/QtGui>
 
 #include "defines.h"
+#include "lifxprotocol.h"
 #include "lifxproduct.h"
 #include "hsbk.h"
+
+class LifxProtocol;
+class HSBK;
 
 /**
  * \class LifxBulb
@@ -61,24 +65,62 @@
  * This library doesn't keep the LIGHT_STATE structure, but instead
  * copies the contents into the SET_COLOR structure and maintains that. 
  */
-class LifxBulb
+class LifxBulb : public QObject
 {
+    Q_OBJECT
 public:
-    LifxBulb();
+    LifxBulb(LifxProtocol *protocol, int updateInterval = 0, QObject *parent = nullptr);
+    LifxBulb(LifxProtocol *protocol, QHostAddress address, uint32_t port = BROADCAST_PORT, int updateInterval = 0, QObject *parent = nullptr);
     ~LifxBulb();
     
     bool operator==(const LifxBulb &bulb);
     bool operator==(const uint8_t*);
     
+    void changeLabel(QString &label);
+    void changeBrightness(uint16_t brightness);
+    void changeColor(QColor &color);
+    void changeColor(HSBK &color);
+    void changeKelvin(uint16_t kelvin);
+    void getRSSI();
+    void toggleState();
+    void setProduct(QJsonObject &obj);
     bool isOn() const;
+    void setDiscoveryActive(bool discovery);
+    void stateCheck();
+    void setUpdateInterval(int interval);
+    
+    QHostAddress& address() { return m_address; }                       //!< Returns the IP address associated with this bulb
+    uint8_t service() const { return m_service; }                       //!< Returns the service which was set by STATE_SERVICE
+    uint8_t* target() { return m_target; }                              //!< Returns the MAC as an array of ints
+    uint64_t targetAsLong();                                            //!< Convienence function which turns the MAC into a number for indexing
+    uint32_t port() const { return m_port; }                            //!< Returns IP Port this bulb is listening to
+    uint16_t major() const { return m_major; }                          //!< Returns the major part of the version #
+    uint16_t minor() const { return m_minor; }                          //!< Returns the minor part of the version #
+    QString label() const { return m_label; }                           //!< Returns the bulb name
+    uint16_t power() const { return m_power; }                          //!< Returns the power value as reported from the bulb
+    uint16_t brightness() const { return m_deviceColor->brightness; }   //!< Returns the current brightness
+    uint16_t kelvin() const { return m_deviceColor->kelvin; }           //!< Returns the kelvin value as reported by the bulb
+    uint32_t duration() const { return m_deviceColor->duration; }       //!< The current color change duration value
+    QString group() const { return m_group; }                           //!< The group the bulb belongs to
+    uint32_t pid() const { return m_pid; }                              //!< The bulbs Product ID from LIFX
+    uint32_t vid() const { return m_vid; }                              //!< The bulbs Vendor ID from LIFX
+    bool inDiscovery() const { return m_inDiscovery; }                  //!< Is the bulb still pending discovery efforts
+    QColor color() const { return m_color; }                            //!< The QColor color from the bulb
+    int rssi() const { return m_rssi; }                                 //!< The bulbs RSSI value
+    QString mac() const;                                                //!< The bulbs MAC address in human readable format
+    QString addressToString(bool isIPV6) const;
+    lx_dev_color_t* toDeviceColor() const;
 
-    void setAddress(QHostAddress address, uint32_t port);
-    void setAddress(QHostAddress address);
-    void setService(uint8_t service);
-    void setPort(uint32_t port);
-    void setTarget(uint8_t *target);
-    void setMajor(uint16_t major);
-    void setMinor(uint16_t minor);
+public slots:
+    void timeout();
+
+signals:
+    void updated();
+
+protected:
+    friend class LifxProtocol;
+    friend class LifxPacket;
+
     void setLabel(QString label);
     void setPower(uint16_t power);
     void setDevColor(lx_dev_lightstate_t *color);
@@ -86,42 +128,24 @@ public:
     void setColor(lx_dev_color_t &color);
     void setColor(HSBK &color);
     void setKelvin(uint16_t kelvin);
-    void setDuration(uint32_t duration);
     void setGroup(QString group);
-    void setPID(uint32_t pid);
-    void setVID(uint32_t vid);
-    void setProduct(QJsonObject &obj);
-    void setDiscoveryActive(bool discovery);
     void setBrightness(uint16_t brightness);
     void setRSSI(float rssi);
-    uint64_t echoRequest(bool generate);
-    bool echoPending(bool state) { m_pendingEcho = state; return m_pendingEcho; }   //!< Set the flag that says we sent an echo request to the bulb
-    bool echoPending() { return m_pendingEcho; }                                    //!< Get the flag indicating whether we are waiting for an echo
-    
-    QHostAddress& address() { return m_address; }   //!< Returns the IP address associated with this bulb
-    uint8_t service() const { return m_service; }   //!< Returns the service which was set by STATE_SERVICE
-    uint8_t* target() { return m_target; }          //!< Returns the MAC as an array of ints
-    uint64_t targetAsLong();                        //!< Convienence function which turns the MAC into a number for indexing
-    uint32_t port() const { return m_port; }        //!< Returns IP Port this bulb is listening to
-    uint16_t major() const { return m_major; }      //!< Returns the major part of the version #
-    uint16_t minor() const { return m_minor; }      //!< Returns the minor part of the version #
-    QString label() const { return m_label; }       //!< Returns the bulb name
-    uint16_t power() const { return m_power; }
-    uint16_t brightness() const { return m_deviceColor->brightness; }
-    uint16_t kelvin() const { return m_deviceColor->kelvin; }
-    uint32_t duration() const { return m_deviceColor->duration; }
-    QString group() const { return m_group; }
-    uint32_t pid() const { return m_pid; }
-    uint32_t vid() const { return m_vid; }
-    bool inDiscovery() const { return m_inDiscovery; }
-    QColor color() const { return m_color; }
-    int rssi() const { return m_rssi; }
-
-    QString macToString() const;
-    QString addressToString(bool isIPV6) const;
-    lx_dev_color_t* toDeviceColor() const;
+    void setAddress(QHostAddress address, uint32_t port = BROADCAST_PORT);
+    void setService(uint8_t service);
+    void setPort(uint32_t port);
+    void setTarget(uint8_t *target);
+    void setMajor(uint16_t major);
+    void setMinor(uint16_t minor);
+    void setDuration(uint32_t duration);
+    void setPID(uint32_t pid);
+    void setVID(uint32_t vid);
 
 private:
+    QTimer *m_updateTimer;          //!< Timer responsible for firing off update events
+    int m_updateInterval;           //!< How often this bulb will ask the device for current status
+    LifxProtocol *m_protocol;       //!< Keep a protocol to send messages from this class
+    LifxProduct *m_product;         //!< A container class with static product details from LIFX
     QHostAddress m_address;         //!< The QHostAddress with the bulbs IP address
     QString m_label;                //!< The QString label returned as part of the STATE_LABEL reply
     QString m_group;                //!< The group that this bulb belongs to
@@ -136,11 +160,8 @@ private:
     uint32_t m_vid;                 //!< The vendor ID the bulb, should generally always be 1
     uint32_t m_pid;                 //!< The product ID from the bulb, can be used to determine capabilities from the JSON
     lx_dev_color_t *m_deviceColor;  //!< The color structure as returned from the bulb
-    LifxProduct *m_product;         //!< A container class with static product details from LIFX
     bool m_inDiscovery;             //!< Flag indicating whether the bulb has been completely discovered yet
-    bool m_pendingEcho;             //!< An echo request for this bulb has been sent
-    uint64_t m_echoSemaphore;       //!< This is the random value we will use to validate the echo did what we needed it to
-    int m_rssi;                   //!< The returned RSSI value from the bulb. This converts from raw to a scale from 0 - 16
+    int m_rssi;                     //!< The returned RSSI value from the bulb. This converts from raw to a scale from 0 - 16
 };
 
 QDebug operator<<(QDebug debug, const LifxBulb &bulb);

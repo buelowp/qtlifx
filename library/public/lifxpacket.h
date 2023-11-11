@@ -27,6 +27,8 @@
 #include "defines.h"
 #include "lifxbulb.h"
 
+class LifxBulb;
+
 /**
  * \class LifxPacket
  * \brief (PRIVATE) This is an internal class to the library and should not be used by apps
@@ -38,13 +40,13 @@ class LifxPacket
 {
 public:
     LifxPacket();
+    LifxPacket(QNetworkDatagram &datagram);
     ~LifxPacket();
     
     LifxPacket(const LifxPacket &object);
     static constexpr uint8_t protoid[] = { 0x4c, 0x49, 0x46, 0x58, 0x56, 0x32 };
 
     void makeDiscoveryPacket();
-    void makeDiscoveryPacketForBulb(QHostAddress address, int port);
     void setHeader(const char *data);
     void setPayload(QByteArray ba);
     void setDatagram(char *data, int len, QHostAddress &addr, quint16 port);
@@ -72,7 +74,6 @@ public:
     uint16_t setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
     uint16_t setBulbPower(LifxBulb *bulb, int source = 0, bool ackRequired = false);
     uint16_t rebootBulb(LifxBulb *bulb);
-    void echoBulb(LifxBulb *bulb, QByteArray bytes, int source = 0);
 
     static constexpr int HEADER_SIZE = 36;
     

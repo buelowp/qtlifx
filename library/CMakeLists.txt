@@ -12,6 +12,8 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
+add_compile_options(-Wall -Wextra -Wpedantic)
+
 # Find the QtWidgets library
 find_package(Qt5Network CONFIG REQUIRED)
 find_package(Qt5Gui CONFIG REQUIRED)

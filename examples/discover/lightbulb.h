@@ -32,18 +32,16 @@ public:
     ~LightBulb();
 
     void setText(QString text) { m_text = text; update(); }
-    void setLabel(QString text) { m_label = text; }
-    void setColor(QColor c) { m_color = c; update(); }
-    void setPower(uint16_t p);
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
-    bool localState() { return m_state; }
+    bool localState() { return m_bulb->isOn(); }
     QString label() { return m_bulb->label(); }
     LifxBulb* bulb() { return m_bulb; }
 
 public slots:
     void showColorDialog();
     void stateTimeout();
+    void updated();
 
 protected:
     void paintEvent(QPaintEvent *e) override;
@@ -60,9 +58,6 @@ private:
     LifxBulb *m_bulb;
     QTimer *m_updateTimer;
     QString m_text;
-    QString m_label;
-    QColor m_color;
-    bool m_state;
 };
 
 #endif // LIGHTBULB_H

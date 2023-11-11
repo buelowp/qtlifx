@@ -20,13 +20,12 @@
 #include "lifxbulb.h"
 
 /**
- * \fn LifxBulb::LifxBulb()
+ * \fn LifxBulb::LifxBulb(int updateInterval, QObject *parent)
  * 
  * Default constructor. Sets the system to sensible defaults
  */
-LifxBulb::LifxBulb()
+LifxBulb::LifxBulb(LifxProtocol *protocol, int updateInterval, QObject *parent) : QObject(parent), m_updateInterval(updateInterval), m_protocol(protocol)
 {
-    m_port = 0;
     m_major = 0;
     m_minor = 0;
     m_label = "Unknown";
@@ -38,11 +37,100 @@ LifxBulb::LifxBulb()
     m_deviceColor = (lx_dev_color_t*)malloc(sizeof(lx_dev_color_t));
     memset(m_deviceColor, 0, sizeof(lx_dev_color_t));
     memset(m_target, 0, 8);
+
+    m_updateTimer = new QTimer();
+    m_updateTimer->setInterval(m_updateInterval);
+    connect(m_updateTimer, &QTimer::timeout, this, &LifxBulb::timeout);
+}
+
+/**
+ * \fn LifxBulb::LifxBulb()
+ *
+ * Default constructor. Sets the system to sensible defaults
+ */
+LifxBulb::LifxBulb(LifxProtocol *protocol, QHostAddress address, uint32_t port, int updateInterval, QObject *parent) : QObject(parent), m_updateInterval(updateInterval), m_protocol(protocol), m_address(address), m_port(port)
+{
+    m_major = 0;
+    m_minor = 0;
+    m_label = "Unknown";
+    m_power = 0;
+    m_vid = 0;
+    m_pid = 0;
+    m_inDiscovery = true;
+    m_rssi = -100;
+    m_deviceColor = (lx_dev_color_t*)malloc(sizeof(lx_dev_color_t));
+    memset(m_deviceColor, 0, sizeof(lx_dev_color_t));
+    memset(m_target, 0, 8);
+
+    m_updateTimer = new QTimer();
+    m_updateTimer->setInterval(m_updateInterval);
+    connect(m_updateTimer, &QTimer::timeout, this, &LifxBulb::timeout);
 }
 
 LifxBulb::~LifxBulb()
 {
     free(m_deviceColor);
+    m_updateTimer->stop();
+    m_updateTimer->deleteLater();
+}
+
+void LifxBulb::toggleState()
+{
+    if (m_power > 0)
+        m_power = 0;
+    else
+        m_power = 65535;
+
+    m_protocol->setBulbState(this);
+}
+
+void LifxBulb::setUpdateInterval(int interval)
+{
+    m_updateTimer->stop();
+    m_updateInterval = interval;
+    m_updateTimer->setInterval(m_updateInterval);
+    if (!m_inDiscovery)
+        m_updateTimer->start();
+}
+
+void LifxBulb::stateCheck()
+{
+    qDebug() << __PRETTY_FUNCTION__;
+    m_protocol->getColorForBulb(this);
+}
+
+void LifxBulb::changeBrightness(uint16_t brightness)
+{
+    m_deviceColor->brightness = brightness;
+    m_protocol->setBulbColor(this);
+}
+
+void LifxBulb::changeColor(QColor &color)
+{
+    setColor(color);
+    m_protocol->setBulbColor(this);
+}
+
+void LifxBulb::changeColor(HSBK& color)
+{
+    setColor(color);
+    m_protocol->setBulbColor(this);
+}
+
+void LifxBulb::changeKelvin(uint16_t kelvin)
+{
+    m_deviceColor->kelvin = kelvin;
+    m_protocol->setBulbColor(this);
+}
+
+void LifxBulb::timeout()
+{
+    m_protocol->getColorForBulb(this);
+}
+
+void LifxBulb::changeLabel(QString& label)
+{
+    Q_UNUSED(label)
 }
 
 /**
@@ -53,6 +141,10 @@ LifxBulb::~LifxBulb()
 void LifxBulb::setDiscoveryActive(bool discovery)
 {
     m_inDiscovery = discovery;
+    if (m_inDiscovery)
+        m_updateTimer->stop();
+    else
+        m_updateTimer->start();
 }
 
 /**
@@ -69,29 +161,12 @@ void LifxBulb::setAddress(QHostAddress address, uint32_t port)
     m_port = port;
 }
 
-/**
- * \fn void LifxBulb::setAddress(QHostAddress address)
- * \param address The QHostAddress container with the IP that the bulb sent data from
- * \param port The Port encoded in the STATE_SERVICE reply
- * 
- * This will encode the IP address we use when communicating with this
- * bulb individually.
- */
-void LifxBulb::setAddress(QHostAddress address)
-{
-    if (address != m_address) {
-        if (!m_address.isNull()) {
-            qWarning() << __PRETTY_FUNCTION__ << ":" << m_label << "replacing" << m_address << "with" << address;
-        }
-        m_address = address;
-    }
-}
 
 /**
  * \fn void LifxBulb::setPort(uint32_t port)
  * \param port The IP port value used when communicating with this device
  * 
- * The port will generally always be 57600, but this value is set as part
+ * The port will generally always be 56700, but this value is set as part
  * of the reply from the bulb in the STATE_SERVICE message, and is not
  * assumed to be the default port.
  */
@@ -133,16 +208,20 @@ void LifxBulb::setTarget(uint8_t *target)
  */
 void LifxBulb::setPower(uint16_t power)
 {
-    m_power = power;
+    if (power != m_power) {
+        m_power = power;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
- * \fn QString LifxBulb::macToString() const
+ * \fn QString LifxBulb::mac() const
  * \return Returns the MAC address as a human readable string
  * 
  * This is just debug formatting, and does not zero pad just yet
  */
-QString LifxBulb::macToString() const
+QString LifxBulb::mac() const
 {
     return QString("%1:%2:%3:%4:%5:%6")
                     .arg(m_target[0], 2, 16, QLatin1Char('0'))
@@ -243,7 +322,11 @@ uint64_t LifxBulb::targetAsLong()
  */
 void LifxBulb::setMajor(uint16_t major)
 {
-    m_major = major;
+    if (major != m_major) {
+        m_major = major;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
@@ -252,7 +335,11 @@ void LifxBulb::setMajor(uint16_t major)
  */
 void LifxBulb::setMinor(uint16_t minor)
 {
-    m_minor = minor;
+    if (minor != m_minor) {
+        m_minor = minor;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
@@ -298,7 +385,11 @@ void LifxBulb::setRSSI(float signal)
         }
     }
     else {
-        m_rssi = rssi;
+        if (rssi != m_rssi) {
+            m_rssi = rssi;
+            if (!m_inDiscovery)
+                emit updated();
+        }
     }
 }
 
@@ -308,7 +399,11 @@ void LifxBulb::setRSSI(float signal)
  */
 void LifxBulb::setLabel(QString label)
 {
-    m_label = label;
+    if (label != m_label) {
+        m_label = label;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
@@ -364,6 +459,13 @@ void LifxBulb::setDevColor(lx_dev_lightstate_t* color)
     m_deviceColor->kelvin = color->kelvin;
     m_power = color->power;
     m_color.setHsvF(h, s, v);
+    if (!m_inDiscovery)
+        emit updated();
+}
+
+void LifxBulb::getRSSI()
+{
+    m_protocol->getWifiInfoForBulb(this);
 }
 
 /**
@@ -374,7 +476,11 @@ void LifxBulb::setDevColor(lx_dev_lightstate_t* color)
  */
 void LifxBulb::setBrightness(uint16_t brightness)
 {
-    m_deviceColor->brightness = brightness;
+    if (brightness != m_deviceColor->brightness) {
+        m_deviceColor->brightness = brightness;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
@@ -390,6 +496,8 @@ void LifxBulb::setColor(lx_dev_color_t &color)
     m_color.setHsvF(color.hue / max, color.saturation / max, color.brightness / max);
     
     memcpy(&m_deviceColor, &color, sizeof(lx_dev_color_t));
+    if (!m_inDiscovery)
+        emit updated();
 }
 
 /**
@@ -405,6 +513,8 @@ void LifxBulb::setColor(HSBK &color)
     lx_dev_color_t c = color.getHSBK();
     
     memcpy(m_deviceColor, &c, sizeof(lx_dev_color_t));
+    if (!m_inDiscovery)
+        emit updated();
 }
 
 
@@ -429,6 +539,8 @@ void LifxBulb::setColor(QColor &color)
     m_deviceColor->brightness = v;
     m_deviceColor->saturation = s;
     m_deviceColor->hue = h;
+    if (!m_inDiscovery)
+        emit updated();
 }
 
 /**
@@ -438,7 +550,11 @@ void LifxBulb::setColor(QColor &color)
  */
 void LifxBulb::setKelvin(uint16_t kelvin)
 {
-    m_deviceColor->kelvin = kelvin;
+    if (kelvin != m_deviceColor->kelvin) {
+        m_deviceColor->kelvin = kelvin;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
@@ -458,7 +574,11 @@ lx_dev_color_t* LifxBulb::toDeviceColor() const
  */
 void LifxBulb::setGroup(QString group)
 {
-    m_group = group;
+    if (group != m_group) {
+        m_group = group;
+        if (!m_inDiscovery)
+            emit updated();
+    }
 }
 
 /**
@@ -551,13 +671,6 @@ void LifxBulb::setProduct(QJsonObject& obj)
     }
 }
 
-uint64_t LifxBulb::echoRequest(bool generate)
-{
-    if (generate)
-        m_echoSemaphore = QRandomGenerator::global()->generate64();
-    
-    return m_echoSemaphore;
-}
 
 /**
  * \fn QDebug operator<<(QDebug debug, const LifxBulb &bulb)
@@ -571,7 +684,7 @@ QDebug operator<<(QDebug debug, const LifxBulb &bulb)
 {
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb.label()
-                << ": [" << bulb.macToString() << "] ("
+                << ": [" << bulb.mac() << "] ("
                 << bulb.group() << ") ("
                 << bulb.vid() << "," << bulb.pid() << ") "
                 << bulb.addressToString(false) << ":" << bulb.port()
@@ -599,7 +712,7 @@ QDebug operator<<(QDebug debug, const LifxBulb *bulb)
 {
     QDebugStateSaver saver(debug);
     debug.nospace().noquote() << bulb->label()
-                    << ": [" << bulb->macToString() << "] ("
+                    << ": [" << bulb->mac() << "] ("
                     << bulb->group() << ") ("
                     << bulb->vid() << "," << bulb->pid() << ") "
                     << bulb->addressToString(false) << ":" << bulb->port()

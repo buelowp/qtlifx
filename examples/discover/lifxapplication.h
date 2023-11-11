@@ -26,7 +26,7 @@
 #include <QtWidgets/QtWidgets>
 
 #include <lifxbulb.h>
-#include <lifxmanager.h>
+#include <lifxprotocol.h>
 
 #include "lightbulb.h"
 
@@ -42,14 +42,8 @@ public:
     void go();
 
 public slots:
-    void widgetStateChange(LifxBulb *bulb, bool state);
-    void newColorForBulb(LifxBulb *bulb, QColor color);
-    void handlerTimeout(uint32_t m_uniqueId);
-    void bulbStateChange(LifxBulb *bulb);
-    void bulbDiscoveryFinished(LifxBulb *bulb);
-    void runStateCheck(LifxBulb *bulb);
-    void ackReceived(uint32_t uniqueId);
-    void discoveryFailed();
+    void newBulb(LifxBulb *bulb);
+    void newGroup(LifxGroup *group);
 
 protected:
     void showEvent(QShowEvent *e);
@@ -58,17 +52,13 @@ private:
     int xPosition();
     int yPosition();
     void createDisplayObject(LifxBulb *bulb);
-    void updateDisplayObject(LifxBulb *bulb);
-    LightBulb* getWidgetByName(QString label);
 
-    LifxManager *m_manager;
+    LifxProtocol *m_protocol;
     QGridLayout *m_layout;
-    QTimer *m_stateCheckInterval;
     QTimer *m_discoverInterval;
     QMap<LifxBulb*, LightBulb*> m_widgets;
     int m_x;
     int m_y;
-    uint32_t m_uniqueId;
 };
 
 #endif // LIFXAPPLICATION_H

@@ -25,6 +25,13 @@ LifxPacket::LifxPacket()
     m_packet = nullptr;
 }
 
+LifxPacket::LifxPacket(QNetworkDatagram& datagram)
+{
+    m_headerSize = sizeof(lx_protocol_header_t);
+    m_packet = nullptr;
+    setDatagram(datagram);
+}
+
 LifxPacket::~LifxPacket()
 {
     if (m_packet)
@@ -82,10 +89,6 @@ void LifxPacket::createHeader(LifxBulb* bulb, bool blankTarget)
 
 void LifxPacket::makeDiscoveryPacket()
 {
-    LifxBulb bulb;
-    
-    bulb.setService(1);
-    bulb.setPort(BROADCAST_PORT);
     m_port = BROADCAST_PORT;
     
     m_tagged = 1;
@@ -94,7 +97,7 @@ void LifxPacket::makeDiscoveryPacket()
     m_type = LIFX_DEFINES::GET_SERVICE;
     m_source = 0;
     
-    createHeader(&bulb);
+    createHeader(nullptr, true);
 }
 
 bool LifxPacket::isValid()
@@ -112,23 +115,6 @@ bool LifxPacket::isValid()
     }
 
     return true;
-}
-
-void LifxPacket::makeDiscoveryPacketForBulb(QHostAddress address, int port)
-{
-    LifxBulb bulb;
-    bulb.setService(1);
-    bulb.setPort(port);
-    bulb.setAddress(address);
-
-    m_port = port;
-    m_tagged = 1;
-    m_ackRequired = false;
-    m_resRequired = false;
-    m_type = LIFX_DEFINES::GET_SERVICE;
-    m_source = 0;
-
-    createHeader(&bulb);
 }
 
 QByteArray LifxPacket::datagram()
@@ -173,6 +159,7 @@ void LifxPacket::setDatagram(QNetworkDatagram &datagram)
 {
     m_address = datagram.senderAddress();
     m_port = datagram.senderPort();
+
     if (datagram.data().size() >= m_headerSize) {
         setHeader(datagram.data());
         if (datagram.data().size() > m_headerSize) {
@@ -201,26 +188,6 @@ uint64_t LifxPacket::targetAsLong()
     uint64_t target;
     memcpy(&target, m_target, sizeof(uint64_t));
     return target;
-}
-
-void LifxPacket::echoBulb(LifxBulb* bulb, QByteArray bytes, int source)
-{
-    m_tagged = 0;
-    m_ackRequired = false;
-    m_resRequired = false;
-    m_type = LIFX_DEFINES::ECHO_REQUEST;
-    m_source = source;
-    
-    createHeader(bulb, false);
-    QBuffer buffer(&m_payload);
-    buffer.open(QIODevice::WriteOnly);
-    if (bytes.size() == 0) {
-        uint64_t num = bulb->echoRequest(true);
-        buffer.write((char*)&num, sizeof(uint64_t));
-    }
-    else {
-        buffer.write(bytes.toStdString().data(), bytes.size());
-    }
 }
 
 uint16_t LifxPacket::getBulbFirmware(LifxBulb* bulb, int source, bool ackRequired)
@@ -335,7 +302,7 @@ uint16_t LifxPacket::setBulbPower(LifxBulb* bulb, int source, bool ackRequired)
 {
     m_tagged = 0;
     m_ackRequired = ackRequired;
-    m_resRequired = false;
+    m_resRequired = true;
     m_type = LIFX_DEFINES::SET_POWER;
     m_source = source;
 
@@ -389,7 +356,7 @@ QDebug operator<<(QDebug debug, LifxPacket &packet)
     else {
         debug.nospace().noquote() << "Packet From: " << packet.address().toString() << Qt::endl;
     }
-    debug.nospace().noquote() << "Packet Raw: " << packet.header().toHex() << Qt::endl;
+    debug.nospace().noquote() << "Packet Raw: " << packet.datagram().toHex() << Qt::endl;
     debug.nospace().noquote() << "\tsize: " << packet.protocolHeader().size << Qt::endl;
     debug.nospace().noquote() << "\ttype: " << defines_names_map[packet.type()] << Qt::endl;
     debug.nospace().noquote() << "\tprotocol: " << packet.protocolHeader().protocol << Qt::endl;
@@ -448,7 +415,7 @@ QDebug operator<<(QDebug debug, LifxPacket *packet)
     else {
         debug.nospace().noquote() << "Packet From: " << packet->address().toString() << Qt::endl;
     }
-    debug.nospace().noquote() << "Packet Raw: " << packet->header().toHex() << Qt::endl;
+    debug.nospace().noquote() << "Packet Raw: " << packet->datagram().toHex() << Qt::endl;
     debug.nospace().noquote() << "\tsize: " << packet->protocolHeader().size << Qt::endl;
     debug.nospace().noquote() << "\ttype: " << defines_names_map[packet->type()] << Qt::endl;
     debug.nospace().noquote() << "\tprotocol: " << packet->protocolHeader().protocol << Qt::endl;
@@ -470,6 +437,9 @@ QDebug operator<<(QDebug debug, LifxPacket *packet)
             debug.nospace().noquote() << "\tbri  : " << color->brightness << Qt::endl;
             debug.nospace().noquote() << "\tkel  : " << color->kelvin << Qt::endl;
             debug.nospace().noquote() << "\tpower: " << color->power << Qt::endl;
+        }
+        else {
+            debug.nospace().noquote() << "Payload: " << packet->payload().toHex() << Qt::endl;
         }
     }
     return debug;

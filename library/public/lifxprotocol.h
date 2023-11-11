@@ -28,6 +28,10 @@
 #include "lifxpacket.h"
 #include "lifxgroup.h"
 
+class LifxGroup;
+class LifxBulb;
+class LifxPacket;
+
 /**
  * \class LifxProtocol
  * \brief (PRIVATE) The UDP protocol manager for sending/receiving bulb data
@@ -42,23 +46,15 @@ class LifxProtocol : public QObject
     Q_OBJECT
 
 public:
-    static constexpr int LIFX_PORT = 56700;
-    
-    LifxProtocol(QObject *parent = nullptr);
+    LifxProtocol(int port = BROADCAST_PORT, QObject *parent = nullptr);
+    LifxProtocol(const LifxProtocol &protocol);
     ~LifxProtocol();
-    LifxProtocol(const LifxProtocol &object);
 
-    void initialize();
-    qint64 discover();
-    qint64 discoverBulbByAddress(QHostAddress address, int port);
-    LifxPacket* nextPacket();
-    bool newPacketAvailable();
-    LifxBulb *createNewBulb();
+    void discover();
     
     uint16_t setBulbColor(LifxBulb *bulb, int source = 0, bool ackRequired = false);
-    uint16_t setBulbColor(LifxBulb *bulb, QColor color, int source = 0, bool ackRequired = false);
-    uint16_t setBulbState(LifxBulb *bulb, bool state, int source = 0, bool ackRequired = false);
-    void setGroupState(LifxGroup *group, bool state, int source = 0, bool ackRequired = false);
+    uint16_t setBulbState(LifxBulb *bulb, int source = 0, bool ackRequired = false);
+    void setGroupState(LifxGroup *group, int source = 0, bool ackRequired = false);
     uint16_t rebootBulb(LifxBulb *bulb);
     
     uint16_t getPowerForBulb(LifxBulb *bulb, int source = 0);
@@ -69,18 +65,26 @@ public:
     uint16_t getGroupForBulb(LifxBulb *bulb, int source = 0);
     uint16_t getWifiInfoForBulb(LifxBulb *bulb, int source = 0);
     
-    void echoRequest(LifxBulb *bulb, QByteArray echoing);
+    void enableDebug(bool debug) { m_debug = debug; }
 
-protected slots:
+public slots:
     void readDatagram();
+    void socketError(QAbstractSocket::SocketError socketError);
 
 signals:
-    void datagramAvailable();
-    void discoveryFailed();
-    void newPacket(LifxPacket *packet);
-    
+    void newBulbFound(LifxBulb *bulb);
+    void newGroupFound(LifxGroup *group);
+
 private:
+    void newPacket(LifxPacket *packet);
+    void sendPacket(QByteArray data, QHostAddress &address, quint16 port);
+
     QUdpSocket *m_socket;
+    int m_port;
+    QMap<uint64_t, LifxBulb*> m_bulbs;
+    QMap<QByteArray, LifxGroup*> m_groups;
+    bool m_debug;
+    QMutex m_mutex;
 };
 
 Q_DECLARE_METATYPE(LifxProtocol);

@@ -23,20 +23,15 @@ LifxApplication::LifxApplication() : QMainWindow()
 {
     m_x = 0;
     m_y = 0;
-    m_uniqueId = 1;
 
-    m_manager = new LifxManager();
-    m_manager->enableDebug(false);
-    connect(m_manager, &LifxManager::bulbDiscoveryFinished, this, &LifxApplication::bulbDiscoveryFinished);
-    connect(m_manager, &LifxManager::bulbStateChange, this, &LifxApplication::bulbStateChange);
-    connect(m_manager, &LifxManager::bulbLabelChange, this, &LifxApplication::bulbStateChange);
-    connect(m_manager, &LifxManager::bulbPowerChange, this, &LifxApplication::bulbStateChange);
-    connect(m_manager, &LifxManager::ack, this, &LifxApplication::ackReceived);
-    connect(m_manager, &LifxManager::bulbDiscoveryFailed, this, &LifxApplication::discoveryFailed);
+    m_protocol = new LifxProtocol();
+    m_protocol->enableDebug(false);
+    connect(m_protocol, &LifxProtocol::newBulbFound, this, &LifxApplication::newBulb);
+    connect(m_protocol, &LifxProtocol::newGroupFound, this, &LifxApplication::newGroup);
 
-    m_discoverInterval = new QTimer(this);
+    m_discoverInterval = new QTimer();
     m_discoverInterval->setInterval(60000);
-    connect(m_discoverInterval, &QTimer::timeout, m_manager, &LifxManager::discover);
+    connect(m_discoverInterval, &QTimer::timeout, m_protocol, &LifxProtocol::discover);
 
     m_layout = new QGridLayout();
     QWidget *central = new QWidget();
@@ -55,27 +50,9 @@ LifxApplication::~LifxApplication()
 {
 }
 
-void LifxApplication::discoveryFailed()
-{
-    qWarning() << __PRETTY_FUNCTION__;
-}
-
-void LifxApplication::runStateCheck(LifxBulb *bulb)
-{
-    m_manager->getColorForBulb(bulb);
-}
-
-void LifxApplication::bulbStateChange(LifxBulb* bulb)
-{
-    if (m_widgets.size()) {
-        LightBulb *b = m_widgets[bulb];
-        if (b)
-            b->update();
-    }
-}
-
 void LifxApplication::setProductsJsonFile(QString path)
 {
+/*
     QFile file(path);
     QJsonParseError error;
     
@@ -86,9 +63,10 @@ void LifxApplication::setProductsJsonFile(QString path)
         qDebug() << __PRETTY_FUNCTION__ << ":" << error.errorString();
         if (doc.isArray()) {
             qDebug() << __PRETTY_FUNCTION__ << ": Successfully parsed" << file;
-            m_manager->setProductCapabilities(doc);
+            m_protocol->setProductCapabilities(doc);
         }
     }
+*/
 }
 
 void LifxApplication::showEvent(QShowEvent *e)
@@ -98,45 +76,29 @@ void LifxApplication::showEvent(QShowEvent *e)
 
 void LifxApplication::go()
 {
-    m_manager->discover();
+    m_protocol->discover();
 }
 
-void LifxApplication::newColorForBulb(LifxBulb *bulb, QColor color)
+void LifxApplication::newGroup(LifxGroup* group)
 {
-    m_manager->changeBulbColor(bulb, color);
+    Q_UNUSED(group)
 }
 
-void LifxApplication::bulbDiscoveryFinished(LifxBulb *bulb)
+void LifxApplication::newBulb(LifxBulb *bulb)
 {
     qDebug() << __PRETTY_FUNCTION__ << ":" << bulb;
     createDisplayObject(bulb);
+    bulb->setUpdateInterval(2000);
 }
 
 void LifxApplication::createDisplayObject(LifxBulb* bulb)
 {
     LightBulb *widget = new LightBulb(bulb);
     m_widgets[bulb] = widget;
-    connect(widget, &LightBulb::stateChangeEvent, this, &LifxApplication::widgetStateChange);
-    connect(widget, &LightBulb::newColorChosen, this, &LifxApplication::newColorForBulb);
-    connect(widget, &LightBulb::requestStatus, this, &LifxApplication::runStateCheck);
     m_layout->addWidget(widget, m_x, m_y);
     m_y++;
     if (m_y > 2) {
         m_x++;
         m_y = 0;
     }
-}
-
-void LifxApplication::widgetStateChange(LifxBulb *bulb, bool state)
-{
-    m_manager->changeBulbState(bulb, state, 0, true);
-}
-
-void LifxApplication::handlerTimeout(uint32_t uniqueId)
-{
-    qWarning() << __PRETTY_FUNCTION__ << ": Operation handled by" << uniqueId << "timed out";
-}
-
-void LifxApplication::ackReceived(uint32_t uniqueId)
-{
 }

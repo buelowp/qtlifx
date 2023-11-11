@@ -23,12 +23,12 @@ LightBulb::LightBulb(LifxBulb *bulb, QWidget *parent) : QWidget(parent)
 {
     if (bulb) {
         m_bulb = bulb;
-        m_state = false;
         m_updateTimer = new QTimer();
-        m_updateTimer->setInterval(1000);
+        m_updateTimer->setInterval(10000);
         m_updateTimer->start();
         connect(m_updateTimer, &QTimer::timeout, this, &LightBulb::stateTimeout);
         connect(this, &LightBulb::openColorDialog, this, &LightBulb::showColorDialog);
+        connect(bulb, &LifxBulb::updated, this, &LightBulb::updated);
     }
     else {
         qWarning() << __PRETTY_FUNCTION__ << ": Bulb was NULL";
@@ -37,12 +37,16 @@ LightBulb::LightBulb(LifxBulb *bulb, QWidget *parent) : QWidget(parent)
 
 LightBulb::~LightBulb()
 {
+}
 
+void LightBulb::updated()
+{
+    update();
 }
 
 void LightBulb::stateTimeout()
 {
-    emit requestStatus(m_bulb);
+    m_bulb->getRSSI();
 }
 
 QSize LightBulb::minimumSizeHint() const
@@ -60,7 +64,7 @@ QSize LightBulb::sizeHint() const
 void LightBulb::mousePressEvent(QMouseEvent* e)
 {
     if (e->button() == Qt::LeftButton) {
-        emit stateChangeEvent(m_bulb, !m_state);
+        emit m_bulb->toggleState();
     }
     if (e->button() == Qt::RightButton)
         emit openColorDialog();
@@ -68,8 +72,8 @@ void LightBulb::mousePressEvent(QMouseEvent* e)
 
 void LightBulb::showColorDialog()
 {
-    const QColor color = QColorDialog::getColor(m_color, this, "Select Color");
-    emit newColorChosen(m_bulb, color);
+    QColor color = QColorDialog::getColor(m_bulb->color(), this, "Select Color");
+    m_bulb->changeColor(color);
 }
 
 void LightBulb::paintEvent(QPaintEvent* e)
@@ -79,22 +83,16 @@ void LightBulb::paintEvent(QPaintEvent* e)
     QPainter painter(this);
     int circleX = width() / 2 - height() / 2;
     painter.setRenderHint(QPainter::Antialiasing);
-    if (!m_state)
-        m_color = QColor("black");
-        
     m_text =  QString("%1\n%2\nRSSI: %3\nr:%4 g:%5 b:%6").arg(m_bulb->label()).arg(m_bulb->address().toString().mid(7)).arg(m_bulb->rssi()).arg(m_bulb->color().red()).arg(m_bulb->color().green()).arg(m_bulb->color().blue());
-    m_label = m_bulb->label();
-    m_color = m_bulb->color();
-    m_state = m_bulb->isOn();
-    setPower(m_bulb->power());
+
     if (m_bulb->isOn())
-        painter.setBrush(m_color);
+        painter.setBrush(m_bulb->color());
     else
         painter.setBrush(QColor("black"));
     painter.setPen(QColor("black"));
     painter.drawEllipse(circleX, 0, height(), height());
     if (m_text.size()) {
-        if (!m_state)
+        if (!m_bulb->isOn())
             painter.setPen(Qt::white);
         else
             painter.setPen(Qt::black);
@@ -109,13 +107,4 @@ void LightBulb::paintEvent(QPaintEvent* e)
         QRect drect(xoffset, yoffset, width() / 2, height() / 2);
         painter.drawText(drect, Qt::TextWordWrap, m_text);
     }    
-}
-
-void LightBulb::setPower(uint16_t p)
-{
-    if (p == 0)
-        m_state = false;
-
-    if (p == 65535)
-        m_state = true;
 }
