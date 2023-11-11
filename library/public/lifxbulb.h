@@ -69,8 +69,8 @@ class LifxBulb : public QObject
 {
     Q_OBJECT
 public:
-    LifxBulb(LifxProtocol *protocol, int updateInterval = 0, QObject *parent = nullptr);
-    LifxBulb(LifxProtocol *protocol, QHostAddress address, uint32_t port = BROADCAST_PORT, int updateInterval = 0, QObject *parent = nullptr);
+    LifxBulb(LifxProtocol *protocol, int updateInterval = 10000, QObject *parent = nullptr);
+    LifxBulb(LifxProtocol *protocol, QHostAddress address, uint32_t port = BROADCAST_PORT, int updateInterval = 10000, QObject *parent = nullptr);
     ~LifxBulb();
     
     bool operator==(const LifxBulb &bulb);

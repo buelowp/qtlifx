@@ -34,72 +34,24 @@ To use this in your library, simple add qtlifx to your link step
 
 Find the Doxygen documentation at https://buelowp.github.io/qtlifx/
 
-See the example main.cpp in the examples directory, but it's pretty simple to use.
+See the discover example in the examples directory, but it's pretty simple to use.
 
-It is faster and more reliable to keep a list of already discovered bulbs locally. This isn't
-foolproof, IP's can change, but overally, discovery happens over broadcast, and home network
-setups sometimes trip up on that. Also, directly talking to the bulb, at least in my testing,
-is faster than broadcast discovery.
+The design is to create a LifxProtocol which owns the comms between your app
+and the bulbs. On start, fire off a discover and as bulbs reply, the protocol will
+send a signal for each new bulb and group it finds.
 
-My latest app design checks for cached bulbs, and then starts a discovery process about 10 seconds
-later.
+The calling application can then manage each bulb as needed. Any specific operation
+on a bulb or group can be done with LifxBulb and LifxGroup directly. You should not have
+to call into LifxProtocol other than to run a discover.
 
-First
-```
-LifxManager *manager = new LifxManager();
-connect(manager, &LifxManager::newBulbAvailable, this, &Class::handleNewBulb);
-```
+The bulbs have a configurable timer which allows them to ask for status on an interval.
+That interval defaults to 10 seconds, but calling setInterval will change it.
 
-Then, check for bulbs you already know about
-
-```
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "lifxtest", "lifxtest");
-    QStringList list = settings.childGroups();
-
-    for (const auto& group : list) {
-        settings.beginGroup(group);
-        QHostAddress address(settings.value("address").toString());
-        int port = settings.value("port").toInt();
-        m_manager->discoverBulb(address, port);
-        settings.endGroup();
-    }
-    QTimer::singleShot(10000, this, &LifxApplication::runDiscovery);
-```
-
-Where runDiscovery is a slot that calls
-```
-manager->initialize();
-```
-
-I run a repeating timer to call discovery every 60 seconds just in case, but if you have all your bulbs,
-this may be overkill.
-
-Once you have received the handleNewBulb signal, that bulb has completed discovery
-and can be queried or set as needed. If you choose to provide the product definitions (see below), then
-each bulb includes all of the LIFX capabilities. Otherwise, some functions may not work as the lights
-are not assumed to support them by default.
-
-```
-QFile file("products.json");
-if (!file.open())
-    handle_error()
-QByteArray json = file.readAll();
-QJsonDocument doc = QJsonDocument::fromJson(json);
-if (doc.isObject())
-    manager->setProductCapabilities(doc);
-```
-
-The entirety of this library revolves around two objects, the manager and a bulb. The manager
-is created by the application, and is what does the work. The bulb is the complete code
-representation of a LIFX product. Each of these should be treated as immutable and owned
-completely by the library.
+The entirety of this library revolves around the bulb. The bulb has enough logic to
+handle itself. The protocol is only there to jump start as something needs to request
+discovery if nothing exists at all.
 
 * Do not delete a LifxBulb in your code, bad things will happen.
-* Do not try to change the contents of the maps, bad things will happen.
-
-It is possible to query for bulbs in a variety of ways, and you can talk to them
-using a pointer to the object, the bulb name, the bulb group name, the bulb group UUID,
-and the bulb MAC address.
 
 The LAN API is documented at https://lan.developer.lifx.com/docs/introduction
 
@@ -117,16 +69,12 @@ is ready to use. It *can* be used, but it will be lacking it's full potential ca
 
 You can get the products.json file from https://github.com/LIFX/products
 
-## CODE
+## COLORS
 
-I did as much as possible to provide helpers where that made sense to me at least. There is an HSBK
-object which allows for easy set and go for a set of colors, or to create a color in the native
-LIFX format. Things like Red (360), Yellow (120), etc are based on the color wheel precentages. Orange is approximiation.
-The white values included are roughly tuned to the app, as I got them from the app directly. So, neutral
-here is the same as neutral in the app.
-
-It is possible to write your own manager, this code does nothing to stop that. But it's structured
-to provide a simple clean solution, and avoid having to do the lifting on your own.
+So, LIFX uses HSBK (Hue, Saturation, Brightness, and Kelvin) as it's color space. If you're familiar
+with Hue, they use an XY color space. Qt has QColor, which is RGB based, but does provide an HSV ability.
+Overall, mapping doesn't work great now. Setting the colors is pretty good, but making them look good in a
+GUI is tricky.
 
 ## RELEASE
 
@@ -141,7 +89,6 @@ to provide a simple clean solution, and avoid having to do the lifting on your o
 * This library does not support zones or tiles yet. That may come in the future, but for now, I don't have any to test against.
 * The get/set API is incomplete still, and does not support a lot of the set functions provided by the LIFX API.
   * e.g. reboot/set label/set group.
-* There is no push notifications here, the lights won't tell us if someone else changes them.
-  * One solution is to query the lights every now and then to ask what's going on.
+* LIFX doesn't do push notifications, the lights won't tell us if some other app changes them.
 
 
